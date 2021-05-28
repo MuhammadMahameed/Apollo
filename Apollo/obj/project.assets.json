@@ -7148,19 +7148,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ravet\\.nuget\\packages\\": {}
+    "C:\\Users\\david\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Apollo\\Apollo\\Apollo.csproj",
+      "projectUniqueName": "D:\\Apollo\\Apollo\\Apollo.csproj",
       "projectName": "Apollo",
-      "projectPath": "E:\\Apollo\\Apollo\\Apollo.csproj",
-      "packagesPath": "C:\\Users\\ravet\\.nuget\\packages\\",
-      "outputPath": "E:\\Apollo\\Apollo\\obj\\",
+      "projectPath": "D:\\Apollo\\Apollo\\Apollo.csproj",
+      "packagesPath": "C:\\Users\\david\\.nuget\\packages\\",
+      "outputPath": "D:\\Apollo\\Apollo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ravet\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\david\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
