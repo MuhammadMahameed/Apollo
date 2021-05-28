@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Apollo.Migrations.Song
+namespace Apollo.Migrations.Artist
 {
-    [DbContext(typeof(SongContext))]
-    [Migration("20210528113751_SongSetup")]
-    partial class SongSetup
+    [DbContext(typeof(ArtistContext))]
+    [Migration("20210528122618_ArtistSetup")]
+    partial class ArtistSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Apollo.Migrations.Category
 {
     [DbContext(typeof(CategoryContext))]
-    [Migration("20210528113731_CategorySetup")]
+    [Migration("20210528122645_CategorySetup")]
     partial class CategorySetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

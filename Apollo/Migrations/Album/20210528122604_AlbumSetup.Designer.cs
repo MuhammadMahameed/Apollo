@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Apollo.Migrations
 {
     [DbContext(typeof(AlbumContext))]
-    [Migration("20210528113702_AlbumSetup")]
+    [Migration("20210528122604_AlbumSetup")]
     partial class AlbumSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
