@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Apollo.Data;
 
 namespace Apollo
 {
@@ -24,6 +26,18 @@ namespace Apollo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<CategoryContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("CategoryContext")));
+
+            services.AddDbContext<SongContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("SongContext")));
+
+            services.AddDbContext<ArtistContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ArtistContext")));
+
+            services.AddDbContext<AlbumContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("AlbumContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
