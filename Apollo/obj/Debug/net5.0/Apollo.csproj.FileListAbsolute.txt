@@ -159,3 +159,8 @@ E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Albums\Delete.cshtml.g.cs
 E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Albums\Details.cshtml.g.cs
 E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Albums\Edit.cshtml.g.cs
 E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Albums\Index.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Artists\Create.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Artists\Delete.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Artists\Details.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Artists\Edit.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Artists\Index.cshtml.g.cs
