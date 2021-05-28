@@ -33,11 +33,11 @@ namespace Apollo
             services.AddDbContext<SongContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("SongContext")));
 
-            services.AddDbContext<ArtistContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ArtistContext")));
-
             services.AddDbContext<AlbumContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("AlbumContext")));
+
+            services.AddDbContext<ArtistContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ArtistContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

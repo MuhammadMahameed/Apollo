@@ -22,5 +22,7 @@ namespace Apollo.Models
         public Song[] Songs { get; set; }
 
         public double Rating { get; set; }
+
+        public string Image { get; set; }
     }
 }
