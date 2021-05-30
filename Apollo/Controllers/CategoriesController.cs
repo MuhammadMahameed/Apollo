@@ -12,9 +12,9 @@ namespace Apollo.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly CategoryContext _context;
+        private readonly DataContext _context;
 
-        public CategoriesController(CategoryContext context)
+        public CategoriesController(DataContext context)
         {
             _context = context;
         }

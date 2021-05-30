@@ -12,9 +12,9 @@ namespace Apollo.Controllers
 {
     public class AlbumsController : Controller
     {
-        private readonly AlbumContext _context;
+        private readonly DataContext _context;
 
-        public AlbumsController(AlbumContext context)
+        public AlbumsController(DataContext context)
         {
             _context = context;
         }

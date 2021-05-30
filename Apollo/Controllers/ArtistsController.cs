@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apollo.Controllers
 {
     public class ArtistsController : Controller
     {
-        private readonly ArtistContext _context;
+        private readonly DataContext _context;
 
-        public ArtistsController(ArtistContext context)
+        public ArtistsController(DataContext context)
         {
             _context = context;
         }
@@ -22,6 +23,7 @@ namespace Apollo.Controllers
         // GET: Artists
         public async Task<IActionResult> Index()
         {
+            ViewData["categories"] = _context.Category.ToList();
             return View(await _context.Artist.ToListAsync());
         }
 
@@ -46,6 +48,7 @@ namespace Apollo.Controllers
         // GET: Artists/Create
         public IActionResult Create()
         {
+            ViewData["categories"] = new SelectList(_context.Category, nameof(Category.Id), nameof(Category.Name));
             return View();
         }
 
@@ -54,10 +57,11 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StagetName,Age,Rating,Image")] Artist artist)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist, int Category)
         {
             if (ModelState.IsValid)
             {
+                artist.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
                 _context.Add(artist);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,7 +90,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StagetName,Age,Rating,Image")] Artist artist)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist)
         {
             if (id != artist.Id)
             {
