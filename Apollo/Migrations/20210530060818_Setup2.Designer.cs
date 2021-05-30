@@ -4,35 +4,22 @@ using Apollo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Apollo.Migrations.Song
+namespace Apollo.Migrations
 {
-    [DbContext(typeof(SongContext))]
-    partial class SongContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(DataContext))]
+    [Migration("20210530060818_Setup2")]
+    partial class Setup2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("AlbumArtist", b =>
-                {
-                    b.Property<int>("AlbumsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ArtistsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AlbumsId", "ArtistsId");
-
-                    b.HasIndex("ArtistsId");
-
-                    b.ToTable("AlbumArtist");
-                });
 
             modelBuilder.Entity("Apollo.Models.Album", b =>
                 {
@@ -41,7 +28,14 @@ namespace Apollo.Migrations.Song
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Cover")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeSpan>("ListenTime")
@@ -57,9 +51,15 @@ namespace Apollo.Migrations.Song
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArtistId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Album");
                 });
@@ -74,22 +74,34 @@ namespace Apollo.Migrations.Song
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
                     b.Property<string>("StagetName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Artist");
                 });
@@ -101,20 +113,12 @@ namespace Apollo.Migrations.Song
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AlbumId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SongId")
-                        .HasColumnType("int");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AlbumId");
-
-                    b.HasIndex("SongId");
 
                     b.ToTable("Category");
                 });
@@ -127,6 +131,12 @@ namespace Apollo.Migrations.Song
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("Length")
@@ -142,54 +152,43 @@ namespace Apollo.Migrations.Song
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
 
+                    b.HasIndex("ArtistId");
+
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Song");
                 });
 
-            modelBuilder.Entity("ArtistSong", b =>
+            modelBuilder.Entity("Apollo.Models.Album", b =>
                 {
-                    b.Property<int>("ArtistsId")
-                        .HasColumnType("int");
+                    b.HasOne("Apollo.Models.Artist", "Artist")
+                        .WithMany("Albums")
+                        .HasForeignKey("ArtistId");
 
-                    b.Property<int>("SongsId")
-                        .HasColumnType("int");
+                    b.HasOne("Apollo.Models.Category", "Category")
+                        .WithMany("Albums")
+                        .HasForeignKey("CategoryId");
 
-                    b.HasKey("ArtistsId", "SongsId");
+                    b.Navigation("Artist");
 
-                    b.HasIndex("SongsId");
-
-                    b.ToTable("ArtistSong");
+                    b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("AlbumArtist", b =>
+            modelBuilder.Entity("Apollo.Models.Artist", b =>
                 {
-                    b.HasOne("Apollo.Models.Album", null)
-                        .WithMany()
-                        .HasForeignKey("AlbumsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Apollo.Models.Category", "Category")
+                        .WithMany("Artists")
+                        .HasForeignKey("CategoryId");
 
-                    b.HasOne("Apollo.Models.Artist", null)
-                        .WithMany()
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Apollo.Models.Category", b =>
-                {
-                    b.HasOne("Apollo.Models.Album", null)
-                        .WithMany("Category")
-                        .HasForeignKey("AlbumId");
-
-                    b.HasOne("Apollo.Models.Song", null)
-                        .WithMany("Category")
-                        .HasForeignKey("SongId");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Apollo.Models.Song", b =>
@@ -198,34 +197,40 @@ namespace Apollo.Migrations.Song
                         .WithMany("Songs")
                         .HasForeignKey("AlbumId");
 
+                    b.HasOne("Apollo.Models.Artist", "Artist")
+                        .WithMany("Songs")
+                        .HasForeignKey("ArtistId");
+
+                    b.HasOne("Apollo.Models.Category", "Category")
+                        .WithMany("Songs")
+                        .HasForeignKey("CategoryId");
+
                     b.Navigation("Album");
-                });
 
-            modelBuilder.Entity("ArtistSong", b =>
-                {
-                    b.HasOne("Apollo.Models.Artist", null)
-                        .WithMany()
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Artist");
 
-                    b.HasOne("Apollo.Models.Song", null)
-                        .WithMany()
-                        .HasForeignKey("SongsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Apollo.Models.Album", b =>
                 {
-                    b.Navigation("Category");
+                    b.Navigation("Songs");
+                });
+
+            modelBuilder.Entity("Apollo.Models.Artist", b =>
+                {
+                    b.Navigation("Albums");
 
                     b.Navigation("Songs");
                 });
 
-            modelBuilder.Entity("Apollo.Models.Song", b =>
+            modelBuilder.Entity("Apollo.Models.Category", b =>
                 {
-                    b.Navigation("Category");
+                    b.Navigation("Albums");
+
+                    b.Navigation("Artists");
+
+                    b.Navigation("Songs");
                 });
 #pragma warning restore 612, 618
         }

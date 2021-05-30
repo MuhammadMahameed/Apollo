@@ -27,17 +27,8 @@ namespace Apollo
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<CategoryContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("CategoryContext")));
-
-            services.AddDbContext<SongContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("SongContext")));
-
-            services.AddDbContext<AlbumContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("AlbumContext")));
-
-            services.AddDbContext<ArtistContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ArtistContext")));
+            services.AddDbContext<DataContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DataContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,7 +55,7 @@ namespace Apollo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Search}/{action=Index}/{id?}");
             });
         }
     }

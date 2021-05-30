@@ -12,9 +12,9 @@ namespace Apollo.Controllers
 {
     public class SongsController : Controller
     {
-        private readonly SongContext _context;
+        private readonly DataContext _context;
 
-        public SongsController(SongContext context)
+        public SongsController(DataContext context)
         {
             _context = context;
         }
@@ -22,6 +22,8 @@ namespace Apollo.Controllers
         // GET: Songs
         public async Task<IActionResult> Index()
         {
+            ViewData["categories"] = _context.Category.ToList();
+            ViewData["artists"] = _context.Artist.ToList();
             return View(await _context.Song.ToListAsync());
         }
 
@@ -46,6 +48,8 @@ namespace Apollo.Controllers
         // GET: Songs/Create
         public IActionResult Create()
         {
+            ViewData["categories"] = new SelectList(_context.Category, nameof(Category.Id), nameof(Category.Name));
+            ViewData["artists"] = new SelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName));
             return View();
         }
 
@@ -54,10 +58,12 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song)
+        public async Task<IActionResult> Create([Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Category, int Artist)
         {
             if (ModelState.IsValid)
             {
+                song.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
+                song.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
                 _context.Add(song);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
