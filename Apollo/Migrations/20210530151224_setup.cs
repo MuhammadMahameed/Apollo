@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Apollo.Migrations
 {
-    public partial class Setup : Migration
+    public partial class setup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,7 @@ namespace Apollo.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    StagetName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    StageName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Rating = table.Column<double>(type: "float", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
