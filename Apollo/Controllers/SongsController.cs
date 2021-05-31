@@ -22,10 +22,9 @@ namespace Apollo.Controllers
         // GET: Songs
         public async Task<IActionResult> Index()
         {
-            ViewData["categories"] = _context.Category.ToList();
-            ViewData["artists"] = _context.Artist.ToList();
-            ViewData["albums"] = _context.Album.ToList();
-            return View(await _context.Song.ToListAsync());
+            return View(await _context.Song.Include(x => x.Category)
+                                            .Include(x => x.Artist)
+                                            .Include(x => x.Album).ToListAsync());
         }
 
         // GET: Songs/Details/5
