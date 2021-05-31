@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Apollo.Controllers
 {
@@ -57,15 +55,24 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist, int Category)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist, int CategoryId)
         {
+            var artist_with_this_stage_name = _context.Artist.FirstOrDefault(x => x.StageName.ToUpper().Equals(artist.StageName.ToUpper()));
+
+            if (artist_with_this_stage_name != null)
+            {
+                ModelState.AddModelError("StageName", "This stage name is already used");
+            }
+
             if (ModelState.IsValid)
             {
-                artist.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
+                artist.Category = _context.Category.FirstOrDefault(x => x.Id == CategoryId);
                 _context.Add(artist);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["categories"] = new SelectList(_context.Category, nameof(Category.Id), nameof(Category.Name));
             return View(artist);
         }
 
