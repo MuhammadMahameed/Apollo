@@ -64,6 +64,8 @@ namespace Apollo.Controllers
                 ModelState.AddModelError("StageName", "This stage name is already used");
             }
 
+            artist.Rating = 0;
+
             if (ModelState.IsValid)
             {
                 artist.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
