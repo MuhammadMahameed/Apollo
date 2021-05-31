@@ -3,7 +3,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="~/Scripts/search_show_hide_logo_when_input.js"></script>
+    <script src="~/Scripts/search.js"></script>
+    <link href="~/Styles/search.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="container">
@@ -32,5 +33,54 @@
                 <img src=@Url.Content("~/Assets/Apollo.png") id="apolloIcon">
             </div>
         </div>
+        <ul class="list-inline">
+            @foreach (var song in ViewBag.songs)
+            {
+                <li class="list-inline-item">
+                    <div class="card" style="width:13rem">
+                        <img src=https://i.imgur.com/ldjWdjo.png class="card-img-top w-100" style="height: 128px">
+                        <div class="card-body">
+                            <h5 class="card-title stageName">@song.Title</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">@song.Rating</li>
+                            <li class="list-group-item">@song.Plays</li>
+                        </ul>
+                    </div>
+                </li>
+            }
+        </ul>
+        <hr />
+        <ul class="list-inline">
+            @foreach (var artist in ViewBag.artists)
+            {
+                <li class="list-inline-item">
+                    <div class="card" style="width:13rem">
+                        <img src=@artist.Image class="artistImage card-img-top w-100" style="height: 128px">
+                        <div class="card-body">
+                            <h5 class="card-title stageName">@artist.StageName</h5>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+        <hr />
+        <ul class="list-inline">
+            @foreach (var album in ViewBag.albums)
+            {
+                <li class="list-inline-item">
+                    <div class="card" style="width:13rem">
+                        <img src=@album.Cover class="card-img-top w-100" style="height: 128px">
+                        <div class="card-body">
+                            <h5 class="card-title stageName">@album.Title</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">@album.Rating</li>
+                            <li class="list-group-item">@album.Plays</li>
+                        </ul>
+                    </div>
+                </li>
+            }
+        </ul>
     </div>
 </body>
