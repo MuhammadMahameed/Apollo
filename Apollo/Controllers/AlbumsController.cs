@@ -22,6 +22,7 @@ namespace Apollo.Controllers
         // GET: Albums
         public async Task<IActionResult> Index()
         {
+            ViewData["songs"] = _context.Song.ToList();
             return View(await _context.Album.ToListAsync());
         }
 

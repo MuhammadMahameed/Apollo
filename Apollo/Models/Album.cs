@@ -25,6 +25,7 @@ namespace Apollo.Models
         public double Rating { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
 
         [Required]
