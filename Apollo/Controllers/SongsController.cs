@@ -73,8 +73,17 @@ namespace Apollo.Controllers
                 song.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
                 song.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
                 song.Album = _context.Album.FirstOrDefault(x => x.Id == Album);
+
                 _context.Add(song);
                 await _context.SaveChangesAsync();
+
+                if (song.Album != null)
+                {
+                    var changedAlbum = _context.Album.FirstOrDefault(x => x.Id == Album);
+                    changedAlbum.ListenTime = changedAlbum.ListenTime.Add(song.Length);
+                    _context.Update(changedAlbum);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(song);
