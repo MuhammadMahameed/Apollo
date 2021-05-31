@@ -40,6 +40,8 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
+    var songs = @item.Songs.Select(x => x.Title).ToList();
+    var songsString = songs.Select(x => x.Concat(" "));
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -60,7 +62,7 @@
                 @Html.DisplayFor(modelItem => item.Cover)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Songs[0].Title)
+                @Html.DisplayFor(modelItem => songsString)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
