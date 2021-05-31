@@ -24,6 +24,7 @@ namespace Apollo.Controllers
         {
             ViewData["categories"] = _context.Category.ToList();
             ViewData["artists"] = _context.Artist.ToList();
+            ViewData["albums"] = _context.Album.ToList();
             return View(await _context.Song.ToListAsync());
         }
 
@@ -50,6 +51,9 @@ namespace Apollo.Controllers
         {
             ViewData["categories"] = new SelectList(_context.Category, nameof(Category.Id), nameof(Category.Name));
             ViewData["artists"] = new SelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName));
+            SelectList sl = new(_context.Album, nameof(Album.Id), nameof(Album.Title));
+            IEnumerable<SelectListItem> enumerable = sl.Prepend(new SelectListItem("N/A", "0", true));
+            ViewData["albums"] = enumerable;
             return View();
         }
 
@@ -58,12 +62,13 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Category, int Artist)
+        public async Task<IActionResult> Create([Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Category, int Artist, int Album)
         {
             if (ModelState.IsValid)
             {
                 song.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
                 song.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
+                song.Album = _context.Album.FirstOrDefault(x => x.Id == Album);
                 _context.Add(song);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

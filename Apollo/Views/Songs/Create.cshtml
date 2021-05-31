@@ -39,13 +39,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <select asp-for="Category" class="form-control" asp-items="ViewBag.categories"></select>
+                <select asp-for="Category" class="form-control" asp-items="@ViewBag.categories"></select>
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Artist" class="control-label"></label>
-                <select asp-for="Artist" class="form-control" asp-items="ViewBag.artists"></select>
+                <select asp-for="Artist" class="form-control" asp-items="@ViewBag.artists"></select>
                 <span asp-validation-for="Artist" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Album" class="control-label"></label>
+                <select asp-for="Album" class="form-control" asp-items="@ViewBag.albums"></select>
+                <span asp-validation-for="Album" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
