@@ -46,6 +46,9 @@ namespace Apollo.Controllers
         // GET: Albums/Create
         public IActionResult Create()
         {
+            ViewData["songs"] = new MultiSelectList(_context.Song, nameof(Models.Song.Id), nameof(Models.Song.Title));
+            ViewData["categories"] = new SelectList(_context.Category, nameof(Category.Id), nameof(Category.Name));
+            ViewData["artists"] = new SelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName));
             return View();
         }
 
@@ -54,8 +57,11 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album)
+        public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Category, int Artist)
         {
+            album.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
+            album.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
+
             if (ModelState.IsValid)
             {
                 _context.Add(album);
