@@ -21,8 +21,7 @@ namespace Apollo.Controllers
         // GET: Artists
         public async Task<IActionResult> Index()
         {
-            ViewData["categories"] = _context.Category.ToList();
-            return View(await _context.Artist.ToListAsync());
+            return View(await _context.Artist.Include(x => x.Category).ToListAsync());
         }
 
         // GET: Artists/Details/5
