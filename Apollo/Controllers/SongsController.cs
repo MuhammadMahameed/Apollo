@@ -64,6 +64,10 @@ namespace Apollo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Category, int Artist, int Album)
         {
+            song.Plays = 0;
+            song.Rating = 0;
+            song.ReleaseDate = new DateTime().Date;
+
             if (ModelState.IsValid)
             {
                 song.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
