@@ -55,7 +55,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist, int CategoryId)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist, int Category)
         {
             var artist_with_this_stage_name = _context.Artist.FirstOrDefault(x => x.StageName.ToUpper().Equals(artist.StageName.ToUpper()));
 
@@ -66,13 +66,13 @@ namespace Apollo.Controllers
 
             if (ModelState.IsValid)
             {
-                artist.Category = _context.Category.FirstOrDefault(x => x.Id == CategoryId);
+                artist.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
                 _context.Add(artist);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["categories"] = new SelectList(_context.Category, nameof(Category.Id), nameof(Category.Name));
+            ViewData["categories"] = new SelectList(_context.Category, nameof(Models.Category.Id), nameof(Models.Category.Name));
             return View(artist);
         }
 
