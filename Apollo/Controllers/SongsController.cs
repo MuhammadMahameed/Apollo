@@ -65,7 +65,7 @@ namespace Apollo.Controllers
         {
             song.Plays = 0;
             song.Rating = 0;
-            song.ReleaseDate = new DateTime().Date;
+            song.ReleaseDate = DateTime.Now;
 
             if (ModelState.IsValid)
             {
