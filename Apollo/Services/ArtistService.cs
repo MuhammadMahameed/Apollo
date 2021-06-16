@@ -18,6 +18,11 @@ namespace Apollo.Services
 
         public List<Artist> GetMatchingArtists(string str)
         {
+            if (String.IsNullOrEmpty(str))
+            {
+                return new List<Artist>();
+            }
+
             var strToLower = str.ToLower();
             var matchingArtists = _context.Artist.Where(a => a.StageName.ToLower().Contains(strToLower)).ToList();
             return matchingArtists;

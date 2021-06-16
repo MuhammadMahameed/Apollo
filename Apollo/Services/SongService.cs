@@ -18,6 +18,11 @@ namespace Apollo.Services
 
         public List<Song> GetMatchingSongs(string str)
         {
+            if(String.IsNullOrEmpty(str))
+            {
+                return new List<Song>();
+            }
+
             var strToLower = str.ToLower();
             var matchingSongs = _context.Song.Where(s => s.Title.ToLower().Contains(strToLower)).ToList();
             return matchingSongs;

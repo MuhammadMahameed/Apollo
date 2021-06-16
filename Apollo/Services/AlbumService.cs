@@ -18,6 +18,11 @@ namespace Apollo.Services
 
         public List<Album> GetMatchingAlbums(string str)
         {
+            if (String.IsNullOrEmpty(str))
+            {
+                return new List<Album>();
+            }
+
             var strToLower = str.ToLower();
             var matchingAlbums = _context.Album.Where(a => a.Title.ToLower().Contains(strToLower)).ToList();
             return matchingAlbums;
