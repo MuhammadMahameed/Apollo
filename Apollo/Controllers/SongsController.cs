@@ -7,25 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
+using Apollo.Services;
 
 namespace Apollo.Controllers
 {
     public class SongsController : Controller
     {
         private readonly DataContext _context;
+        private readonly SongService _songService;
 
-        public SongsController(DataContext context)
+        public SongsController(DataContext context, SongService songService)
         {
             _context = context;
+            _songService = songService;
         }
 
         // GET: Songs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string matchingStr)
         {
-            return View(await _context.Song.Include(x => x.Category)
-                                            .Include(x => x.Artist)
-                                            .Include(x => x.Album).ToListAsync());
+            // .Include(x => x.Category)
+            // .Include(x => x.Artist)
+            // .Include(x => x.Album).ToListAsync()
+            // _songService.GetMatchingSongs(str)
+
+            if (String.IsNullOrEmpty(matchingStr))
+            {
+                return View(await _context.Song.ToListAsync());
+            }
+
+            return View(_songService.GetMatchingSongs(matchingStr));
         }
+
 
         // GET: Songs/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
+using Apollo.Services;
 
 namespace Apollo
 {
@@ -25,6 +26,10 @@ namespace Apollo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<SongService>();
+            services.AddTransient<AlbumService>();
+            services.AddTransient<ArtistService>();
+
             services.AddControllersWithViews();
 
             services.AddDbContext<DataContext>(options =>
@@ -55,7 +60,7 @@ namespace Apollo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Search}/{action=Index}/{id?}");
             });
         }
     }

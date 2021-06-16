@@ -338,3 +338,12 @@ D:\Apollo\Apollo\obj\Debug\net5.0\Apollo.pdb
 D:\Apollo\Apollo\obj\Debug\net5.0\Apollo.genruntimeconfig.cache
 D:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Home\About.cshtml.g.cs
 D:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Home\Statistics.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Home\About.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Home\Statistics.cshtml.g.cs
+E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.Mvc.dll
+E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.Razor.dll
+E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.Helpers.dll
+E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.WebPages.Deployment.dll
+E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.WebPages.Razor.dll
+E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.WebPages.dll
+E:\Apollo\Apollo\bin\Debug\net5.0\Microsoft.Web.Infrastructure.dll

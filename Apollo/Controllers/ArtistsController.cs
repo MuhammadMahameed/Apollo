@@ -6,22 +6,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Apollo.Data;
 using Apollo.Models;
 using Microsoft.EntityFrameworkCore;
+using Apollo.Services;
+using System;
 
 namespace Apollo.Controllers
 {
     public class ArtistsController : Controller
     {
         private readonly DataContext _context;
+        private readonly ArtistService _artistService;
 
-        public ArtistsController(DataContext context)
+        public ArtistsController(DataContext context, ArtistService artistService)
         {
             _context = context;
+            _artistService = artistService;
         }
 
         // GET: Artists
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string matchingStr)
         {
-            return View(await _context.Artist.Include(x => x.Category).ToListAsync());
+            if (String.IsNullOrEmpty(matchingStr))
+            {
+                return View(await _context.Artist.Include(x => x.Category).ToListAsync());
+            }
+
+            return View(_artistService.GetMatchingArtists(matchingStr));
         }
 
         // GET: Artists/Details/5
