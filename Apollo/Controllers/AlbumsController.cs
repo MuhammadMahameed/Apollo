@@ -7,22 +7,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
+using Apollo.Services;
 
 namespace Apollo.Controllers
 {
     public class AlbumsController : Controller
     {
         private readonly DataContext _context;
+        private readonly AlbumService _albumService;
 
-        public AlbumsController(DataContext context)
+        public AlbumsController(DataContext context, AlbumService albumService)
         {
             _context = context;
+            _albumService = albumService;
         }
 
         // GET: Albums
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string matchingStr)
         {
-            return View(await _context.Album.Include(x => x.Songs).ToListAsync());
+            if (String.IsNullOrEmpty(matchingStr))
+            {
+                return View(await _context.Album.Include(x => x.Songs).ToListAsync());
+            }
+
+            return View(_albumService.GetMatchingAlbums(matchingStr));
         }
 
         // GET: Albums/Details/5

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Apollo\\Apollo\\Apollo.csproj": {}
+    "E:\\Apollo\\Apollo\\Apollo.csproj": {}
   },
   "projects": {
-    "D:\\Apollo\\Apollo\\Apollo.csproj": {
+    "E:\\Apollo\\Apollo\\Apollo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Apollo\\Apollo\\Apollo.csproj",
+        "projectUniqueName": "E:\\Apollo\\Apollo\\Apollo.csproj",
         "projectName": "Apollo",
-        "projectPath": "D:\\Apollo\\Apollo\\Apollo.csproj",
-        "packagesPath": "C:\\Users\\david\\.nuget\\packages\\",
-        "outputPath": "D:\\Apollo\\Apollo\\obj\\",
+        "projectPath": "E:\\Apollo\\Apollo\\Apollo.csproj",
+        "packagesPath": "C:\\Users\\ravet\\.nuget\\packages\\",
+        "outputPath": "E:\\Apollo\\Apollo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\david\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ravet\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -47,6 +47,10 @@
             "FluentValidation.ValidatorAttribute": {
               "target": "Package",
               "version": "[8.6.1, )"
+            },
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.2.7, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
