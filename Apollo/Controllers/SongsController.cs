@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
 using Apollo.Services;
+using Newtonsoft.Json;
 
 namespace Apollo.Controllers
 {

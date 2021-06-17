@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Helpers;
 using Apollo.Data;
 using Apollo.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Apollo.Services
 {
@@ -24,7 +25,10 @@ namespace Apollo.Services
             }
 
             var strToLower = str.ToLower();
-            var matchingAlbums = _context.Album.Where(a => a.Title.ToLower().Contains(strToLower)).ToList();
+            var matchingAlbums = _context.Album.Where(a => a.Title.ToLower().Contains(strToLower))
+                .Include(x => x.Artist)
+                .Include(x => x.Category)
+                .ToList();
             return matchingAlbums;
         }
     }

@@ -1,1 +1,15 @@
-﻿
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+#content {
+    text-align: center;
+    color: black;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.card {
+    margin: 1rem;
+}
