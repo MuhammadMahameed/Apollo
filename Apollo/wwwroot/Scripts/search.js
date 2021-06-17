@@ -13,7 +13,6 @@ $("#searchBox").on('input', function (e) {
             return;
         }
 
-        console.log(data);
         $("#content").html("");
         var numCardsPerRow = 5
 
