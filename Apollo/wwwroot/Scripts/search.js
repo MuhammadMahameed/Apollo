@@ -12,6 +12,7 @@ async function getData(matchingStr) {
     var dataTypes = [];
     dataTypes[dataTypes.length] = await getAjax('/Songs/Search', matchingStr);
     dataTypes[dataTypes.length] = await getAjax('/Albums/Search', matchingStr);
+    dataTypes[dataTypes.length] = await getAjax('/Artists/Search', matchingStr);
     return dataTypes;
 }
 
@@ -70,6 +71,21 @@ $("#searchBox").on('input', function (e) {
                             '<p>Category: ' + data[i].category + '</p>' +
                             '</div ></div>'
                         $("#content .albumRow" + parseInt(i / numCardsPerRow)).append(template);
+                    }
+                } else if (k == 2) {
+                    $("#content").append("<h1>Artists</h1>")
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (i % numCardsPerRow == 0) {
+                            $("#content").append('<div class="row artistRow' + parseInt(i / numCardsPerRow) + ' d-flex justify-content-center"></div>');
+                        }
+
+                        var template = '<div class="card" style="width: 10rem;"><div class="card-body">' +
+                            '<img class="card-img-top" src=' + data[i].image + ' alt="Card image cap">' +
+                            '<h5 class="card-title">' + data[i].stageName + '</h5>' +
+                            '<p>Rating: ' + data[i].rating + '</p>' +
+                            '</div ></div>'
+                        $("#content .artistRow" + parseInt(i / numCardsPerRow)).append(template);
                     }
                 }
             }
