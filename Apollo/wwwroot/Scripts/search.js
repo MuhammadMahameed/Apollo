@@ -25,11 +25,11 @@ $("#searchBox").on('input', function (e) {
         $("#apolloIcon").hide();
     }
 
-    $("#content").html("");
     var numCardsPerRow = 5
     dataTypes = [];
 
     getData(matchingStr).then((data) => {
+        $("#content").html("");
         dataTypes = data;
 
         for (var k = 0; k < dataTypes.length; k++) {
