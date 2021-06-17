@@ -13,3 +13,7 @@
 .card {
     margin: 1rem;
 }
+
+.card-body {
+    padding: 0;
+}
