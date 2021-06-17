@@ -25,12 +25,12 @@ $("#searchBox").on('input', function (e) {
         $("#apolloIcon").hide();
     }
 
-    $("#content").html("");
     var numCardsPerRow = 5
     dataTypes = [];
 
     getData(matchingStr).then((data) => {
         dataTypes = data;
+        $("#content").html("");
 
         for (var k = 0; k < dataTypes.length; k++) {
             data = dataTypes[k].$values
