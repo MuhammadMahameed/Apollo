@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Apollo.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Apollo.Controllers
 {
@@ -18,9 +19,6 @@ namespace Apollo.Controllers
 
         public IActionResult Index()
         {
-            ViewData["artists"] = _context.Artist.ToList();
-            ViewData["songs"] = _context.Song.ToList();
-            ViewData["albums"] = _context.Album.ToList();
             return View();
         }
     }

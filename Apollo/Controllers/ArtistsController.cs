@@ -23,14 +23,14 @@ namespace Apollo.Controllers
         }
 
         // GET: Artists
-        public async Task<IActionResult> Index(string matchingStr)
+        public async Task<IActionResult> Index()
         {
-            if (String.IsNullOrEmpty(matchingStr))
-            {
-                return View(await _context.Artist.Include(x => x.Category).ToListAsync());
-            }
+            return View(await _context.Artist.Include(x => x.Category).ToListAsync());
+        }
 
-            return View(_artistService.GetMatchingArtists(matchingStr));
+        public IActionResult Search(string matchingStr)
+        {
+            return Json(_artistService.GetMatchingArtists(matchingStr));
         }
 
         // GET: Artists/Details/5

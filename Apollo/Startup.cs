@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Services;
+using System.Text.Json.Serialization;
 
 namespace Apollo
 {
@@ -23,6 +24,7 @@ namespace Apollo
 
         public IConfiguration Configuration { get; }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -34,6 +36,10 @@ namespace Apollo
 
             services.AddDbContext<DataContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DataContext")));
+
+            services.AddControllers().AddJsonOptions(x =>
+               x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

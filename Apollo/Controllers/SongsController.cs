@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
 using Apollo.Services;
+using Newtonsoft.Json;
 
 namespace Apollo.Controllers
 {
@@ -23,19 +24,19 @@ namespace Apollo.Controllers
         }
 
         // GET: Songs
-        public async Task<IActionResult> Index(string matchingStr)
+        public async Task<IActionResult> Index()
         {
             // .Include(x => x.Category)
             // .Include(x => x.Artist)
             // .Include(x => x.Album).ToListAsync()
             // _songService.GetMatchingSongs(str)
 
-            if (String.IsNullOrEmpty(matchingStr))
-            {
-                return View(await _context.Song.ToListAsync());
-            }
+            return View(await _context.Song.ToListAsync());
+        }
 
-            return View(_songService.GetMatchingSongs(matchingStr));
+        public IActionResult Search(string matchingStr)
+        {
+            return Json(_songService.GetMatchingSongs(matchingStr));
         }
 
 

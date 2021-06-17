@@ -1,7 +1,7 @@
 ﻿<head>
     <title>Search</title>
     <link href="~/Styles/search.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link href="~/Styles/search.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
@@ -25,6 +25,8 @@
             </div>
             <div class="col-sm-3"></div>
         </div>
+        <div id="content" class="container">
+        </div>
         <div class="row mt-lg-5">
             <div class="col-lg text-center">
                 <img src=@Url.Content("~/Assets/Apollo.png") id="apolloIcon">
@@ -32,3 +34,7 @@
         </div>
     </div>
 </body>
+
+@section Scripts {
+    <script src="~/Scripts/search.js"></script>
+}

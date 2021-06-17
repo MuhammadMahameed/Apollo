@@ -13,11 +13,5 @@ namespace Apollo.Models
         [Required]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "Category name cannot be shorter than 2 or longer than 25 characters.")]
         public string Name { get; set; }
-
-        public List<Song> Songs { get; set; }
-
-        public List<Album> Albums { get; set; }
-
-        public List<Artist> Artists { get; set; }
     }
 }
