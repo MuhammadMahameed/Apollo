@@ -36,7 +36,7 @@ $("#searchBox").on('input', function (e) {
             data = dataTypes[k].$values
 
             if (data == null) {
-                continue;
+                continue; 
             }
 
             if (data.length > 0) {
