@@ -25,7 +25,9 @@ namespace Apollo.Controllers
         // GET: Albums
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Album.Include(x => x.Songs).ToListAsync());
+            return View(await _context.Album.Include(x => x.Songs)
+                                            .Include(x => x.Artist)
+                                            .ToListAsync());
         }
 
         public IActionResult Search(string matchingStr)
