@@ -134,7 +134,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Album)
         {
             if (id != song.Id)
             {
@@ -145,8 +145,17 @@ namespace Apollo.Controllers
             {
                 try
                 {
+                    song = _context.Song.Include(x => x.Album).FirstOrDefault(x => x.Id == song.Id);
+                    song.Album = _context.Album.FirstOrDefault(x => x.Id == Album);
                     _context.Update(song);
                     await _context.SaveChangesAsync();
+
+                    if (Album == 0)
+                    {
+                        song.Album = null;
+                        _context.Update(song);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
