@@ -116,8 +116,12 @@ namespace Apollo.Controllers
 
             if (song.Album != null)
             {
-                sl = new(_context.Album, nameof(Album.Id), nameof(Album.Title), song.Album.Title);
+                List<Album> albums = _context.Album.ToList();
+                Album album = albums.FirstOrDefault(x => x.Id == song.Album.Id);
+                albums.Remove(album);
+                sl = new(albums, nameof(Album.Id), nameof(Album.Title));
                 enumerable = sl.Append(new SelectListItem("N/A", "0", false));
+                enumerable = enumerable.Prepend(new SelectListItem(album.Title, album.Id.ToString(), true));
             }
             else
             {
