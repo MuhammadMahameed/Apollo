@@ -109,7 +109,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int[] songs)
         {
             if (id != album.Id)
             {
@@ -120,6 +120,8 @@ namespace Apollo.Controllers
             {
                 try
                 {
+                    album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Id == album.Id);
+                    album.Songs = _context.Song.Where(x => songs.Contains(x.Id)).ToList();
                     _context.Update(album);
                     await _context.SaveChangesAsync();
                 }
