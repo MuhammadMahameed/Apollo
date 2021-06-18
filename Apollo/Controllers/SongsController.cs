@@ -109,6 +109,23 @@ namespace Apollo.Controllers
             {
                 return NotFound();
             }
+
+            song = _context.Song.Include(x => x.Album).ToList().FirstOrDefault(x => x.Id == song.Id);
+            SelectList sl;
+            IEnumerable<SelectListItem> enumerable;
+
+            if (song.Album != null)
+            {
+                sl = new(_context.Album, nameof(Album.Id), nameof(Album.Title), song.Album.Title);
+                enumerable = sl.Append(new SelectListItem("N/A", "0", false));
+            }
+            else
+            {
+                sl = new(_context.Album, nameof(Album.Id), nameof(Album.Title));
+                enumerable = sl.Append(new SelectListItem("N/A", "0", true));
+            }
+
+            ViewData["albums"] = enumerable;
             return View(song);
         }
 
