@@ -65,7 +65,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Category, int Artist)
+        public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Category, int Artist, int[] Songs)
         {
             album.ListenTime = new TimeSpan(0, 0, 0);
             album.Plays = 0;
@@ -73,6 +73,7 @@ namespace Apollo.Controllers
             album.ReleaseDate = DateTime.Now;
             album.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
             album.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
+            album.Songs = _context.Song.Where(x => Songs.Contains(x.Id)).ToList();
 
             if (ModelState.IsValid)
             {
