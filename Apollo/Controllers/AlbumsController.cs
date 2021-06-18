@@ -101,8 +101,19 @@ namespace Apollo.Controllers
             }
 
             album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Id == album.Id);
-            ViewData["songs"] = new MultiSelectList(_context.Song, nameof(Models.Song.Id), nameof(Models.Song.Title));
+
+            SelectList slArtists;
+            IEnumerable<SelectListItem> enumerableArtist;
+
+            List<Artist> artists = _context.Artist.ToList();
+            Artist artist = artists.FirstOrDefault(x => x.Id == album.Artist.Id);
+            artists.Remove(artist);
+            slArtists = new(artists, nameof(Artist.Id), nameof(Artist.StageName));
+            enumerableArtist = slArtists.Prepend(new SelectListItem(artist.StageName, artist.Id.ToString(), true));
+
+            ViewData["songs"] = new MultiSelectList(_context.Song, nameof(Song.Id), nameof(Song.Title));
             ViewData["selectedSongs"] = album.Songs.Select(x => x.Id).ToList();
+            ViewData["artists"] = enumerableArtist;
             return View(album);
         }
 
@@ -111,7 +122,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int[] songs)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Artist, int[] songs)
         {
             if (id != album.Id)
             {
@@ -122,8 +133,12 @@ namespace Apollo.Controllers
             {
                 try
                 {
-                    album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Id == album.Id);
+                    album = _context.Album.Include(x => x.Songs)
+                                          .Include(x => x.Artist)
+                                          .FirstOrDefault(x => x.Id == album.Id);
+
                     album.Songs = _context.Song.Where(x => songs.Contains(x.Id)).ToList();
+                    album.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
                     _context.Update(album);
                     await _context.SaveChangesAsync();
                 }
