@@ -25,7 +25,9 @@ namespace Apollo.Controllers
         // GET: Albums
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Album.Include(x => x.Songs).ToListAsync());
+            return View(await _context.Album.Include(x => x.Songs)
+                                            .Include(x => x.Artist)
+                                            .ToListAsync());
         }
 
         public IActionResult Search(string matchingStr)
@@ -65,7 +67,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Category, int Artist)
+        public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Category, int Artist, int[] Songs)
         {
             album.ListenTime = new TimeSpan(0, 0, 0);
             album.Plays = 0;
@@ -73,6 +75,7 @@ namespace Apollo.Controllers
             album.ReleaseDate = DateTime.Now;
             album.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
             album.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
+            album.Songs = _context.Song.Where(x => Songs.Contains(x.Id)).ToList();
 
             if (ModelState.IsValid)
             {
@@ -96,6 +99,21 @@ namespace Apollo.Controllers
             {
                 return NotFound();
             }
+
+            album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Id == album.Id);
+
+            SelectList slArtists;
+            IEnumerable<SelectListItem> enumerableArtist;
+
+            List<Artist> artists = _context.Artist.ToList();
+            Artist artist = artists.FirstOrDefault(x => x.Id == album.Artist.Id);
+            artists.Remove(artist);
+            slArtists = new(artists, nameof(Artist.Id), nameof(Artist.StageName));
+            enumerableArtist = slArtists.Prepend(new SelectListItem(artist.StageName, artist.Id.ToString(), true));
+
+            ViewData["songs"] = new MultiSelectList(_context.Song, nameof(Song.Id), nameof(Song.Title));
+            ViewData["selectedSongs"] = album.Songs.Select(x => x.Id).ToList();
+            ViewData["artists"] = enumerableArtist;
             return View(album);
         }
 
@@ -104,7 +122,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Artist, int[] songs)
         {
             if (id != album.Id)
             {
@@ -115,6 +133,12 @@ namespace Apollo.Controllers
             {
                 try
                 {
+                    album = _context.Album.Include(x => x.Songs)
+                                          .Include(x => x.Artist)
+                                          .FirstOrDefault(x => x.Id == album.Id);
+
+                    album.Songs = _context.Song.Where(x => songs.Contains(x.Id)).ToList();
+                    album.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
                     _context.Update(album);
                     await _context.SaveChangesAsync();
                 }
@@ -157,7 +181,9 @@ namespace Apollo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var album = await _context.Album.FindAsync(id);
+            var album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Id == id);
+            album.Songs = null;
+            _context.Album.Update(album);
             _context.Album.Remove(album);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

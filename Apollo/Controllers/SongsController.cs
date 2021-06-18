@@ -26,7 +26,9 @@ namespace Apollo.Controllers
         // GET: Songs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Song.Include(x => x.Album).ToListAsync());
+            return View(await _context.Song.Include(x => x.Album)
+                                           .Include(x => x.Artist)
+                                           .ToListAsync());
         }
 
         public IActionResult Search(string matchingStr)
@@ -109,6 +111,39 @@ namespace Apollo.Controllers
             {
                 return NotFound();
             }
+
+            song = _context.Song.Include(x => x.Album)
+                                .Include(x => x.Artist)
+                                .ToList()
+                                .FirstOrDefault(x => x.Id == song.Id);
+
+            SelectList slAlbums;
+            SelectList slArtists;
+            IEnumerable<SelectListItem> enumerableAlbum, enumerableArtist;
+
+            if (song.Album != null)
+            {
+                List<Album> albums = _context.Album.ToList();
+                Album album = albums.FirstOrDefault(x => x.Id == song.Album.Id);
+                albums.Remove(album);
+                slAlbums = new(albums, nameof(Album.Id), nameof(Album.Title));
+                enumerableAlbum = slAlbums.Append(new SelectListItem("N/A", "0", false));
+                enumerableAlbum = enumerableAlbum.Prepend(new SelectListItem(album.Title, album.Id.ToString(), true));
+            }
+            else
+            {
+                slAlbums = new(_context.Album, nameof(Album.Id), nameof(Album.Title));
+                enumerableAlbum = slAlbums.Append(new SelectListItem("N/A", "0", true));
+            }
+
+            List<Artist> artists = _context.Artist.ToList();
+            Artist artist = artists.FirstOrDefault(x => x.Id == song.Artist.Id);
+            artists.Remove(artist);
+            slArtists = new(artists, nameof(Artist.Id), nameof(Artist.StageName));
+            enumerableArtist = slArtists.Prepend(new SelectListItem(artist.StageName, artist.Id.ToString(), true));
+
+            ViewData["albums"] = enumerableAlbum;
+            ViewData["artists"] = enumerableArtist;
             return View(song);
         }
 
@@ -117,7 +152,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Album, int Artist)
         {
             if (id != song.Id)
             {
@@ -128,8 +163,21 @@ namespace Apollo.Controllers
             {
                 try
                 {
+                    song = _context.Song.Include(x => x.Album)
+                                        .Include(x => x.Artist)
+                                        .FirstOrDefault(x => x.Id == song.Id);
+
+                    song.Album = _context.Album.FirstOrDefault(x => x.Id == Album);
+                    song.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
                     _context.Update(song);
                     await _context.SaveChangesAsync();
+
+                    if (Album == 0)
+                    {
+                        song.Album = null;
+                        _context.Update(song);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
