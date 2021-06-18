@@ -97,6 +97,10 @@ namespace Apollo.Controllers
             {
                 return NotFound();
             }
+
+            album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Id == album.Id);
+            ViewData["songs"] = new MultiSelectList(_context.Song, nameof(Models.Song.Id), nameof(Models.Song.Title));
+            ViewData["selectedSongs"] = album.Songs.Select(x => x.Id).ToList();
             return View(album);
         }
 
