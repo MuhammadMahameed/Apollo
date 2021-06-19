@@ -151,6 +151,19 @@ namespace Apollo.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var category = await _context.Category.FindAsync(id);
+            var songs = _context.Song.Where(x => x.Category.Id == category.Id);
+            var albums = _context.Album.Where(x => x.Category.Id == category.Id);
+
+            foreach(Song song in songs)
+            {
+                _context.Song.Remove(song);
+            }
+
+            foreach (Album album in albums)
+            {
+                _context.Album.Remove(album);
+            }
+
             _context.Category.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
