@@ -26,16 +26,39 @@ $("#searchBox").on('input', function (e) {
         getMatchingSongs(matchingStr).then((data) => {
             data.$values.forEach(record => {
                 var releaseDate = new Date(record.releaseDate);
-                var formatedDate = releaseDate.getDate() + "/" +
-                    (releaseDate.getMonth() + 1) + "/" +
-                    releaseDate.getFullYear();
+                var date = [
+                    parseInt(releaseDate.getMonth() + 1),
+                    parseInt(releaseDate.getDate()),
+                    parseInt(releaseDate.getFullYear())
+                ]
+
+                for (var i = 0; i < date.length; i++) {
+                    if (date[i] < 10) {
+                        date[i] = "0" + date[i];
+                    }
+                }
+
+                var formatedDate = date[0] + "/" + date[1] + "/" + date[2];
+
+                var length = [
+                    record.length.hours,
+                    record.length.minutes,
+                    record.length.seconds]
+
+                for (var i = 0; i < length.length; i++) {
+                    if (length[i] < 10) {
+                        length[i] = "0" + length[i];
+                    }
+                }
+
+                var formatedLength = length[0] + ":" + length[1] + ":" + length[2];
 
                 var row = "<tr><td>" + record.title +
                     "</td><td>" + record.category +
                     "</td><td>" + record.artist +
                     "</td><td>" + record.plays +
                     "</td><td>" + record.rating +
-                    "</td><td>" + record.length.minutes + ":" + record.length.seconds +
+                    "</td><td>" + formatedLength +
                     "</td><td>" + formatedDate +
                     "</td><td>" + record.album +
                     "</td><td>" +
