@@ -74,10 +74,12 @@ namespace Apollo.Controllers
             }
 
             var category = await _context.Category.FindAsync(id);
+
             if (category == null)
             {
                 return NotFound();
             }
+
             return View(category);
         }
 
@@ -91,6 +93,15 @@ namespace Apollo.Controllers
             if (id != category.Id)
             {
                 return NotFound();
+            }
+
+            var songs = _context.Song.Where(x => x.Category.Id == category.Id);
+            var albums = _context.Album.Where(x => x.Category.Id == category.Id);
+
+            if(songs.Count() > 0 || albums.Count() > 0)
+            {
+                ModelState.AddModelError(nameof(category.Name), 
+                    "Some songs and or albums are still related to the category, change their category and try again");
             }
 
             if (ModelState.IsValid)
