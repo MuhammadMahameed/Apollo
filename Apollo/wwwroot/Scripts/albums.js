@@ -8,12 +8,12 @@ function getAjax(url, data) {
     });
 }
 
-async function getMatchingSongs(matchingStr) {
+async function getMatchingAlbums(matchingStr) {
     matchingSongs = await getAjax('/Albums/Filter', { matchingStr: matchingStr });
     return matchingSongs;
 }
 
-async function getAllSongs() {
+async function getAllAlbums() {
     allSongs = await getAjax('/Albums/Index', {});
     return allSongs
 }
@@ -23,7 +23,7 @@ $("#searchBox").on('input', function (e) {
     $("table tbody").html("");
 
     if (matchingStr) {
-        getMatchingSongs(matchingStr).then((data) => {
+        getMatchingAlbums(matchingStr).then((data) => {
             data.$values.forEach(record => {
                 var releaseDate = new Date(record.releaseDate);
                 var date = [
@@ -75,7 +75,7 @@ $("#searchBox").on('input', function (e) {
             });
         });
     } else {
-        getAllSongs().then((data) => {
+        getAllAlbums().then((data) => {
             var rows = $(data).find("table tbody tr");
             $("table tbody").html(rows);
         });
