@@ -59,5 +59,46 @@ namespace Apollo.Services
 
             return matchingAlbumsList;
         }
+
+        public ArrayList FilterAlbums(string str)
+        {
+            var strToLower = str.ToLower();
+
+            var matchingAlbums = _context.Album
+                .Include(s => s.Artist)
+                .Include(s => s.Songs)
+                .Include(s => s.Category)
+                .Where(s => s.Title.ToLower().Contains(strToLower) ||
+                            s.Category.Name.ToLower().Contains(strToLower) ||
+                            s.Artist.StageName.ToLower().Contains(strToLower) ||
+                            s.ListenTime.ToString().ToLower().Contains(strToLower) ||
+                            s.Plays.ToString().ToLower().Contains(strToLower) ||
+                            s.Rating.ToString().ToLower().Contains(strToLower) ||
+                            s.ReleaseDate.ToString().ToLower().Contains(strToLower) ||
+                            s.Cover.ToLower().Contains(strToLower) ||
+                            s.Songs.Any(x => x.Title.ToLower().Contains(strToLower)))
+                .ToList();
+
+            ArrayList matchingSongsList = new ArrayList();
+
+            foreach (Album album in matchingAlbums)
+            {
+                matchingSongsList.Add(new
+                {
+                    id = album.Id,
+                    title = album.Title,
+                    category = album.Category.Name,
+                    artist = album.Artist.StageName,
+                    listenTime = album.ListenTime,
+                    plays = album.Plays,
+                    rating = album.Rating,
+                    releaseDate = album.ReleaseDate,
+                    cover = album.Cover,
+                    songs = album.Songs.Select(x => x.Title)
+                });
+            }
+
+            return matchingSongsList;
+        }
     }
 }
