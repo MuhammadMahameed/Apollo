@@ -45,5 +45,43 @@ namespace Apollo.Services
 
             return matchingArtistsList;
         }
+
+        public ArrayList FilterArtists(string str)
+        {
+            var strToLower = str.ToLower();
+
+            var matchingArtists = _context.Artist
+                .Include(s => s.Albums)
+                .Include(s => s.Songs)
+                .Where(s => s.FirstName.ToLower().Contains(strToLower) ||
+                            s.LastName.ToLower().Contains(strToLower) ||
+                            s.StageName.ToLower().Contains(strToLower) ||
+                            s.Age.ToString().ToLower().Contains(strToLower) ||
+                            s.Rating.ToString().ToLower().Contains(strToLower) ||
+                            s.Image.ToLower().Contains(strToLower) ||
+                            s.Songs.Any(x => x.Title.ToLower().Contains(strToLower)) ||
+                            s.Albums.Any(x => x.Title.ToLower().Contains(strToLower)))
+                .ToList();
+
+            ArrayList matchingArtistsList = new ArrayList();
+
+            foreach (Artist artist in matchingArtists)
+            {
+                matchingArtistsList.Add(new
+                {
+                    id = artist.Id,
+                    firstName = artist.FirstName,
+                    lastName = artist.LastName,
+                    stageName = artist.StageName,
+                    age = artist.Age,
+                    rating = artist.Rating,
+                    image = artist.Image,
+                    songs = artist.Songs.Select(x => x.Title),
+                    albums = artist.Albums.Select(x => x.Title)
+                });
+            }
+
+            return matchingArtistsList;
+        }
     }
 }

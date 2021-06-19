@@ -87,6 +87,11 @@ namespace Apollo.Controllers
             return View(album);
         }
 
+        public IActionResult Filter(string matchingStr)
+        {
+            return Json(_albumService.FilterAlbums(matchingStr));
+        }
+
         // GET: Albums/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

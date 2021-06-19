@@ -25,7 +25,10 @@ namespace Apollo.Controllers
         // GET: Artists
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Artist.ToListAsync());
+            return View(await _context.Artist
+                .Include(x => x.Albums)
+                .Include(x => x.Songs)
+                .ToListAsync());
         }
 
         public IActionResult Search(string matchingStr)
@@ -49,6 +52,11 @@ namespace Apollo.Controllers
             }
 
             return View(artist);
+        }
+
+        public IActionResult Filter(string matchingStr)
+        {
+            return Json(_artistService.FilterArtists(matchingStr));
         }
 
         // GET: Artists/Create
