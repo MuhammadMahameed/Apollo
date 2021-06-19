@@ -37,6 +37,11 @@ namespace Apollo.Controllers
             return Json(_songService.GetMatchingSongs(matchingStr));
         }
 
+        public IActionResult Filter(string matchingStr)
+        {
+            return Json(_songService.filterSongs(matchingStr));
+        }
+
 
         // GET: Songs/Details/5
         public async Task<IActionResult> Details(int? id)
