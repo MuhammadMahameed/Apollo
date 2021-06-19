@@ -53,8 +53,6 @@ $("#searchBox").on('input', function (e) {
 
                 var formatedListenTime = listenTime[0] + ":" + listenTime[1] + ":" + listenTime[2];
 
-                
-
                 var songs = "";
                 record.songs.$values.forEach(song => { songs = songs.concat(song + " ") });
 
