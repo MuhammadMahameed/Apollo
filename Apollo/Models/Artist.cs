@@ -45,7 +45,5 @@ namespace Apollo.Models
         [RegularExpression("^.+\\.(png|jpg)$", ErrorMessage = "Not an image url")]
         [Display(Name = "Image Url")]
         public string Image { get; set; }
-
-        public Category Category { get; set; }
     }
 }

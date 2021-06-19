@@ -27,6 +27,7 @@ namespace Apollo.Controllers
         {
             return View(await _context.Album.Include(x => x.Songs)
                                             .Include(x => x.Artist)
+                                            .Include(x => x.Category)
                                             .ToListAsync());
         }
 

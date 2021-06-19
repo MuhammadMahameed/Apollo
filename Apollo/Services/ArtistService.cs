@@ -26,9 +26,7 @@ namespace Apollo.Services
             }
 
             var strToLower = str.ToLower();
-            var matchingArtists = _context.Artist.Where(a => a.StageName.ToLower().Contains(strToLower))
-                .Include(x => x.Category)
-                .ToList();
+            var matchingArtists = _context.Artist.Where(a => a.StageName.ToLower().Contains(strToLower)).ToList();
 
             ArrayList matchingArtistsList = new ArrayList();
 
@@ -38,7 +36,6 @@ namespace Apollo.Services
                 {
                     id = artist.Id,
                     stageName = artist.StageName,
-                    category = artist.Category.Name,
                     image = artist.Image,
                     firstName = artist.FirstName,
                     lastName = artist.LastName,

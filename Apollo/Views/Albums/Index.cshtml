@@ -18,6 +18,9 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Artist)
             </th>
             <th>
@@ -48,6 +51,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Artist.StageName)
