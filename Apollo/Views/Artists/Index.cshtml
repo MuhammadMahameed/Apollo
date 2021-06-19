@@ -1,13 +1,24 @@
 ﻿@model IEnumerable<Apollo.Models.Artist>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Artists";
 }
 <head>
-    <link href="~/Styles/site.css" rel="stylesheet" />
+    <link href="~/Styles/artists.css" rel="stylesheet" />
 </head>
 
-<h1>Index</h1>
+<h1 class="center title">Artists</h1>
+
+<div class="col-sm text-center">
+    <div class="input-group input-group-lg center">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-lg">
+                <i class="bi-search" role="img" aria-label="GitHub"></i>
+            </span>
+        </div>
+        <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" id="searchBox">
+    </div>
+</div>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -33,11 +44,19 @@
             <th>
                 @Html.DisplayNameFor(model => model.Image)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Songs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Albums)
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
+            var songs = item.Songs.Select(x => x.Title + " ");
+            var albums = item.Albums.Select(x => x.Title + " ");
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -58,11 +77,21 @@
                 @Html.DisplayFor(modelItem => item.Image)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => songs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => albums)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
+
+@section Scripts {
+    <script src="~/Scripts/artists.js"></script>
+}
