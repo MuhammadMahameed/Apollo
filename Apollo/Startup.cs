@@ -31,6 +31,7 @@ namespace Apollo
             services.AddTransient<SongService>();
             services.AddTransient<AlbumService>();
             services.AddTransient<ArtistService>();
+            services.AddTransient<CategoryService>();
 
             services.AddControllersWithViews();
 
@@ -66,7 +67,7 @@ namespace Apollo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Search}/{action=Index}/{id?}");
+                    pattern: "{controller=Categories}/{action=Index}/{id?}");
             });
         }
     }

@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
+using Apollo.Services;
 
 namespace Apollo.Controllers
 {
     public class CategoriesController : Controller
     {
         private readonly DataContext _context;
+        private readonly CategoryService _categoryService;
 
-        public CategoriesController(DataContext context)
+        public CategoriesController(DataContext context, CategoryService categoryService)
         {
             _context = context;
+            _categoryService = categoryService;
         }
 
         // GET: Categories
@@ -41,6 +44,11 @@ namespace Apollo.Controllers
             }
 
             return View(category);
+        }
+
+        public IActionResult Filter(string matchingStr)
+        {
+            return Json(_categoryService.FilterCategories(matchingStr));
         }
 
         // GET: Categories/Create
