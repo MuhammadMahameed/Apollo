@@ -141,7 +141,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Artist, int Category, int[] songs)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Artist, int Category, int[] Songs)
         {
             if (id != album.Id)
             {
@@ -152,12 +152,27 @@ namespace Apollo.Controllers
             {
                 try
                 {
+                    // change listen time of old album of each song
+                    foreach (int songId in Songs)
+                    {
+                        var song = _context.Song.Include(x => x.Album).FirstOrDefault(x => x.Id == songId);
+                        song.Album.ListenTime = new TimeSpan(0, 0, 0);
+
+                        foreach (Song songRecord in song.Album.Songs.Where(x => x.Id != song.Id))
+                        {
+                            song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
+                        }
+
+                        _context.Update(song.Album);
+                        await _context.SaveChangesAsync();
+                    }
+
                     album = _context.Album.Include(x => x.Songs)
                                           .Include(x => x.Artist)
                                           .Include(x => x.Category)
                                           .FirstOrDefault(x => x.Id == album.Id);
 
-                    album.Songs = _context.Song.Where(x => songs.Contains(x.Id)).ToList();
+                    album.Songs = _context.Song.Where(x => Songs.Contains(x.Id)).ToList();
                     album.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
                     album.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
                     album.ListenTime = new TimeSpan(0, 0, 0);
