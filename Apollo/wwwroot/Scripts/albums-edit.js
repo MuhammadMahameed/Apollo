@@ -19,12 +19,15 @@ function setAlbumDropDownListValues(categoryId, artistId) {
         data.$values.forEach((record) => {
             $("#Songs").append("<option value=" + record.id + " >" + record.title + "</option>");
         });
+        $("#Songs").val(selectedSongs.$values);
     });
 }
 
 // on page start
 $(document).ready(function () {
-    $("#Songs").val(selectedSongs.$values);
+    var categoryId = $("#Category").val();
+    var artistId = $("#Artist").val();
+    setAlbumDropDownListValues(categoryId, artistId);
 });
 
 // on category change
