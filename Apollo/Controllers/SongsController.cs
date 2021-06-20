@@ -134,12 +134,14 @@ namespace Apollo.Controllers
 
             song = _context.Song.Include(x => x.Album)
                                 .Include(x => x.Artist)
+                                .Include(x => x.Category)
                                 .ToList()
                                 .FirstOrDefault(x => x.Id == song.Id);
 
             SelectList slAlbums;
             SelectList slArtists;
-            IEnumerable<SelectListItem> enumerableAlbum, enumerableArtist;
+            SelectList slCategories;
+            IEnumerable<SelectListItem> enumerableAlbum, enumerableArtist, enumerableCategory;
 
             if (song.Album != null)
             {
@@ -162,8 +164,15 @@ namespace Apollo.Controllers
             slArtists = new(artists, nameof(Artist.Id), nameof(Artist.StageName));
             enumerableArtist = slArtists.Prepend(new SelectListItem(artist.StageName, artist.Id.ToString(), true));
 
+            List<Category> categories = _context.Category.ToList();
+            Category category = categories.FirstOrDefault(x => x.Id == song.Category.Id);
+            categories.Remove(category);
+            slCategories = new(categories, nameof(Category.Id), nameof(Category.Name));
+            enumerableCategory = slCategories.Prepend(new SelectListItem(category.Name, category.Id.ToString(), true));
+
             ViewData["albums"] = enumerableAlbum;
             ViewData["artists"] = enumerableArtist;
+            ViewData["categories"] = enumerableCategory;
             return View(song);
         }
 
@@ -172,7 +181,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Album, int Artist)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Album, int Artist, int Category)
         {
             if (id != song.Id)
             {
@@ -185,10 +194,12 @@ namespace Apollo.Controllers
                 {
                     song = _context.Song.Include(x => x.Album)
                                         .Include(x => x.Artist)
+                                        .Include(x => x.Category)
                                         .FirstOrDefault(x => x.Id == song.Id);
 
                     song.Album = _context.Album.FirstOrDefault(x => x.Id == Album);
                     song.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
+                    song.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
                     _context.Update(song);
                     await _context.SaveChangesAsync();
 
