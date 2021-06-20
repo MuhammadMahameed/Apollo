@@ -347,3 +347,9 @@ E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.WebPages.Deployment.dll
 E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.WebPages.Razor.dll
 E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.WebPages.dll
 E:\Apollo\Apollo\bin\Debug\net5.0\Microsoft.Web.Infrastructure.dll
+E:\Apollo\Apollo\bin\Debug\net5.0\CloudinaryDotNet.dll
+E:\Apollo\Apollo\bin\Debug\net5.0\Microsoft.Extensions.WebEncoders.dll
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Shared\_LoginLayout.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Users\AccessDenied.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Users\Login.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Users\Register.cshtml.g.cs

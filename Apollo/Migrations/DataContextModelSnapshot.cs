@@ -72,9 +72,6 @@ namespace Apollo.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -98,8 +95,6 @@ namespace Apollo.Migrations
                         .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Artist");
                 });
@@ -165,6 +160,36 @@ namespace Apollo.Migrations
                     b.ToTable("Song");
                 });
 
+            modelBuilder.Entity("Apollo.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmailAdress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
             modelBuilder.Entity("Apollo.Models.Album", b =>
                 {
                     b.HasOne("Apollo.Models.Artist", "Artist")
@@ -172,19 +197,10 @@ namespace Apollo.Migrations
                         .HasForeignKey("ArtistId");
 
                     b.HasOne("Apollo.Models.Category", "Category")
-                        .WithMany("Albums")
+                        .WithMany()
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Artist");
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Apollo.Models.Artist", b =>
-                {
-                    b.HasOne("Apollo.Models.Category", "Category")
-                        .WithMany("Artists")
-                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
@@ -200,7 +216,7 @@ namespace Apollo.Migrations
                         .HasForeignKey("ArtistId");
 
                     b.HasOne("Apollo.Models.Category", "Category")
-                        .WithMany("Songs")
+                        .WithMany()
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Album");
@@ -218,15 +234,6 @@ namespace Apollo.Migrations
             modelBuilder.Entity("Apollo.Models.Artist", b =>
                 {
                     b.Navigation("Albums");
-
-                    b.Navigation("Songs");
-                });
-
-            modelBuilder.Entity("Apollo.Models.Category", b =>
-                {
-                    b.Navigation("Albums");
-
-                    b.Navigation("Artists");
 
                     b.Navigation("Songs");
                 });
