@@ -63,7 +63,7 @@ namespace Apollo.Services
             return matchingSongsList;
         }
 
-        public ArrayList filterSongs(string str)
+        public ArrayList FilterSongs(string str)
         {
             var strToLower = str.ToLower();
             
