@@ -39,7 +39,12 @@ namespace Apollo.Controllers
 
         public IActionResult Filter(string matchingStr)
         {
-            return Json(_songService.filterSongs(matchingStr));
+            return Json(_songService.FilterSongs(matchingStr));
+        }
+
+        public IActionResult FilterSongsByCategoryAndArtist(int categoryId, int artistId)
+        {
+            return Json(_songService.FilterSongsByCategoryAndArtist(categoryId, artistId));
         }
 
 
@@ -82,6 +87,20 @@ namespace Apollo.Controllers
             song.Plays = 0;
             song.Rating = 0;
             song.ReleaseDate = DateTime.Now;
+            
+            Artist artist = _context.Artist.Include(x => x.Songs).FirstOrDefault(x => x.Id == Artist);
+
+            // The same artist can't have the same song title for more than 1 song
+            if(artist.Songs.Select(x => x.Title).Contains(song.Title))
+            {
+                ModelState.AddModelError("Title", artist.StageName + " already has a song named " + song.Title);
+            }
+
+            // Songs have to be atleast 1 minute long
+            if(song.Length.TotalSeconds < 60)
+            {
+                ModelState.AddModelError("Length", song.Title + " has to be atleast 1 minute long");
+            }
 
             if (ModelState.IsValid)
             {
@@ -120,12 +139,13 @@ namespace Apollo.Controllers
 
             song = _context.Song.Include(x => x.Album)
                                 .Include(x => x.Artist)
-                                .ToList()
+                                .Include(x => x.Category)
                                 .FirstOrDefault(x => x.Id == song.Id);
 
             SelectList slAlbums;
             SelectList slArtists;
-            IEnumerable<SelectListItem> enumerableAlbum, enumerableArtist;
+            SelectList slCategories;
+            IEnumerable<SelectListItem> enumerableAlbum, enumerableArtist, enumerableCategory;
 
             if (song.Album != null)
             {
@@ -148,8 +168,15 @@ namespace Apollo.Controllers
             slArtists = new(artists, nameof(Artist.Id), nameof(Artist.StageName));
             enumerableArtist = slArtists.Prepend(new SelectListItem(artist.StageName, artist.Id.ToString(), true));
 
+            List<Category> categories = _context.Category.ToList();
+            Category category = categories.FirstOrDefault(x => x.Id == song.Category.Id);
+            categories.Remove(category);
+            slCategories = new(categories, nameof(Category.Id), nameof(Category.Name));
+            enumerableCategory = slCategories.Prepend(new SelectListItem(category.Name, category.Id.ToString(), true));
+
             ViewData["albums"] = enumerableAlbum;
             ViewData["artists"] = enumerableArtist;
+            ViewData["categories"] = enumerableCategory;
             return View(song);
         }
 
@@ -158,7 +185,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Album, int Artist)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Album, int Artist, int Category)
         {
             if (id != song.Id)
             {
@@ -169,19 +196,50 @@ namespace Apollo.Controllers
             {
                 try
                 {
+                    var length = song.Length;
                     song = _context.Song.Include(x => x.Album)
-                                        .Include(x => x.Artist)
-                                        .FirstOrDefault(x => x.Id == song.Id);
+                                            .Include(x => x.Artist)
+                                            .Include(x => x.Category)
+                                            .FirstOrDefault(x => x.Id == song.Id);
 
+                    // if the song had a previous album and the id of the album changed,
+                    // update the previous album's listentime
+                    if (song.Album != null && song.Album.Id != Album)
+                    {
+                        song.Album.ListenTime = new TimeSpan(0, 0, 0);
+
+                        // listen time of old album
+                        foreach (Song songRecord in song.Album.Songs.Where(x => x.Id != song.Id))
+                        {
+                            song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
+                        }
+
+                        // update old album
+                        _context.Update(song.Album);
+                    }
+
+                    song.Length = length;
                     song.Album = _context.Album.FirstOrDefault(x => x.Id == Album);
                     song.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
+                    song.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
                     _context.Update(song);
                     await _context.SaveChangesAsync();
 
-                    if (Album == 0)
+                    // update the length of the new album
+                    Album album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Songs.Select(x => x.Title).Contains(song.Title));
+
+                    if (album != null)
                     {
-                        song.Album = null;
-                        _context.Update(song);
+                        album.ListenTime = new TimeSpan(0, 0, 0);
+
+                        // listen time of new album
+                        foreach (Song songRecord in album.Songs)
+                        {
+                            album.ListenTime = album.ListenTime.Add(songRecord.Length);
+                        }
+
+                        // update new album
+                        _context.Update(album);
                         await _context.SaveChangesAsync();
                     }
                 }

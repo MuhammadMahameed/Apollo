@@ -1,4 +1,8 @@
-﻿function getAjax(url, data) {
+﻿$(document).ready(function () {
+
+});
+
+function getAjax(url, data) {
     return $.ajax(url, {
         method: "GET",
         data: data
@@ -19,7 +23,6 @@ function setAlbumDropDownListValues(categoryId, artistId) {
         data.$values.forEach((record) => {
             $("#Songs").append("<option value=" + record.id + " >" + record.title + "</option>");
         });
-        $("#Songs").val(selectedSongs.$values);
     });
 }
 

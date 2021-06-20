@@ -79,11 +79,11 @@ namespace Apollo.Services
                             s.Songs.Any(x => x.Title.ToLower().Contains(strToLower)))
                 .ToList();
 
-            ArrayList matchingSongsList = new ArrayList();
+            ArrayList matchingAlbumsList = new ArrayList();
 
             foreach (Album album in matchingAlbums)
             {
-                matchingSongsList.Add(new
+                matchingAlbumsList.Add(new
                 {
                     id = album.Id,
                     title = album.Title,
@@ -98,7 +98,27 @@ namespace Apollo.Services
                 });
             }
 
-            return matchingSongsList;
+            return matchingAlbumsList;
+        }
+
+        public ArrayList FilterAlbumsByCategoryAndArtist(int categoryId, int artistId)
+        {
+            ArrayList matchingAlbumsList = new ArrayList();
+
+            var matchingAlbums = _context.Album.Include(x => x.Category)
+                                               .Where(x => x.Category.Id == categoryId && x.Artist.Id == artistId)
+                                               .ToList();
+
+            foreach (Album album in matchingAlbums)
+            {
+                matchingAlbumsList.Add(new
+                {
+                    id = album.Id,
+                    title = album.Title,
+                });
+            }
+
+            return matchingAlbumsList;
         }
     }
 }

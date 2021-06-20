@@ -6,7 +6,7 @@
 }
 
 async function getAlbumsByCategory(categoryId, artistId) {
-    matchingAlbums = await getAjax('/Songs/FilterSongsByCategoryAndArtist', {
+    matchingAlbums = await getAjax('/Albums/FilterAlbumsByCategoryAndArtist', {
         categoryId: categoryId,
         artistId: artistId
     });
@@ -14,20 +14,17 @@ async function getAlbumsByCategory(categoryId, artistId) {
 }
 
 function setAlbumDropDownListValues(categoryId, artistId) {
-    $("#Songs").html("");
+    $("#Album").html("<option value=" + 0 + " >N/A</option>")
+
     getAlbumsByCategory(categoryId, artistId).then((data) => {
         data.$values.forEach((record) => {
-            $("#Songs").append("<option value=" + record.id + " >" + record.title + "</option>");
+            $("#Album").append("<option value=" + record.id + " >" + record.title + "</option>");
         });
-        $("#Songs").val(selectedSongs.$values);
     });
 }
 
 // on page start
 $(document).ready(function () {
-    var categoryId = $("#Category").val();
-    var artistId = $("#Artist").val();
-    setAlbumDropDownListValues(categoryId, artistId);
 });
 
 // on category change

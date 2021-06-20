@@ -63,7 +63,7 @@ namespace Apollo.Services
             return matchingSongsList;
         }
 
-        public ArrayList filterSongs(string str)
+        public ArrayList FilterSongs(string str)
         {
             var strToLower = str.ToLower();
             
@@ -91,10 +91,6 @@ namespace Apollo.Services
                 {
                     album = song.Album.Title;
                 }
-                else
-                {
-                    album = null;
-                }
 
                 matchingSongsList.Add(new
                 {
@@ -112,5 +108,25 @@ namespace Apollo.Services
 
             return matchingSongsList;
         }
+
+        public ArrayList FilterSongsByCategoryAndArtist(int categoryId, int artistId)
+        {
+            ArrayList matchingSongsList = new ArrayList();
+
+            var matchingSongs = _context.Song.Include(x => x.Category)
+                                               .Where(x => x.Category.Id == categoryId && x.Artist.Id == artistId)
+                                               .ToList();
+
+            foreach (Song song in matchingSongs)
+            {
+                matchingSongsList.Add(new
+                {
+                    id = song.Id,
+                    title = song.Title,
+                });
+            }
+
+            return matchingSongsList;
+        }
     }
-}
+} 
