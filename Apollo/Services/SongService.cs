@@ -91,10 +91,6 @@ namespace Apollo.Services
                 {
                     album = song.Album.Title;
                 }
-                else
-                {
-                    album = null;
-                }
 
                 matchingSongsList.Add(new
                 {
