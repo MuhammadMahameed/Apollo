@@ -152,7 +152,7 @@ namespace Apollo.Controllers
             {
                 try
                 {
-                    // change listen time of old album of each song
+                    // change listen time of old album
                     foreach (int songId in Songs)
                     {
                         var song = _context.Song.Include(x => x.Album).FirstOrDefault(x => x.Id == songId);
@@ -163,6 +163,7 @@ namespace Apollo.Controllers
                             song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
                         }
 
+                        // update old album
                         _context.Update(song.Album);
                         await _context.SaveChangesAsync();
                     }
