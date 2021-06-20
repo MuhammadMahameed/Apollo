@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Services;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Apollo
 {
@@ -32,14 +33,18 @@ namespace Apollo
             services.AddTransient<AlbumService>();
             services.AddTransient<ArtistService>();
             services.AddTransient<CategoryService>();
-
             services.AddControllersWithViews();
-
             services.AddDbContext<DataContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DataContext")));
 
             services.AddControllers().AddJsonOptions(x =>
                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/Users/Login";
+                options.AccessDeniedPath = "/Users/AccessDenied";
+            });
 
         }
 
@@ -58,11 +63,11 @@ namespace Apollo
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
