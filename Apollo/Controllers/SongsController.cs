@@ -91,6 +91,12 @@ namespace Apollo.Controllers
                 ModelState.AddModelError("Title", artist.StageName + " already has a song named " + song.Title);
             }
 
+            // Songs have to be atleast 1 minute long
+            if(song.Length.TotalSeconds < 60)
+            {
+                ModelState.AddModelError("Length", song.Title + " has to be atleast 1 minute long");
+            }
+
             if (ModelState.IsValid)
             {
                 song.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
