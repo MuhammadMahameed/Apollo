@@ -202,6 +202,8 @@ namespace Apollo.Controllers
                                             .Include(x => x.Category)
                                             .FirstOrDefault(x => x.Id == song.Id);
 
+                    // if the song had a previous album and the id of the album changed,
+                    // update the previous album's listentime
                     if (song.Album != null && song.Album.Id != Album)
                     {
                         song.Album.ListenTime = new TimeSpan(0, 0, 0);
