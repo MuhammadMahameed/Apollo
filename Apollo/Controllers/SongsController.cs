@@ -202,6 +202,19 @@ namespace Apollo.Controllers
                                             .Include(x => x.Category)
                                             .FirstOrDefault(x => x.Id == song.Id);
 
+                    // update the length of the old album
+                    if(song.Album != null)
+                    {
+                        song.Album.ListenTime = new TimeSpan(0, 0, 0);
+
+                        foreach (Song songRecord in song.Album.Songs)
+                        {
+                            song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
+                        }
+                        _context.Update(song.Album);
+                        await _context.SaveChangesAsync();
+                    }
+
                     song.Length = length;
                     song.Album = _context.Album.FirstOrDefault(x => x.Id == Album);
                     song.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
@@ -210,7 +223,7 @@ namespace Apollo.Controllers
                     await _context.SaveChangesAsync();
 
       
-                    // update the length of the album
+                    // update the length of the new album
                     Album album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Songs.Select(x => x.Title).Contains(song.Title));
 
                     if (album != null)
