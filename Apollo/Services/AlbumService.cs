@@ -100,5 +100,25 @@ namespace Apollo.Services
 
             return matchingSongsList;
         }
+
+        public ArrayList FilterAlbumsByCategory(int categoryId)
+        {
+            ArrayList matchingAlbumsList = new ArrayList();
+
+            var matchingAlbums = _context.Album.Include(x => x.Category)
+                                               .Where(x => x.Category.Id == categoryId)
+                                               .ToList();
+
+            foreach (Album album in matchingAlbums)
+            {
+                matchingAlbumsList.Add(new
+                {
+                    id = album.Id,
+                    title = album.Title,
+                });
+            }
+
+            return matchingAlbumsList;
+        }
     }
 }

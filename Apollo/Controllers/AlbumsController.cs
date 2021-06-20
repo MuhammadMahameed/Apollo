@@ -92,6 +92,11 @@ namespace Apollo.Controllers
             return Json(_albumService.FilterAlbums(matchingStr));
         }
 
+        public IActionResult FilterAlbumsByCategory(int categoryId)
+        {
+            return Json(_albumService.FilterAlbumsByCategory(categoryId));
+        }
+
         // GET: Albums/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
