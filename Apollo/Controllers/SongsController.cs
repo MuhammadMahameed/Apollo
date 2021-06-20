@@ -83,6 +83,14 @@ namespace Apollo.Controllers
             song.Rating = 0;
             song.ReleaseDate = DateTime.Now;
 
+            Artist artist = _context.Artist.Include(x => x.Songs).FirstOrDefault(x => x.Id == Artist);
+
+            // The same artist can't have the same song title for more than 1 song
+            if(artist.Songs.Select(x => x.Title).Contains(song.Title))
+            {
+                ModelState.AddModelError("Title", artist.StageName + " already has a song named " + song.Title);
+            }
+
             if (ModelState.IsValid)
             {
                 song.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
