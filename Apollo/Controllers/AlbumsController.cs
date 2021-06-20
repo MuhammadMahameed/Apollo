@@ -160,6 +160,14 @@ namespace Apollo.Controllers
                     album.Songs = _context.Song.Where(x => songs.Contains(x.Id)).ToList();
                     album.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
                     album.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
+                    album.ListenTime = new TimeSpan(0, 0, 0);
+
+                    // update listentime
+                    foreach (Song songRecord in album.Songs)
+                    {
+                       album.ListenTime = album.ListenTime.Add(songRecord.Length);
+                    }
+
                     _context.Update(album);
                     await _context.SaveChangesAsync();
                 }
