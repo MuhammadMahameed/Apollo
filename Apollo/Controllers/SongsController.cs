@@ -82,7 +82,7 @@ namespace Apollo.Controllers
             song.Plays = 0;
             song.Rating = 0;
             song.ReleaseDate = DateTime.Now;
-
+            
             Artist artist = _context.Artist.Include(x => x.Songs).FirstOrDefault(x => x.Id == Artist);
 
             // The same artist can't have the same song title for more than 1 song
