@@ -140,7 +140,6 @@ namespace Apollo.Controllers
             song = _context.Song.Include(x => x.Album)
                                 .Include(x => x.Artist)
                                 .Include(x => x.Category)
-                                .ToList()
                                 .FirstOrDefault(x => x.Id == song.Id);
 
             SelectList slAlbums;
@@ -197,21 +196,32 @@ namespace Apollo.Controllers
             {
                 try
                 {
+                    var length = song.Length;
                     song = _context.Song.Include(x => x.Album)
-                                        .Include(x => x.Artist)
-                                        .Include(x => x.Category)
-                                        .FirstOrDefault(x => x.Id == song.Id);
+                                            .Include(x => x.Artist)
+                                            .Include(x => x.Category)
+                                            .FirstOrDefault(x => x.Id == song.Id);
 
+                    song.Length = length;
                     song.Album = _context.Album.FirstOrDefault(x => x.Id == Album);
                     song.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
                     song.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
                     _context.Update(song);
                     await _context.SaveChangesAsync();
 
-                    if (Album == 0)
+      
+                    // update the length of the album
+                    Album album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Songs.Select(x => x.Title).Contains(song.Title));
+
+                    if (album != null)
                     {
-                        song.Album = null;
-                        _context.Update(song);
+                        album.ListenTime = new TimeSpan(0, 0, 0);
+
+                        foreach (Song songRecord in album.Songs)
+                        {
+                            album.ListenTime = album.ListenTime.Add(songRecord.Length);
+                        }
+                        _context.Update(album);
                         await _context.SaveChangesAsync();
                     }
                 }
