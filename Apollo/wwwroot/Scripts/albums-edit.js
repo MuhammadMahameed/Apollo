@@ -1,8 +1,4 @@
-﻿$(document).ready(function () {
-    
-});
-
-function getAjax(url, data) {
+﻿function getAjax(url, data) {
     return $.ajax(url, {
         method: "GET",
         data: data
@@ -18,19 +14,17 @@ async function getAlbumsByCategory(categoryId, artistId) {
 }
 
 function setAlbumDropDownListValues(categoryId, artistId) {
-    $("#songs").html("");
+    $("#Songs").html("");
     getAlbumsByCategory(categoryId, artistId).then((data) => {
         data.$values.forEach((record) => {
-            $("#songs").append("<option value=" + record.id + " >" + record.title + "</option>");
+            $("#Songs").append("<option value=" + record.id + " >" + record.title + "</option>");
         });
     });
 }
 
 // on page start
 $(document).ready(function () {
-    var categoryId = $("#Category").val();
-    var artistId = $("#Artist").val();
-    setAlbumDropDownListValues(categoryId, artistId);
+    $("#Songs").val(selectedSongs.$values);
 });
 
 // on category change
