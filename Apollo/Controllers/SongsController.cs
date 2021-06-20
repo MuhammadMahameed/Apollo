@@ -39,7 +39,7 @@ namespace Apollo.Controllers
 
         public IActionResult Filter(string matchingStr)
         {
-            return Json(_songService.filterSongs(matchingStr));
+            return Json(_songService.FilterSongs(matchingStr));
         }
 
         public IActionResult FilterSongsByCategoryAndArtist(int categoryId, int artistId)
