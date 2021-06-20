@@ -101,12 +101,12 @@ namespace Apollo.Services
             return matchingSongsList;
         }
 
-        public ArrayList FilterAlbumsByCategory(int categoryId)
+        public ArrayList FilterAlbumsByCategoryAndArtist(int categoryId, int artistId)
         {
             ArrayList matchingAlbumsList = new ArrayList();
 
             var matchingAlbums = _context.Album.Include(x => x.Category)
-                                               .Where(x => x.Category.Id == categoryId)
+                                               .Where(x => x.Category.Id == categoryId && x.Artist.Id == artistId)
                                                .ToList();
 
             foreach (Album album in matchingAlbums)
