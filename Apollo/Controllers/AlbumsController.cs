@@ -70,16 +70,37 @@ namespace Apollo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Category, int Artist, int[] Songs)
         {
-            album.ListenTime = new TimeSpan(0, 0, 0);
-            album.Plays = 0;
-            album.Rating = 0;
-            album.ReleaseDate = DateTime.Now;
-            album.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
-            album.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
-            album.Songs = _context.Song.Where(x => Songs.Contains(x.Id)).ToList();
-
             if (ModelState.IsValid)
             {
+                // change listen time of old album
+                foreach (int songId in Songs)
+                {
+                    var song = _context.Song.Include(x => x.Album).FirstOrDefault(x => x.Id == songId);
+                    song.Album.ListenTime = new TimeSpan(0, 0, 0);
+
+                    foreach (Song songRecord in song.Album.Songs.Where(x => x.Id != song.Id))
+                    {
+                        song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
+                    }
+
+                    // update old album
+                    _context.Update(song.Album);
+                    await _context.SaveChangesAsync();
+                }
+
+                album.ListenTime = new TimeSpan(0, 0, 0);
+                album.Plays = 0;
+                album.Rating = 0;
+                album.ReleaseDate = DateTime.Now;
+                album.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
+                album.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
+                album.Songs = _context.Song.Where(x => Songs.Contains(x.Id)).ToList();
+
+                foreach(Song song in album.Songs)
+                {
+                    album.ListenTime = album.ListenTime.Add(song.Length);
+                }
+
                 _context.Add(album);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -156,16 +177,19 @@ namespace Apollo.Controllers
                     foreach (int songId in Songs)
                     {
                         var song = _context.Song.Include(x => x.Album).FirstOrDefault(x => x.Id == songId);
-                        song.Album.ListenTime = new TimeSpan(0, 0, 0);
-
-                        foreach (Song songRecord in song.Album.Songs.Where(x => x.Id != song.Id))
+                        if (song.Album != null)
                         {
-                            song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
-                        }
+                            song.Album.ListenTime = new TimeSpan(0, 0, 0);
 
-                        // update old album
-                        _context.Update(song.Album);
-                        await _context.SaveChangesAsync();
+                            foreach (Song songRecord in song.Album.Songs.Where(x => x.Id != song.Id))
+                            {
+                                song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
+                            }
+
+                            // update old album
+                            _context.Update(song.Album);
+                            await _context.SaveChangesAsync();
+                        }
                     }
 
                     album = _context.Album.Include(x => x.Songs)
