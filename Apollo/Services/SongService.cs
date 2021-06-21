@@ -148,5 +148,31 @@ namespace Apollo.Services
 
             return songsDevision;
         }
+
+        public ArrayList GetArtistsPerCategoryHeatmapData()
+        {
+            ArrayList data = new ArrayList();
+            var artists = _context.Artist.ToList();
+            var categories = _context.Category.ToList();
+
+            categories.ForEach(category =>
+            {
+                artists.ForEach(artist =>
+                {
+                    data.Add(new
+                    {
+                        group = category.Name,
+                        variable = artist.StageName,
+                        value = _context.Song
+                                .Include(x => x.Artist)
+                                .Include(x => x.Category)
+                                .Where(x => x.Category.Id == category.Id && x.Artist.Id == artist.Id)
+                                .Count()
+                    });
+                });
+            });
+
+            return data;
+        }
     }
 } 
