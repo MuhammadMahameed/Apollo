@@ -33,6 +33,17 @@ namespace Apollo
             services.AddTransient<AlbumService>();
             services.AddTransient<ArtistService>();
             services.AddTransient<CategoryService>();
+            services.AddHttpClient<SpotifyService>(c =>
+            {
+                c.BaseAddress = new Uri("https://accounts.spotify.com/api/");
+            });
+
+            services.AddHttpClient<SpotifyReleasesService>(c =>
+            {
+                c.BaseAddress = new Uri("https://api.spotify.com/v1/");
+                c.DefaultRequestHeaders.Add("Accept", "application/.json");
+            });
+
             services.AddControllersWithViews();
             services.AddDbContext<DataContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DataContext")));
@@ -72,7 +83,7 @@ namespace Apollo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Categories}/{action=Index}/{id?}");
+                    pattern: "{controller=Updates}/{action=Index}/{id?}");
             });
         }
     }
