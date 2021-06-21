@@ -72,8 +72,8 @@ namespace Apollo.Controllers
         {
             if (_context.Album.Include(x => x.Artist).Any(x => x.Artist.Id == Artist && x.Title == album.Title))
             {
-                var artist = _context.Artist.FirstOrDefault(x => x.Id == Artist).StageName;
-                ModelState.AddModelError("Title", artist + " already has an album named " + "'" + album.Title + "'");
+                var artistName = _context.Artist.FirstOrDefault(x => x.Id == Artist).StageName;
+                ModelState.AddModelError("Title", artistName + " already has an album named " + "'" + album.Title + "'");
             }
 
             if (ModelState.IsValid)
@@ -111,6 +111,10 @@ namespace Apollo.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["songs"] = new MultiSelectList(_context.Song, nameof(Models.Song.Id), nameof(Models.Song.Title));
+            ViewData["categories"] = new SelectList(_context.Category, nameof(Models.Category.Id), nameof(Models.Category.Name));
+            ViewData["artists"] = new SelectList(_context.Artist, nameof(Models.Artist.Id), nameof(Models.Artist.StageName));
             return View(album);
         }
 
