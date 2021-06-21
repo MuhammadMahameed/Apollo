@@ -128,5 +128,51 @@ namespace Apollo.Services
 
             return matchingSongsList;
         }
+
+        public ArrayList GetNumberOfSongsPerCategory()
+        {
+            ArrayList songsDevision = new ArrayList();
+            var categories = _context.Category.ToList();
+
+            categories.ForEach(category =>
+            {
+                var songs = _context.Song.Include(x => x.Category).Where(x => x.Category.Id == category.Id);
+
+                songsDevision.Add(new
+                {
+                    id = category.Id,
+                    category = category.Name,
+                    numSongs = songs.Count()
+                });
+            });
+
+            return songsDevision;
+        }
+
+        public ArrayList GetArtistsPerCategoryHeatmapData()
+        {
+            ArrayList data = new ArrayList();
+            var artists = _context.Artist.ToList();
+            var categories = _context.Category.ToList();
+
+            categories.ForEach(category =>
+            {
+                artists.ForEach(artist =>
+                {
+                    data.Add(new
+                    {
+                        group = category.Name,
+                        variable = artist.StageName,
+                        value = _context.Song
+                                .Include(x => x.Artist)
+                                .Include(x => x.Category)
+                                .Where(x => x.Category.Id == category.Id && x.Artist.Id == artist.Id)
+                                .Count()
+                    });
+                });
+            });
+
+            return data;
+        }
     }
 } 

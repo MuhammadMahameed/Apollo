@@ -1,0 +1,9 @@
+﻿.center {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+}
+
+.title {
+    margin-bottom: 1rem;
+}
