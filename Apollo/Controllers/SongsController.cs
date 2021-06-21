@@ -120,6 +120,12 @@ namespace Apollo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["categories"] = new SelectList(_context.Category, nameof(Models.Category.Id), nameof(Models.Category.Name));
+            ViewData["artists"] = new SelectList(_context.Artist, nameof(Models.Artist.Id), nameof(Models.Artist.StageName));
+            SelectList sl = new(_context.Album, nameof(Models.Album.Id), nameof(Models.Album.Title));
+            IEnumerable<SelectListItem> enumerable = sl.Prepend(new SelectListItem("N/A", "0", true));
+            ViewData["albums"] = enumerable;
             return View(song);
         }
 
