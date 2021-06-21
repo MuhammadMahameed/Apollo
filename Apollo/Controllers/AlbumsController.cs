@@ -70,6 +70,12 @@ namespace Apollo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Category, int Artist, int[] Songs)
         {
+            if (_context.Album.Include(x => x.Artist).Any(x => x.Artist.Id == Artist && x.Title == album.Title))
+            {
+                var artist = _context.Artist.FirstOrDefault(x => x.Id == Artist).StageName;
+                ModelState.AddModelError("Title", artist + " already has an album named " + "'" + album.Title + "'");
+            }
+
             if (ModelState.IsValid)
             {
                 // change listen time of old album
