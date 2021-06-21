@@ -1,0 +1,21 @@
+﻿<head>
+    <title>Search</title>
+    <link href="~/Styles/statistics.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <h1 class="title center">Statistics</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4>Number of songs divided by categories</h4>
+                <id id="songsCategoryDevision" class="center"></id>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+    <script src="~/Scripts/statistics.js"></script>
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+}
