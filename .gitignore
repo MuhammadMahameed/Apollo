@@ -1,2 +1,2 @@
-.Apollo/bin/Debug/*
 .vs/*
+/Apollo/bin*

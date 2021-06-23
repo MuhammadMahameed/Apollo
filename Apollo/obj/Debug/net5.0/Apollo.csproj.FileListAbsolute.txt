@@ -339,7 +339,6 @@ D:\Apollo\Apollo\obj\Debug\net5.0\Apollo.genruntimeconfig.cache
 D:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Home\About.cshtml.g.cs
 D:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Home\Statistics.cshtml.g.cs
 E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Home\About.cshtml.g.cs
-E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Home\Statistics.cshtml.g.cs
 E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.Mvc.dll
 E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.Razor.dll
 E:\Apollo\Apollo\bin\Debug\net5.0\System.Web.Helpers.dll
@@ -353,3 +352,5 @@ E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Shared\_LoginLayout.cshtml.g.cs
 E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Users\AccessDenied.cshtml.g.cs
 E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Users\Login.cshtml.g.cs
 E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Users\Register.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Statistics\Index.cshtml.g.cs
+E:\Apollo\Apollo\obj\Debug\net5.0\Razor\Views\Updates\Index.cshtml.g.cs
