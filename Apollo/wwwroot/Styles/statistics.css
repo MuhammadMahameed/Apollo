@@ -7,3 +7,15 @@
 .title {
     margin-bottom: 1rem;
 }
+
+#songsCategoryDevision {
+    margin: 0px;
+}
+
+#artistsPerGenre {
+    margin: 0px;
+}
+
+.col {
+    text-align: center
+}

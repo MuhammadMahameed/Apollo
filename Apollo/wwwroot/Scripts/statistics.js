@@ -142,8 +142,9 @@ $(document).ready(function () {
                 .style("opacity", 1)
         }
         var mousemove = function (d) {
+            console.log(d);
             tooltip
-                .html("Number of songs: " + d.value)
+                .html(d.variable + " has " + d.value + " songs in the " + d.group + " category")
                 .style("left", (d3.mouse(this)[0] + 60) + "px")
                 .style("top", (d3.mouse(this)[1] + 90) + "px")
         }
