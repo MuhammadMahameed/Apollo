@@ -80,11 +80,22 @@ $("#searchBox").on('input', function (e) {
                             $("#content").append('<div class="row artistRow' + parseInt(i / numCardsPerRow) + ' d-flex justify-content-center"></div>');
                         }
 
-                        var template = '<div class="card" style="width: 10rem;"><div class="card-body">' +
+                        var template = "";
+                         
+                        if (data[i].biograpyId != 0) {
+                            template = '<a href="/Biographies/Details/' + data[i].biograpyId + '">'
+                        }
+
+                        template += '<div class="card" style="width: 10rem;"><div class="card-body">' +
                             '<img class="card-img-top" src=' + data[i].image + ' alt="Card image cap">' +
                             '<h5 class="card-title">' + data[i].stageName + '</h5>' +
                             '<p>Rating: ' + data[i].rating + '</p>' +
                             '</div ></div>'
+
+                        if (data[i].biograpyId != 0) {
+                            template += '</a>'
+                        }
+
                         $("#content .artistRow" + parseInt(i / numCardsPerRow)).append(template);
                     }
                 }

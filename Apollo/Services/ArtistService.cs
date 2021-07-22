@@ -26,12 +26,21 @@ namespace Apollo.Services
             }
 
             var strToLower = str.ToLower();
-            var matchingArtists = _context.Artist.Where(a => a.StageName.ToLower().Contains(strToLower)).ToList();
+            var matchingArtists = _context.Artist
+                                  .Include(x => x.Biography).
+                                  Where(a => a.StageName.ToLower().Contains(strToLower)).ToList();
 
             ArrayList matchingArtistsList = new ArrayList();
 
             foreach (Artist artist in matchingArtists)
             {
+                var artistBioId = 0;
+
+                if (artist.Biography != null)
+                {
+                    artistBioId = artist.Biography.Id;
+                }
+
                 matchingArtistsList.Add(new
                 {
                     id = artist.Id,
@@ -39,7 +48,8 @@ namespace Apollo.Services
                     image = artist.Image,
                     firstName = artist.FirstName,
                     lastName = artist.LastName,
-                    rating = artist.Rating
+                    rating = artist.Rating,
+                    biograpyId = artistBioId
                 });
             }
 
@@ -53,6 +63,7 @@ namespace Apollo.Services
             var matchingArtists = _context.Artist
                 .Include(s => s.Albums)
                 .Include(s => s.Songs)
+                .Include(s => s.Biography)
                 .Where(s => s.FirstName.ToLower().Contains(strToLower) ||
                             s.LastName.ToLower().Contains(strToLower) ||
                             s.StageName.ToLower().Contains(strToLower) ||
@@ -77,7 +88,7 @@ namespace Apollo.Services
                     rating = artist.Rating,
                     image = artist.Image,
                     songs = artist.Songs.Select(x => x.Title),
-                    albums = artist.Albums.Select(x => x.Title)
+                    albums = artist.Albums.Select(x => x.Title),
                 });
             }
 
