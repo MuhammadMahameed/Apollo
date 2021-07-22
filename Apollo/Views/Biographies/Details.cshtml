@@ -1,0 +1,48 @@
+﻿@model Apollo.Models.Biography
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Biography</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Artist)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Artist.StageName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EarlyLife)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EarlyLife)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Career)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Career)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Artistry)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Artistry)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PersonalLife)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PersonalLife)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -27,5 +27,7 @@ namespace Apollo.Data
         public DbSet<Apollo.Models.Song> Song { get; set; }
 
         public DbSet<Apollo.Models.User> User { get; set; }
+
+        public DbSet<Apollo.Models.Biography> Biography { get; set; }
     }
 }

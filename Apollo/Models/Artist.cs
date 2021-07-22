@@ -17,6 +17,11 @@ namespace Apollo.Models
         public int Id { get; set; }
 
         [Required]
+        [StringLength(25, MinimumLength = 2, ErrorMessage = "Stage name cannot be shorter than 2 or longer than 25 characters.")]
+        [Display(Name = "Stage Name")]
+        public string StageName { get; set; }
+
+        [Required]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "First name cannot be shorter than 2 or longer than 25 characters.")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -25,11 +30,6 @@ namespace Apollo.Models
         [StringLength(25, MinimumLength = 2, ErrorMessage = "Last name cannot be shorter than 2 or longer than 25 characters.")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
-        [Required]
-        [StringLength(25, MinimumLength = 2, ErrorMessage = "Stage name cannot be shorter than 2 or longer than 25 characters.")]
-        [Display(Name = "Stage Name")]
-        public string StageName { get; set; }
 
         [Required]
         [Range(10,130)]
@@ -45,5 +45,7 @@ namespace Apollo.Models
         [RegularExpression("^.+\\.(png|jpg)$", ErrorMessage = "Not an image url")]
         [Display(Name = "Image Url")]
         public string Image { get; set; }
+
+        public Biography Biography { get; set; }
     }
 }
