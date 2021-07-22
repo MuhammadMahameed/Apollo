@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
+using Apollo.Services;
 
 namespace Apollo.Controllers
 {
     public class BiographiesController : Controller
     {
         private readonly DataContext _context;
+        private readonly BiographyService _biographyService;
 
-        public BiographiesController(DataContext context)
+        public BiographiesController(DataContext context, BiographyService biographyService)
         {
             _context = context;
+            _biographyService = biographyService;
         }
 
         // GET: Biographies
