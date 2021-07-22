@@ -62,6 +62,13 @@ namespace Apollo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ArtistId,EarlyLife,Career,Artistry,PersonalLife")] Biography biography)
         {
+            var exists = _context.Biography.FirstOrDefault(x => x.ArtistId == biography.ArtistId);
+
+            if (exists != null)
+            {
+                ModelState.AddModelError("ArtistId", "This artist already has a biography");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(biography);
