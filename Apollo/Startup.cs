@@ -32,6 +32,8 @@ namespace Apollo
             services.AddTransient<SongService>();
             services.AddTransient<AlbumService>();
             services.AddTransient<ArtistService>();
+            services.AddTransient<BiographyService>();
+            services.AddTransient<TwitterService>();
             services.AddTransient<CategoryService>();
             services.AddHttpClient<SpotifyService>(c =>
             {
@@ -83,7 +85,7 @@ namespace Apollo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Updates}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

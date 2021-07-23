@@ -1,14 +1,31 @@
-﻿
+﻿function getAjax(url, data) {
+    return $.ajax(url, {
+        method: "GET",
+        data: data
+    });
+}
+
+async function getTimelineEmbed(url) {
+    timelineEmbed = await getAjax('/Twitter/GetTimelineEmbed', { url: url });
+    return timelineEmbed;
+}
+
 
 $(document).ready(function () {
     draw();
-    
     setInterval(rotate, 100);
+
+    getTimelineEmbed("https://twitter.com/Spotify").then((embedData) => {
+        console.log(embedData);
+        $("#spotifyTimeline").append(embedData);
+    });
 });
+
 var drawing = document.getElementById("canvas");
 var ctx = drawing.getContext("2d");
 var pic = document.getElementById("Apollo");
 var deg = 30;
+
 function draw() {
     ctx.drawImage(pic, 0, 0);
     
