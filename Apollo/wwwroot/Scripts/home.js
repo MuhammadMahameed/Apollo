@@ -10,6 +10,17 @@ async function getTimelineEmbed(url) {
     return timelineEmbed;
 }
 
+async function getBranches() {
+    branches = await getAjax('/Branches/GetBranches', { });
+    return branches;
+}
+
+async function getBingMap(coordinates) {
+    map = await getAjax('/Branches/GetBingMap', { coordinates: coordinates });
+    return map;
+}
+
+
 
 $(document).ready(function () {
     draw();
@@ -18,6 +29,20 @@ $(document).ready(function () {
     getTimelineEmbed("https://twitter.com/Spotify").then((embedData) => {
         console.log(embedData);
         $("#spotifyTimeline").append(embedData);
+    });
+
+    getBranches().then((data) => {
+        data = data.$values;
+        console.log(data);
+        var coordinates = ""
+        for (var i = 0; i < data.length; i++) {
+            coordinates += "pp=" + data[i].coordinate + ";45;" + data[i].addressName + "&"
+        }
+
+        getBingMap(coordinates).then((mapByteStream) => {
+            console.log(mapByteStream);
+            $('#bingMapBranches').attr('src', `data:image/png;base64,${mapByteStream}`);
+        });
     });
 });
 

@@ -34,6 +34,7 @@ namespace Apollo
             services.AddTransient<ArtistService>();
             services.AddTransient<BiographyService>();
             services.AddTransient<TwitterService>();
+            services.AddTransient<BranchService>();
             services.AddTransient<CategoryService>();
             services.AddHttpClient<SpotifyService>(c =>
             {
