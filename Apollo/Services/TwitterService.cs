@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Nancy.Json;
 using Newtonsoft.Json;
-using RestSharp;
-using RestSharp.Authenticators;
 
 namespace Apollo.Services
 {
