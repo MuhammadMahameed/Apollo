@@ -82,16 +82,19 @@ namespace Apollo.Controllers
                 foreach (int songId in Songs)
                 {
                     var song = _context.Song.Include(x => x.Album).FirstOrDefault(x => x.Id == songId);
-                    song.Album.ListenTime = new TimeSpan(0, 0, 0);
-
-                    foreach (Song songRecord in song.Album.Songs.Where(x => x.Id != song.Id))
+                    if (song.Album != null)
                     {
-                        song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
-                    }
+                        song.Album.ListenTime = new TimeSpan(0, 0, 0);
 
-                    // update old album
-                    _context.Update(song.Album);
-                    await _context.SaveChangesAsync();
+                        foreach (Song songRecord in song.Album.Songs.Where(x => x.Id != song.Id))
+                        {
+                            song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
+                        }
+
+                        // update old album
+                        _context.Update(song.Album);
+                        await _context.SaveChangesAsync();
+                    }
                 }
 
                 album.ListenTime = new TimeSpan(0, 0, 0);
