@@ -7,24 +7,51 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
-using Apollo.Services;
 
 namespace Apollo.Controllers
 {
     public class BiographiesController : Controller
     {
         private readonly DataContext _context;
-        private readonly BiographyService _biographyService;
 
-        public BiographiesController(DataContext context, BiographyService biographyService)
+        public BiographiesController(DataContext context)
         {
             _context = context;
-            _biographyService = biographyService;
         }
 
         // GET: Biographies
         public async Task<IActionResult> Index()
         {
+            var songs_gb = _context.Song.Include(x => x.Artist)
+                                        .GroupBy(x => x.Artist.StageName)
+                                        .Select(x => new
+                                        {
+                                            artistStageName = x.Key,
+                                            count = x.Count()
+                                        }).ToList();
+            var albums_gb = _context.Album.Include(x => x.Artist)
+                                            .GroupBy(x => x.Artist.StageName)
+                                            .Select(x => new
+                                            {
+                                                artistStageName = x.Key,
+                                                count = x.Count()
+                                            }).ToList();
+
+            var biographies = _context.Biography.Include(x => x.Artist).ToList();
+            biographies.ForEach(biography =>
+            {
+                var temp = songs_gb.FirstOrDefault(s => s.artistStageName == biography.Artist.StageName);
+                if (temp != null)
+                    biography.NumberOfSongs = temp.count;
+
+                temp = albums_gb.FirstOrDefault(s => s.artistStageName == biography.Artist.StageName);
+                if (temp != null)
+                    biography.NumberOfAlbums = temp.count;
+
+                _context.Update(biography);
+            });
+
+            await _context.SaveChangesAsync();
             var dataContext = _context.Biography.Include(b => b.Artist);
             return View(await dataContext.ToListAsync());
         }
@@ -51,7 +78,7 @@ namespace Apollo.Controllers
         // GET: Biographies/Create
         public IActionResult Create()
         {
-            ViewData["ArtistId"] = new SelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName));
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "StageName");
             return View();
         }
 
@@ -60,7 +87,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ArtistId,EarlyLife,Career,Artistry,PersonalLife")] Biography biography)
+        public async Task<IActionResult> Create([Bind("Id,ArtistId,EarlyLife,Career,Artistry,PersonalLife,NumberOfSongs,NumberOfAlbums")] Biography biography)
         {
             var exists = _context.Biography.FirstOrDefault(x => x.ArtistId == biography.ArtistId);
 
@@ -75,7 +102,7 @@ namespace Apollo.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName), biography.ArtistId);
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "StageName", biography.ArtistId);
             return View(biography);
         }
 
@@ -92,7 +119,7 @@ namespace Apollo.Controllers
             {
                 return NotFound();
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName), biography.ArtistId);
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "StageName", biography.ArtistId);
             return View(biography);
         }
 
@@ -101,7 +128,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ArtistId,EarlyLife,Career,Artistry,PersonalLife")] Biography biography)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ArtistId,EarlyLife,Career,Artistry,PersonalLife,NumberOfSongs,NumberOfAlbums")] Biography biography)
         {
             if (id != biography.Id)
             {
@@ -128,7 +155,7 @@ namespace Apollo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "FirstName", biography.ArtistId);
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "StageName", biography.ArtistId);
             return View(biography);
         }
 
