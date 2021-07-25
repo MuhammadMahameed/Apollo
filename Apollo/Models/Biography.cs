@@ -23,5 +23,11 @@ namespace Apollo.Models
 
         [Display(Name = "Personal Life")]
         public string PersonalLife { get; set; }
+
+        [Display(Name = "Number of Songs")]
+        public int NumberOfSongs { get; set; }
+
+        [Display(Name = "Number of Albums")]
+        public int NumberOfAlbums { get; set; }
     }
 }
