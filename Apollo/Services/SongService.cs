@@ -65,7 +65,12 @@ namespace Apollo.Services
 
         public ArrayList FilterSongs(string str)
         {
-            var strToLower = str.ToLower();
+            var strToLower = "";
+
+            if (!String.IsNullOrEmpty(str))
+            {
+                strToLower = str.ToLower();
+            }
             
             var matchingSongs = _context.Song
                 .Include(s => s.Artist)

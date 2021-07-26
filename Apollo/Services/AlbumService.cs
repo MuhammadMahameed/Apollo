@@ -18,6 +18,28 @@ namespace Apollo.Services
             _context = context;
         }
 
+        public ArrayList GetAllAlbums()
+        {
+            var albums = _context.Album.ToList();
+            ArrayList albumsList = new ArrayList();
+            var albumsUsed = new ArrayList();
+
+            foreach (Album album in albums)
+            {
+                if (!albumsUsed.Contains(album.Title))
+                {
+                    albumsUsed.Add(album.Title);
+                    albumsList.Add(new
+                    {
+                        id = album.Id,
+                        title = album.Title
+                    });
+                }
+            }
+
+            return albumsList;
+        }
+
         public ArrayList GetMatchingAlbums(string str)
         {
             if (String.IsNullOrEmpty(str))

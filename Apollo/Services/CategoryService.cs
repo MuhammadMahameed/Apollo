@@ -17,6 +17,23 @@ namespace Apollo.Services
             _context = context;
         }
 
+        public ArrayList GetAllCategories()
+        {
+            var categories = _context.Category.ToList();
+            ArrayList categoriesList = new ArrayList();
+
+            foreach (Category category in categories)
+            {
+                categoriesList.Add(new
+                {
+                    id = category.Id,
+                    name = category.Name
+                });
+            }
+
+            return categoriesList;
+        }
+
         public ArrayList FilterCategories(string str)
         {
             var strToLower = str.ToLower();
@@ -32,7 +49,7 @@ namespace Apollo.Services
                 matchingCategoriesList.Add(new
                 {
                     id = category.Id,
-                    name = category.Name
+                    title = category.Name
                 });
             }
 

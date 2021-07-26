@@ -1,4 +1,36 @@
-﻿$(document).ready(function () {
+﻿function getAjax(url, matchingStr) {
+    return $.ajax(url, {
+        method: "GET",
+        data: { matchingStr: matchingStr }
+    });
+}
+
+async function getSelectData() {
+    var dataTypes = [];
+    dataTypes[dataTypes.length] = (await getAjax('/Categories/GetAllCategories')).$values;
+    dataTypes[dataTypes.length] = (await getAjax('/Artists/GetAllArtists')).$values;
+    dataTypes[dataTypes.length] = (await getAjax('/Albums/GetAllAlbums')).$values;
+    return dataTypes;
+}
+
+$(document).ready(function () {
+    $("#categorySelect").prop("disabled", true);
+    $("#artistSelect").prop("disabled", true);
+    $("#albumSelect").prop("disabled", true);
+
+    getSelectData().then((data) => {
+        console.log(data);
+
+        data[0].forEach(category => {
+            $("#categorySelect").append("<option value=" + category.id + ">" + category.name + "</option>");
+        });
+        data[1].forEach(artist => {
+            $("#artistSelect").append("<option value=" + artist.id + ">" + artist.stageName + "</option>");
+        });
+        data[2].forEach(album => {
+            $("#albumSelect").append("<option value=" + album.id + ">" + album.title + "</option>");
+        });
+    });
 });
 
 function getAjax(url, data) {
@@ -18,13 +50,62 @@ async function getAllSongs() {
     return allSongs
 }
 
+$("#categoryFilter").change(function () {
+    if (this.checked) {
+        $("#categorySelect").prop("disabled", false);
+    } else {
+        $("#categorySelect").prop("disabled", true);
+        $("#categorySelect").val(0)
+    }
+});
+
+$("#artistFilter").change(function () {
+    if (this.checked) {
+        $("#artistSelect").prop("disabled", false);
+    } else {
+        $("#artistSelect").prop("disabled", true);
+        $("#artistSelect").val(0)
+    }
+});
+
+$("#albumFilter").change(function () {
+    if (this.checked) {
+        $("#albumSelect").prop("disabled", false);
+    } else {
+        $("#albumSelect").prop("disabled", true);
+        $("#albumSelect").val(0)
+    }
+});
+
 $("#searchBox").on('input', function (e) {
+    updateSongList();
+});
+
+$("#categorySelect,#artistSelect,#albumSelect").on('change', function () {
+    updateSongList();
+});
+
+async function updateSongList() {
     var matchingStr = $("#searchBox").val();
     $("table tbody").html("");
+    var categorySelect = $("#categorySelect option:selected").val()
+    var artistSelect = $("#artistSelect option:selected").val()
+    var albumSelect = $("#albumSelect option:selected").val()
 
-    if (matchingStr) {
+    if (matchingStr || categorySelect > 0 || artistSelect > 0 || albumSelect > 0) {
         getMatchingSongs(matchingStr).then((data) => {
             data.$values.forEach(record => {
+                // 0 is unselected
+                if (categorySelect > 0)
+                    if (record.category.toUpperCase() != $("#categorySelect option:selected").text().toUpperCase())
+                        return;
+                if (artistSelect > 0)
+                    if (record.artist.toUpperCase() != $("#artistSelect option:selected").text().toUpperCase())
+                        return;
+                if (albumSelect > 0)
+                    if (record.album.toUpperCase() != $("#albumSelect option:selected").text().toUpperCase())
+                        return;
+
                 var releaseDate = new Date(record.releaseDate);
                 var date = [
                     parseInt(releaseDate.getMonth() + 1),
@@ -76,4 +157,4 @@ $("#searchBox").on('input', function (e) {
             $("table tbody").html(rows);
         });
     }
-});
+}

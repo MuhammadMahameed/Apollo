@@ -9,13 +9,13 @@ function getAjax(url, data) {
 }
 
 async function getMatchingCategories(matchingStr) {
-    matchingSongs = await getAjax('/Categories/Filter', { matchingStr: matchingStr });
-    return matchingSongs;
+    matchingCategories = await getAjax('/Categories/Filter', { matchingStr: matchingStr });
+    return matchingCategories;
 }
 
 async function getAllCategories() {
-    allSongs = await getAjax('/Categories/Index', {});
-    return allSongs
+    allCategories = await getAjax('/Categories/Index', {});
+    return allCategories
 }
 
 $("#searchBox").on('input', function (e) {

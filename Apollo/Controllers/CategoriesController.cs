@@ -22,6 +22,16 @@ namespace Apollo.Controllers
             _categoryService = categoryService;
         }
 
+        public IActionResult GetAllCategories()
+        {
+            return Json(_categoryService.GetAllCategories());
+        }
+
+        public IActionResult Filter(string matchingStr)
+        {
+            return Json(_categoryService.FilterCategories(matchingStr));
+        }
+
         // GET: Categories
         public async Task<IActionResult> Index()
         {
@@ -44,11 +54,6 @@ namespace Apollo.Controllers
             }
 
             return View(category);
-        }
-
-        public IActionResult Filter(string matchingStr)
-        {
-            return Json(_categoryService.FilterCategories(matchingStr));
         }
 
         // GET: Categories/Create

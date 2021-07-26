@@ -18,6 +18,23 @@ namespace Apollo.Services
             _context = context;
         }
 
+        public ArrayList GetAllArtists()
+        {
+            var artists = _context.Artist.ToList();
+            ArrayList artistsList = new ArrayList();
+
+            foreach (Artist artist in artists)
+            {
+                artistsList.Add(new
+                {
+                    id = artist.Id,
+                    stageName = artist.StageName
+                });
+            }
+
+            return artistsList;
+        }
+
         public ArrayList GetMatchingArtists(string str)
         {
             if (String.IsNullOrEmpty(str))
