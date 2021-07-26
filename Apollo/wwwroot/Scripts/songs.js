@@ -19,8 +19,6 @@ $(document).ready(function () {
     $("#albumSelect").prop("disabled", true);
 
     getSelectData().then((data) => {
-        console.log(data);
-
         data[0].forEach(category => {
             $("#categorySelect").append("<option value=" + category.id + ">" + category.name + "</option>");
         });
@@ -56,6 +54,7 @@ $("#categoryFilter").change(function () {
     } else {
         $("#categorySelect").prop("disabled", true);
         $("#categorySelect").val(0)
+        updateSongList()
     }
 });
 
@@ -65,6 +64,7 @@ $("#artistFilter").change(function () {
     } else {
         $("#artistSelect").prop("disabled", true);
         $("#artistSelect").val(0)
+        updateSongList()
     }
 });
 
@@ -74,6 +74,7 @@ $("#albumFilter").change(function () {
     } else {
         $("#albumSelect").prop("disabled", true);
         $("#albumSelect").val(0)
+        updateSongList()
     }
 });
 
