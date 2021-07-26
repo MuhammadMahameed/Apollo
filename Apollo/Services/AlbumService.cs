@@ -84,7 +84,12 @@ namespace Apollo.Services
 
         public ArrayList FilterAlbums(string str)
         {
-            var strToLower = str.ToLower();
+            var strToLower = "";
+
+            if (!String.IsNullOrEmpty(str))
+            {
+                strToLower = str.ToLower();
+            }
 
             var matchingAlbums = _context.Album
                 .Include(s => s.Artist)
