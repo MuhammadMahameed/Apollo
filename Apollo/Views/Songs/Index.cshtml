@@ -5,6 +5,8 @@
 }
 
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link href="~/Styles/songs.css" rel="stylesheet" />
 </head>
 
@@ -17,6 +19,28 @@
             </span>
         </div>
         <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" id="searchBox">
+        <div class="container">
+            <div class="row">
+                <div class="form-check form-switch col">
+                    <input class="form-check-input" type="checkbox" id="categoryFilter">
+                    <select id="categorySelect">
+                        <option selected value="0">Choose a category</option>
+                    </select>
+                </div>
+                <div class="form-check form-switch col">
+                    <input class="form-check-input" type="checkbox" id="artistFilter">
+                    <select id="artistSelect">
+                        <option selected value="0">Choose an artist</option>
+                    </select>
+                </div>
+                <div class="form-check form-switch col">
+                    <input class="form-check-input" type="checkbox" id="albumFilter">
+                    <select id="albumSelect">
+                        <option selected value="0">Choose an album</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <p>

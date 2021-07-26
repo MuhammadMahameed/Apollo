@@ -22,6 +22,26 @@ namespace Apollo.Controllers
             _albumService = albumService;
         }
 
+        public IActionResult GetAllAlbums()
+        {
+            return Json(_albumService.GetAllAlbums());
+        }
+
+        public IActionResult Search(string matchingStr)
+        {
+            return Json(_albumService.GetMatchingAlbums(matchingStr));
+        }
+
+        public IActionResult Filter(string matchingStr)
+        {
+            return Json(_albumService.FilterAlbums(matchingStr));
+        }
+
+        public IActionResult FilterAlbumsByCategoryAndArtist(int categoryId, int artistId)
+        {
+            return Json(_albumService.FilterAlbumsByCategoryAndArtist(categoryId, artistId));
+        }
+
         // GET: Albums
         public async Task<IActionResult> Index()
         {
@@ -29,11 +49,6 @@ namespace Apollo.Controllers
                                             .Include(x => x.Artist)
                                             .Include(x => x.Category)
                                             .ToListAsync());
-        }
-
-        public IActionResult Search(string matchingStr)
-        {
-            return Json(_albumService.GetMatchingAlbums(matchingStr));
         }
 
         // GET: Albums/Details/5
@@ -119,16 +134,6 @@ namespace Apollo.Controllers
             ViewData["categories"] = new SelectList(_context.Category, nameof(Models.Category.Id), nameof(Models.Category.Name));
             ViewData["artists"] = new SelectList(_context.Artist, nameof(Models.Artist.Id), nameof(Models.Artist.StageName));
             return View(album);
-        }
-
-        public IActionResult Filter(string matchingStr)
-        {
-            return Json(_albumService.FilterAlbums(matchingStr));
-        }
-
-        public IActionResult FilterAlbumsByCategoryAndArtist(int categoryId, int artistId)
-        {
-            return Json(_albumService.FilterAlbumsByCategoryAndArtist(categoryId, artistId));
         }
 
         // GET: Albums/Edit/5

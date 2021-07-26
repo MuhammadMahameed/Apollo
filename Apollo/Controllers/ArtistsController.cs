@@ -22,6 +22,21 @@ namespace Apollo.Controllers
             _artistService = artistService;
         }
 
+        public IActionResult GetAllArtists()
+        {
+            return Json(_artistService.GetAllArtists());
+        }
+
+        public IActionResult Search(string matchingStr)
+        {
+            return Json(_artistService.GetMatchingArtists(matchingStr));
+        }
+
+        public IActionResult Filter(string matchingStr)
+        {
+            return Json(_artistService.FilterArtists(matchingStr));
+        }
+
         // GET: Artists
         public async Task<IActionResult> Index()
         {
@@ -29,11 +44,6 @@ namespace Apollo.Controllers
                 .Include(x => x.Albums)
                 .Include(x => x.Songs)
                 .ToListAsync());
-        }
-
-        public IActionResult Search(string matchingStr)
-        {
-            return Json(_artistService.GetMatchingArtists(matchingStr));
         }
 
         // GET: Artists/Details/5
@@ -52,11 +62,6 @@ namespace Apollo.Controllers
             }
 
             return View(artist);
-        }
-
-        public IActionResult Filter(string matchingStr)
-        {
-            return Json(_artistService.FilterArtists(matchingStr));
         }
 
         // GET: Artists/Create
