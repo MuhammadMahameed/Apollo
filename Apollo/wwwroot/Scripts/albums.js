@@ -1,12 +1,37 @@
-﻿$(document).ready(function () {
-});
-
-function getAjax(url, data) {
+﻿function getAjax(url, data) {
     return $.ajax(url, {
         method: "GET",
         data: data
     });
 }
+
+async function getSelectData() {
+    var dataTypes = [];
+    dataTypes[dataTypes.length] = (await getAjax('/Albums/GetAllAlbums')).$values;
+    dataTypes[dataTypes.length] = (await getAjax('/Categories/GetAllCategories')).$values;
+    dataTypes[dataTypes.length] = (await getAjax('/Artists/GetAllArtists')).$values;
+    return dataTypes;
+}
+
+$(document).ready(function () {
+    $("#albumSelect").prop("disabled", true);
+    $("#categorySelect").prop("disabled", true);
+    $("#artistSelect").prop("disabled", true);
+
+    getSelectData().then((data) => {
+        console.log(data);
+
+        data[0].forEach(album => {
+            $("#albumSelect").append("<option value=" + album.id + ">" + album.title + "</option>");
+        });
+        data[1].forEach(category => {
+            $("#categorySelect").append("<option value=" + category.id + ">" + category.name + "</option>");
+        });
+        data[2].forEach(artist => {
+            $("#artistSelect").append("<option value=" + artist.id + ">" + artist.stageName + "</option>");
+        })
+    });
+});
 
 async function getMatchingAlbums(matchingStr) {
     matchingSongs = await getAjax('/Albums/Filter', { matchingStr: matchingStr });
@@ -18,13 +43,65 @@ async function getAllAlbums() {
     return allSongs
 }
 
+$("#albumFilter").change(function () {
+    if (this.checked) {
+        $("#albumSelect").prop("disabled", false);
+    } else {
+        $("#albumSelect").prop("disabled", true);
+        $("#albumSelect").val(0)
+        updateSongList()
+    }
+});
+
+$("#categoryFilter").change(function () {
+    if (this.checked) {
+        $("#categorySelect").prop("disabled", false);
+    } else {
+        $("#categorySelect").prop("disabled", true);
+        $("#categorySelect").val(0)
+        updateSongList()
+    }
+});
+
+$("#artistFilter").change(function () {
+    if (this.checked) {
+        $("#artistSelect").prop("disabled", false);
+    } else {
+        $("#artistSelect").prop("disabled", true);
+        $("#artistSelect").val(0)
+        updateSongList()
+    }
+});
+
 $("#searchBox").on('input', function (e) {
+    updateSongList();
+});
+
+$("#albumSelect,#categorySelect,#artistSelect").on('change', function () {
+    updateSongList();
+});
+
+async function updateSongList() {
     var matchingStr = $("#searchBox").val();
     $("table tbody").html("");
+    var albumSelect = $("#albumSelect option:selected").val()
+    var categorySelect = $("#categorySelect option:selected").val()
+    var artistSelect = $("#artistSelect option:selected").val()
 
-    if (matchingStr) {
+    if (matchingStr || albumSelect > 0 || artistSelect > 0 || categorySelect > 0) {
         getMatchingAlbums(matchingStr).then((data) => {
             data.$values.forEach(record => {
+                // 0 is unselected
+                if (albumSelect > 0)
+                    if (record.title.toUpperCase() != $("#albumSelect option:selected").text().toUpperCase())
+                        return;
+                if (categorySelect > 0)
+                    if (record.category.toUpperCase() != $("#categorySelect option:selected").text().toUpperCase())
+                        return;
+                if (artistSelect > 0)
+                    if (record.artist.toUpperCase() != $("#artistSelect option:selected").text().toUpperCase())
+                        return;
+
                 var releaseDate = new Date(record.releaseDate);
                 var date = [
                     parseInt(releaseDate.getMonth() + 1),
@@ -80,4 +157,4 @@ $("#searchBox").on('input', function (e) {
             $("table tbody").html(rows);
         });
     }
-});
+}
