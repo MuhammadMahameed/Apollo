@@ -78,7 +78,7 @@ nav {
 }
 
 body {
-    color: coral;
+    color: wheat;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
@@ -88,8 +88,7 @@ text {
     color: blue;
 }
 
-.jumbotron {
-}
+
 
 h1 {
     text-align: center;

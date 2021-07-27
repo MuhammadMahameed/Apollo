@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apollo.Controllers
 {
@@ -76,6 +77,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Biographies/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "StageName");
@@ -107,6 +109,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Biographies/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -160,6 +163,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Biographies/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

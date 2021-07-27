@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
 using Apollo.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apollo.Controllers
 {
@@ -70,6 +71,8 @@ namespace Apollo.Controllers
         }
 
         // GET: Albums/Create
+        [Authorize(Roles = "Admin")]
+       
         public IActionResult Create()
         {
             ViewData["songs"] = new MultiSelectList(_context.Song, nameof(Models.Song.Id), nameof(Models.Song.Title));
@@ -77,6 +80,9 @@ namespace Apollo.Controllers
             ViewData["artists"] = new SelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName));
             return View();
         }
+
+    
+    
 
         // POST: Albums/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -120,7 +126,7 @@ namespace Apollo.Controllers
                 album.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
                 album.Songs = _context.Song.Where(x => Songs.Contains(x.Id)).ToList();
 
-                foreach(Song song in album.Songs)
+                foreach (Song song in album.Songs)
                 {
                     album.ListenTime = album.ListenTime.Add(song.Length);
                 }
@@ -137,6 +143,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Albums/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -223,7 +230,7 @@ namespace Apollo.Controllers
                     // update listentime
                     foreach (Song songRecord in album.Songs)
                     {
-                       album.ListenTime = album.ListenTime.Add(songRecord.Length);
+                        album.ListenTime = album.ListenTime.Add(songRecord.Length);
                     }
 
                     _context.Update(album);
@@ -246,6 +253,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Albums/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -281,4 +289,6 @@ namespace Apollo.Controllers
             return _context.Album.Any(e => e.Id == id);
         }
     }
+
 }
+

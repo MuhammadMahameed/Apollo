@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
 using Apollo.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apollo.Controllers
 {
@@ -57,6 +58,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Branches/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -92,6 +94,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Branches/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -143,6 +146,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Branches/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
