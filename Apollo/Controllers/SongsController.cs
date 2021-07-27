@@ -9,6 +9,7 @@ using Apollo.Data;
 using Apollo.Models;
 using Apollo.Services;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apollo.Controllers
 {
@@ -77,6 +78,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Songs/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["categories"] = new SelectList(_context.Category, nameof(Category.Id), nameof(Category.Name));
@@ -140,6 +142,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Songs/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -276,6 +279,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Songs/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

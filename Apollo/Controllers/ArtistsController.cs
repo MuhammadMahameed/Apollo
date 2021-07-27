@@ -8,6 +8,7 @@ using Apollo.Models;
 using Microsoft.EntityFrameworkCore;
 using Apollo.Services;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apollo.Controllers
 {
@@ -65,6 +66,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Artists/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -97,6 +99,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Artists/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -148,6 +151,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Artists/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
