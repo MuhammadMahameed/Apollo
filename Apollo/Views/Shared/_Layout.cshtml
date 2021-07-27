@@ -61,6 +61,9 @@
                         @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
                         {
                             <li class="nav-item">
+                                <a class="nav-link text-light">@Context.User.Identity.Name</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
                             </li>
                         }
