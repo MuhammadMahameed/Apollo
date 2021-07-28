@@ -21,9 +21,13 @@ async function getAllArtists() {
 $("#searchBox").on('input', function (e) {
     var matchingStr = $("#searchBox").val();
     $("table tbody").html("");
+    $("#noData").html("");
 
     if (matchingStr) {
         getMatchingSongs(matchingStr).then((data) => {
+            if (data.$values.length == 0)
+                $("#noData").append('<img src="Assets/nothing_found.png">');
+
             data.$values.forEach(record => {
                 var songs = ""
                 var albums = ""
@@ -50,7 +54,11 @@ $("#searchBox").on('input', function (e) {
     } else {
         getAllArtists().then((data) => {
             var rows = $(data).find("table tbody tr");
+            $("#noData").html("");
+            $("table tbody").html("");
             $("table tbody").html(rows);
+            if (rows.length == 0)
+                $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     }
 });
