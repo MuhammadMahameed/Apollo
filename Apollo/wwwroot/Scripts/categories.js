@@ -29,7 +29,7 @@ $("#searchBox").on('input', function (e) {
                 $("#noData").append('<img src="Assets/nothing_found.png">');
 
             data.$values.forEach(record => {
-                var row = "<tr><td>" + record.name +
+                var row = "<tr><td>" + record.title +
                     "</td><td>" +
                     "<a href=\"/Categories/Edit/" + record.id + "\">Edit</a>" + " | " +
                     "<a href=\"/Categories/Details/" + record.id + "\">Details</a>" + " | " +
