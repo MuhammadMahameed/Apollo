@@ -5,16 +5,14 @@
     });
 }
 
-async function getLabelsByArtistStageName(artistStageName) {
-    matchingLabels = await getAjax('/Labels/FilterLabelsByArtistStageName', {
-        artistStageName: artistStageName
-    });
-    return matchingLabels;
+async function getLabel(artistStageName) {
+    labels = await getAjax('/Labels/GetAllLabels', {});
+    return labels;
 }
 
 function setArtistLabelsDropDownListValues(artistId) {
     $("#Labels").html("");
-    getLabelsByArtistStageName(artistId).then((data) => {
+    getLabel().then((data) => {
         data.$values.forEach((record) => {
             $("#Labels").append("<option value=" + record.id + " >" + record.name + "</option>");
         });
