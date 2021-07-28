@@ -44,6 +44,7 @@ namespace Apollo.Controllers
             return View(await _context.Artist
                 .Include(x => x.Albums)
                 .Include(x => x.Songs)
+                .Include(x => x.Labels)
                 .ToListAsync());
         }
 
@@ -69,6 +70,7 @@ namespace Apollo.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
+            ViewData["labels"] = new MultiSelectList(_context.Label, nameof(Label.Id), nameof(Label.Name));
             return View();
         }
 
@@ -77,7 +79,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist, int[] Labels)
         {
             var artist_with_this_stage_name = _context.Artist.FirstOrDefault(x => x.StageName.ToUpper().Equals(artist.StageName.ToUpper()));
 
@@ -86,6 +88,7 @@ namespace Apollo.Controllers
                 ModelState.AddModelError("StageName", "This stage name is already used");
             }
 
+            artist.Labels = _context.Label.Where(x => Labels.Contains(x.Id)).ToList();
             artist.Rating = 0;
 
             if (ModelState.IsValid)
@@ -108,6 +111,10 @@ namespace Apollo.Controllers
             }
 
             var artist = await _context.Artist.FindAsync(id);
+            var artistFromDb = _context.Artist.Include(x => x.Labels).FirstOrDefault(x => x.Id == id);
+            artist.Labels = artistFromDb.Labels;
+            ViewData["selectedLabels"] = artist.Labels.Select(x => x.Id).ToList();
+
             if (artist == null)
             {
                 return NotFound();
@@ -145,8 +152,12 @@ namespace Apollo.Controllers
                         throw;
                     }
                 }
+
+                artist = _context.Artist.Include(x => x.Labels).FirstOrDefault(x => x.Id == artist.Id);
+                ViewData["selectedLabels"] = artist.Labels.Select(x => x.Id).ToList();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(artist);
         }
 

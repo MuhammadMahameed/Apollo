@@ -31,5 +31,7 @@ namespace Apollo.Data
         public DbSet<Apollo.Models.Biography> Biography { get; set; }
 
         public DbSet<Apollo.Models.Branch> Branch { get; set; }
+
+        public DbSet<Apollo.Models.Label> Label { get; set; }
     }
 }
