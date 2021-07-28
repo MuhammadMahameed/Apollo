@@ -165,12 +165,13 @@ async function updateSongList() {
         }).then(() => {
             matchingStr = $("#searchBox").val();
             $("#noData").html("");
-            if (matchingStr != "" && !hasData)
+            if ((matchingStr != "" && !hasData) || (matchingStr == "" && !hasData && (albumSelect > 0 || categorySelect > 0 || artistSelect > 0)))
                 $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     } else {
         getAllSongs().then((data) => {
             var rows = $(data).find("table tbody tr");
+            $("table tbody").html("");
             $("table tbody").html(rows);
             if(rows.length == 0)
                 $("#noData").append('<img src="Assets/nothing_found.png">');
