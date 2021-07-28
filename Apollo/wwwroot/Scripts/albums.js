@@ -162,6 +162,7 @@ async function updateAlbumList() {
     } else {
         getAllAlbums().then((data) => {
             var rows = $(data).find("table tbody tr");
+            $("#noData").html("");
             $("table tbody").html("");
             $("table tbody").html(rows);
             if (rows.length == 0)

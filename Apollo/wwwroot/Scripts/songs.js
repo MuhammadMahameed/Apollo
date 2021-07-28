@@ -84,12 +84,6 @@ $("#searchBox").on('input', function (e) {
     updateSongList();
 });
 
-$("#searchBox").on('keydown', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46)
-        updateSongList();
-});
-
 $("#categorySelect,#artistSelect,#albumSelect").on('change', function () {
     updateSongList();
 });
@@ -171,6 +165,7 @@ async function updateSongList() {
     } else {
         getAllSongs().then((data) => {
             var rows = $(data).find("table tbody tr");
+            $("#noData").html("");
             $("table tbody").html("");
             $("table tbody").html(rows);
             if(rows.length == 0)
