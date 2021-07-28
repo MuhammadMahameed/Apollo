@@ -82,6 +82,10 @@ namespace Apollo.Controllers
             }
 
             var label = await _context.Label.FindAsync(id);
+            var labelFromDb = _context.Label.Include(x => x.Artists).FirstOrDefault(x => x.Id == id);
+            label.Artists = labelFromDb.Artists;
+            ViewData["selectedArtists"] = label.Artists.Select(x => x.Id).ToList();
+
             if (label == null)
             {
                 return NotFound();
@@ -94,7 +98,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status,Country,Founded")] Label label)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status,Country,Founded")] Label label, int[] Artists)
         {
             if (id != label.Id)
             {
@@ -103,6 +107,9 @@ namespace Apollo.Controllers
 
             if (ModelState.IsValid)
             {
+                label = _context.Label.Include(x => x.Artists).FirstOrDefault(x => x.Id == label.Id);
+                label.Artists = _context.Artist.Where(x => Artists.Contains(x.Id)).ToList();
+
                 try
                 {
                     _context.Update(label);
