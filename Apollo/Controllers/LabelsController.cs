@@ -22,9 +22,9 @@ namespace Apollo.Controllers
             _labelService = labelService;
         }
 
-        public IActionResult FilterLabelsByArtistStageName(string artistStageName)
+        public IActionResult GetAllLabels()
         {
-            return Json(_labelService.FilterLabelsByArtistStageName(artistStageName));
+            return Json(_labelService.GetAllLabels());
         }
 
         // GET: Labels

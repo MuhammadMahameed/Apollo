@@ -17,22 +17,20 @@ namespace Apollo.Services
             _context = context;
         }
 
-        public ArrayList FilterLabelsByArtistStageName(int artistId)
+        public ArrayList GetAllLabels()
         {
-            ArrayList matchingLabelsList = new ArrayList();
+            ArrayList labels = new ArrayList();
 
-            var matchingLabels = _context.Artist.Include(x => x.Labels).FirstOrDefault(x => x.Id == artistId).Labels.ToList();
-
-            foreach (Label label in matchingLabels)
+            foreach (Label label in _context.Label.ToList())
             {
-                matchingLabelsList.Add(new
+                labels.Add(new
                 {
                     id = label.Id,
                     name = label.Name,
                 });
             }
 
-            return matchingLabelsList;
+            return labels;
         }
     }
 }
