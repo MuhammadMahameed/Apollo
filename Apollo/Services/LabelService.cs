@@ -17,7 +17,7 @@ namespace Apollo.Services
             _context = context;
         }
 
-        public ArrayList FilterLabelsByArtistId(int artistId)
+        public ArrayList FilterLabelsByArtistStageName(int artistId)
         {
             ArrayList matchingLabelsList = new ArrayList();
 

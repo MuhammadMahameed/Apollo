@@ -127,7 +127,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist, int[] Labels)
         {
             if (id != artist.Id)
             {
@@ -136,6 +136,9 @@ namespace Apollo.Controllers
 
             if (ModelState.IsValid)
             {
+                artist = _context.Artist.Include(x => x.Labels).FirstOrDefault(x => x.Id == artist.Id);
+                artist.Labels = _context.Label.Where(x => Labels.Contains(x.Id)).ToList();
+
                 try
                 {
                     _context.Update(artist);
