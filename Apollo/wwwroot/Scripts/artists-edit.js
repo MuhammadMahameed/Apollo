@@ -10,7 +10,7 @@ async function getLabel(artistStageName) {
     return labels;
 }
 
-function setArtistLabelsDropDownListValues(artistId) {
+function setArtistLabelsDropDownListValues() {
     $("#Labels").html("");
     getLabel().then((data) => {
         data.$values.forEach((record) => {
@@ -23,5 +23,5 @@ function setArtistLabelsDropDownListValues(artistId) {
 // on page start
 $(document).ready(function () {
     var artistStageName = $("#StageName").val();
-    setArtistLabelsDropDownListValues(artistStageName);
+    setArtistLabelsDropDownListValues();
 });
