@@ -21,9 +21,13 @@ async function getAllCategories() {
 $("#searchBox").on('input', function (e) {
     var matchingStr = $("#searchBox").val();
     $("table tbody").html("");
+    $("#noData").html("");
 
     if (matchingStr) {
         getMatchingCategories(matchingStr).then((data) => {
+            if (data.$values.length == 0)
+                $("#noData").append('<img src="Assets/nothing_found.png">');
+
             data.$values.forEach(record => {
                 var row = "<tr><td>" + record.name +
                     "</td><td>" +
@@ -38,7 +42,11 @@ $("#searchBox").on('input', function (e) {
     } else {
         getAllCategories().then((data) => {
             var rows = $(data).find("table tbody tr");
+            $("#noData").html("");
+            $("table tbody").html("");
             $("table tbody").html(rows);
+            if (rows.length == 0)
+                $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     }
 });

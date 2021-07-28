@@ -29,6 +29,8 @@ $(document).ready(function () {
             $("#albumSelect").append("<option value=" + album.id + ">" + album.title + "</option>");
         });
     });
+
+    updateSongList();
 });
 
 function getAjax(url, data) {
@@ -94,6 +96,8 @@ async function updateSongList() {
     var albumSelect = $("#albumSelect option:selected").val()
 
     if (matchingStr || categorySelect > 0 || artistSelect > 0 || albumSelect > 0) {
+        var hasData = false;
+
         getMatchingSongs(matchingStr).then((data) => {
             data.$values.forEach(record => {
                 // 0 is unselected
@@ -107,6 +111,7 @@ async function updateSongList() {
                     if (record.album.toUpperCase() != $("#albumSelect option:selected").text().toUpperCase())
                         return;
 
+                hasData = true;
                 var releaseDate = new Date(record.releaseDate);
                 var date = [
                     parseInt(releaseDate.getMonth() + 1),
@@ -151,11 +156,20 @@ async function updateSongList() {
 
                 $("table tbody").append(row);
             });
+        }).then(() => {
+            matchingStr = $("#searchBox").val();
+            $("#noData").html("");
+            if ((matchingStr != "" && !hasData) || (matchingStr == "" && !hasData && (albumSelect > 0 || categorySelect > 0 || artistSelect > 0)))
+                $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     } else {
         getAllSongs().then((data) => {
             var rows = $(data).find("table tbody tr");
+            $("#noData").html("");
+            $("table tbody").html("");
             $("table tbody").html(rows);
+            if(rows.length == 0)
+                $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     }
 }

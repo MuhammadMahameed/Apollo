@@ -29,6 +29,8 @@ $(document).ready(function () {
             $("#artistSelect").append("<option value=" + artist.id + ">" + artist.stageName + "</option>");
         })
     });
+
+    updateAlbumList();
 });
 
 async function getMatchingAlbums(matchingStr) {
@@ -87,6 +89,8 @@ async function updateAlbumList() {
     var artistSelect = $("#artistSelect option:selected").val()
 
     if (matchingStr || albumSelect > 0 || artistSelect > 0 || categorySelect > 0) {
+        var hasData = false;
+
         getMatchingAlbums(matchingStr).then((data) => {
             data.$values.forEach(record => {
                 // 0 is unselected
@@ -100,6 +104,7 @@ async function updateAlbumList() {
                     if (record.artist.toUpperCase() != $("#artistSelect option:selected").text().toUpperCase())
                         return;
 
+                hasData = true;
                 var releaseDate = new Date(record.releaseDate);
                 var date = [
                     parseInt(releaseDate.getMonth() + 1),
@@ -148,11 +153,20 @@ async function updateAlbumList() {
 
                 $("table tbody").append(row);
             });
+        }).then(() => {
+            matchingStr = $("#searchBox").val();
+            $("#noData").html("");
+            if ((matchingStr != "" && !hasData) || (matchingStr == "" && !hasData && (albumSelect > 0 || categorySelect > 0 || artistSelect > 0)))
+                $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     } else {
         getAllAlbums().then((data) => {
             var rows = $(data).find("table tbody tr");
+            $("#noData").html("");
+            $("table tbody").html("");
             $("table tbody").html(rows);
+            if (rows.length == 0)
+                $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     }
 }

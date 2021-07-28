@@ -31,6 +31,10 @@ $("#searchBox").on('input', function (e) {
     getData(matchingStr).then((data) => {
         dataTypes = data;
         $("#content").html("");
+        console.log(dataTypes);
+        if (matchingStr != "" && dataTypes[0].$values.length == 0 && dataTypes[1].$values.length == 0 && dataTypes[2].$values.length == 0)
+            $("#content").append('<img src="Assets/nothing_found.png">');
+
 
         for (var k = 0; k < dataTypes.length; k++) {
             data = dataTypes[k].$values
