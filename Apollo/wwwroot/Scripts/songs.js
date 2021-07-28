@@ -29,6 +29,8 @@ $(document).ready(function () {
             $("#albumSelect").append("<option value=" + album.id + ">" + album.title + "</option>");
         });
     });
+
+    updateSongList();
 });
 
 function getAjax(url, data) {
@@ -170,6 +172,8 @@ async function updateSongList() {
         getAllSongs().then((data) => {
             var rows = $(data).find("table tbody tr");
             $("table tbody").html(rows);
+            if(rows.length == 0)
+                $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     }
 }
