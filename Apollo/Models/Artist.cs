@@ -47,5 +47,7 @@ namespace Apollo.Models
         public string Image { get; set; }
 
         public Biography Biography { get; set; }
+
+        public List<Label> Labels { get; set; }
     }
 }
