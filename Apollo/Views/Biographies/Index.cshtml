@@ -21,68 +21,74 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Artist)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EarlyLife)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Career)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Artistry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PersonalLife)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfSongs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfAlbums)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Artist.StageName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EarlyLife)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Career)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Artistry)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PersonalLife)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfSongs)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfAlbums)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<div class="center" id="noData"></div>
+<div class="row justify-content-center">
+    <div class="col">
+        <table class="table table-dark table-borderless table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Artist)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EarlyLife)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Career)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Artistry)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PersonalLife)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumberOfSongs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumberOfAlbums)
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Artist.StageName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EarlyLife)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Career)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Artistry)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PersonalLife)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberOfSongs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberOfAlbums)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+        <div class="center" id="noData"></div>
 
 @section Scripts {
     <script src="~/Scripts/biographies.js"></script>
