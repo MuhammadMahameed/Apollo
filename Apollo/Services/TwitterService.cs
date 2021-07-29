@@ -36,7 +36,7 @@ namespace Apollo.Services
 
         public async Task<string> GetTimelineEmbed(string url)
         {
-            var requestOEmbed = new HttpRequestMessage(HttpMethod.Get, string.Format("https://publish.twitter.com/oembed?url={0}&theme=dark&dnt=true&limit=5&maxwidth=300&maxheight=400", url));
+            var requestOEmbed = new HttpRequestMessage(HttpMethod.Get, string.Format("https://publish.twitter.com/oembed?url={0}&theme=dark&dnt=true&limit=3&maxwidth=300&maxheight=400", url));
             var httpClient = new HttpClient();
             HttpResponseMessage responseOEmbed = await httpClient.SendAsync(requestOEmbed);
             var serializer = new JavaScriptSerializer();

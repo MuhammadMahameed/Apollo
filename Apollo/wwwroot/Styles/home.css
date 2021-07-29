@@ -1,0 +1,33 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+}
+
+.welcome {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.pageVisual {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.frontVideo {
+    width: 100%;
+}
+
+video {
+    object-fit: fill;
+}
+
+#bingMapBranches {
+    width: 100%;
+}
+
+.welcome {
+    margin: 0;
+    text-align: center;
+}
