@@ -305,11 +305,14 @@ namespace Apollo.Controllers
             var song = _context.Song.Include(x => x.Album).FirstOrDefault(x => x.Id == id);
 
             // remove the song from the album and entirly, and update the album's listen time
-            song.Album.Songs.Remove(song);
-            song.Album.ListenTime -= song.Length;
-            _context.Song.Remove(song);
-            _context.Album.Update(song.Album);
+            if (song.Album != null)
+            {
+                song.Album.Songs.Remove(song);
+                song.Album.ListenTime -= song.Length;
+                _context.Album.Update(song.Album);
+            }
 
+            _context.Song.Remove(song);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
