@@ -20,8 +20,6 @@ namespace Apollo.Models
 
         public TimeSpan ListenTime { get; set; }
 
-        public int Plays { get; set; }
-
         public double Rating { get; set; }
 
         [Required]

@@ -89,7 +89,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Category, int Artist, int[] Songs)
+        public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Rating,ReleaseDate,Cover")] Album album, int Category, int Artist, int[] Songs)
         {
             if (_context.Album.Include(x => x.Artist).Any(x => x.Artist.Id == Artist && x.Title == album.Title))
             {
@@ -119,7 +119,6 @@ namespace Apollo.Controllers
                 }
 
                 album.ListenTime = new TimeSpan(0, 0, 0);
-                album.Plays = 0;
                 album.Rating = 0;
                 album.ReleaseDate = DateTime.Now;
                 album.Category = _context.Category.FirstOrDefault(x => x.Id == Category);
@@ -187,7 +186,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Plays,Rating,ReleaseDate,Cover")] Album album, int Artist, int Category, int[] Songs)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Rating,ReleaseDate,Cover")] Album album, int Artist, int Category, int[] Songs)
         {
             if (id != album.Id)
             {
