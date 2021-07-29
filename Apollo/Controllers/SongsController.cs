@@ -240,6 +240,14 @@ namespace Apollo.Controllers
                         // update old album
                         _context.Update(song.Album);
                     }
+                    // if the album didn't change but the length of the song may have changed
+                    else if (song.Album != null)
+                    {
+                        song.Album.ListenTime -= song.Length;
+                        song.Album.ListenTime += length;
+                        _context.Album.Update(song.Album);
+                        await _context.SaveChangesAsync();
+                    }
 
                     song.Length = length;
                     song.Album = _context.Album.FirstOrDefault(x => x.Id == Album);
