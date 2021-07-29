@@ -21,7 +21,7 @@ function setAlbumDropDownListValues(categoryId, artistId) {
             $("#Album").append("<option value=" + record.id + " >" + record.title + "</option>");
         });
 
-        if (selectedAlbum == null)
+        if (selectedAlbum == null || data.$values.length == 0)
             $("#Album").val(0);
         else
             $("#Album").val(selectedAlbum);
