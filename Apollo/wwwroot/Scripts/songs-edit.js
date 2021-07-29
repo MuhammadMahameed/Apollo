@@ -20,6 +20,11 @@ function setAlbumDropDownListValues(categoryId, artistId) {
         data.$values.forEach((record) => {
             $("#Album").append("<option value=" + record.id + " >" + record.title + "</option>");
         });
+
+        if (selectedAlbum == null)
+            $("#Album").val(0);
+        else
+            $("#Album").val(selectedAlbum);
     });
 }
 

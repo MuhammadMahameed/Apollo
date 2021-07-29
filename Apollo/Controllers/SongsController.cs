@@ -196,6 +196,10 @@ namespace Apollo.Controllers
             ViewData["albums"] = enumerableAlbum;
             ViewData["artists"] = enumerableArtist;
             ViewData["categories"] = enumerableCategory;
+
+            if(song.Album != null)
+                ViewData["selectedAlbum"] = song.Album.Id;
+
             return View(song);
         }
 

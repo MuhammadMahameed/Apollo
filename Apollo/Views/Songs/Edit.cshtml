@@ -52,5 +52,8 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        var selectedAlbum = @Html.Raw(Json.Serialize(ViewBag.selectedAlbum));
+    </script>
     <script src="~/Scripts/songs-edit.js"></script>
 }
