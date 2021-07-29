@@ -5,35 +5,38 @@
 <!doctype html>
 <html lang="en">
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <link href="Styles/home.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="container">
-        <h1 class="">Welcome To <small class="font-italic text-info">Apollo</small></h1>
+    <div class="welcome">
+        <h1>Welcome To <small class="font-italic text-info">Apollo</small></h1>
     </div>
-    <section class="py-5 text-center container">
-
-
-
-        <div class="row py-lg-5">
-            <div class="col-lg-6 col-md-8 mx-auto">
-
-                <canvas id="canvas" width="350" height="350"></canvas>
-                <img id="Apollo" src=@Url.Content("~/Assets/Apollo.png") hidden class="img-fluid rounded-circle" alt="..." />
-
-            </div>
-        </div>
-    </section>
-    <div class="embed-responsive embed-responsive-16by9 ">
-        <video class="video-fluid z-depth-1" loop controls autoplay>
+    <div class="frontVideo embed-responsive embed-responsive-21by9">
+        <video class="video-fluid z-depth-1" playsinline muted loop autoplay>
             <source src=@Url.Content("~/Assets/frontVideo.mp4") type="video/mp4" />
         </video>
     </div>
-    <div id="spotifyTimeline"></div>
-    <img id="bingMapBranches" src="">
+    <div class="container">
+        <div class="row">
+            <div class="col col-md-4">
+                <div id="spotifyTimeline"></div>
+            </div>
+            <div class="col col-md-8">
+                <h3>Our Locations:</h3>
+                <img id="bingMapBranches" src="">
+            </div>
+        </div>
+    </div>
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <canvas id="canvas" width="350" height="350"></canvas>
+                <img id="Apollo" src=@Url.Content("~/Assets/Apollo.png") hidden class="img-fluid rounded-circle"/>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>
