@@ -140,7 +140,6 @@ async function updateAlbumList() {
                     "</td><td>" + record.category +
                     "</td><td>" + record.artist +
                     "</td><td>" + formatedListenTime +
-                    "</td><td>" + record.plays +
                     "</td><td>" + record.rating +
                     "</td><td>" + formatedDate +
                     "</td><td>" + record.cover +

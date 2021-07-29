@@ -71,7 +71,6 @@ namespace Apollo.Services
                     category = album.Category.Name,
                     artist = album.Artist.StageName,
                     listenTime = album.ListenTime,
-                    plays = album.Plays,
                     rating = album.Rating,
                     releaseDate = album.ReleaseDate,
                     numSongs = numSongs,
@@ -99,7 +98,6 @@ namespace Apollo.Services
                             s.Category.Name.ToLower().Contains(strToLower) ||
                             s.Artist.StageName.ToLower().Contains(strToLower) ||
                             s.ListenTime.ToString().ToLower().Contains(strToLower) ||
-                            s.Plays.ToString().ToLower().Contains(strToLower) ||
                             s.Rating.ToString().ToLower().Contains(strToLower) ||
                             s.ReleaseDate.ToString().ToLower().Contains(strToLower) ||
                             s.Cover.ToLower().Contains(strToLower) ||
@@ -117,7 +115,6 @@ namespace Apollo.Services
                     category = album.Category.Name,
                     artist = album.Artist.StageName,
                     listenTime = album.ListenTime,
-                    plays = album.Plays,
                     rating = album.Rating,
                     releaseDate = album.ReleaseDate,
                     cover = album.Cover,

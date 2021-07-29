@@ -94,9 +94,8 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Category, int Artist, int Album)
+        public async Task<IActionResult> Create([Bind("Id,Title,Rating,Length,ReleaseDate")] Song song, int Category, int Artist, int Album)
         {
-            song.Plays = 0;
             song.Rating = 0;
             song.ReleaseDate = DateTime.Now;
             
@@ -196,6 +195,10 @@ namespace Apollo.Controllers
             ViewData["albums"] = enumerableAlbum;
             ViewData["artists"] = enumerableArtist;
             ViewData["categories"] = enumerableCategory;
+
+            if(song.Album != null)
+                ViewData["selectedAlbum"] = song.Album.Id;
+
             return View(song);
         }
 
@@ -204,7 +207,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Album, int Artist, int Category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Rating,Length,ReleaseDate")] Song song, int Album, int Artist, int Category)
         {
             if (id != song.Id)
             {
@@ -235,6 +238,14 @@ namespace Apollo.Controllers
 
                         // update old album
                         _context.Update(song.Album);
+                    }
+                    // if the album didn't change but the length of the song may have changed
+                    else if (song.Album != null)
+                    {
+                        song.Album.ListenTime -= song.Length;
+                        song.Album.ListenTime += length;
+                        _context.Album.Update(song.Album);
+                        await _context.SaveChangesAsync();
                     }
 
                     song.Length = length;
@@ -302,7 +313,16 @@ namespace Apollo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var song = await _context.Song.FindAsync(id);
+            var song = _context.Song.Include(x => x.Album).FirstOrDefault(x => x.Id == id);
+
+            // remove the song from the album and entirly, and update the album's listen time
+            if (song.Album != null)
+            {
+                song.Album.Songs.Remove(song);
+                song.Album.ListenTime -= song.Length;
+                _context.Album.Update(song.Album);
+            }
+
             _context.Song.Remove(song);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

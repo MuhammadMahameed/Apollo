@@ -54,7 +54,6 @@ namespace Apollo.Services
                     artist = song.Artist.StageName,
                     album = album,
                     length = song.Length,
-                    plays = song.Plays,
                     rating = song.Rating,
                     releaseDate = song.ReleaseDate
                 });
@@ -79,7 +78,6 @@ namespace Apollo.Services
                 .Where(s => s.Title.ToLower().Contains(strToLower) ||
                             s.Category.Name.ToLower().Contains(strToLower) ||
                             s.Artist.StageName.ToLower().Contains(strToLower) ||
-                            s.Plays.ToString().ToLower().Contains(strToLower) ||
                             s.Rating.ToString().ToLower().Contains(strToLower) ||
                             s.Length.ToString().ToLower().Contains(strToLower) ||
                             s.ReleaseDate.ToString().ToLower().Contains(strToLower) ||
@@ -105,7 +103,6 @@ namespace Apollo.Services
                     artist = song.Artist.StageName,
                     album = album,
                     length = song.Length,
-                    plays = song.Plays,
                     rating = song.Rating,
                     releaseDate = song.ReleaseDate
                 });
