@@ -8,6 +8,16 @@
 </head>
 <h1>Biographies</h1>
 
+<div class="col-sm text-center">
+    <div class="input-group input-group-lg center">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-lg">
+                <i class="bi-search" role="img" aria-label="GitHub"></i>
+            </span>
+        </div>
+        <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" id="searchBox">
+    </div>
+</div>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -39,35 +49,41 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Artist.StageName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EarlyLife)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Career)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Artistry)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalLife)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfSongs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfAlbums)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artist.StageName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EarlyLife)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Career)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artistry)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonalLife)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfSongs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfAlbums)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="center" id="noData"></div>
+
+@section Scripts {
+    <script src="~/Scripts/biographies.js"></script>
+}
