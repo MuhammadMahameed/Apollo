@@ -94,9 +94,8 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Category, int Artist, int Album)
+        public async Task<IActionResult> Create([Bind("Id,Title,Rating,Length,ReleaseDate")] Song song, int Category, int Artist, int Album)
         {
-            song.Plays = 0;
             song.Rating = 0;
             song.ReleaseDate = DateTime.Now;
             
@@ -208,7 +207,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Plays,Rating,Length,ReleaseDate")] Song song, int Album, int Artist, int Category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Rating,Length,ReleaseDate")] Song song, int Album, int Artist, int Category)
         {
             if (id != song.Id)
             {

@@ -16,8 +16,6 @@ namespace Apollo.Models
 
         public Artist Artist { get; set; }
 
-        public int Plays { get; set; }
-
         public double Rating { get; set; }
 
         public Category Category { get; set; }
