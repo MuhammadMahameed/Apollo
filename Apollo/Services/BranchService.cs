@@ -32,6 +32,11 @@ namespace Apollo.Services
 
         public ArrayList FilterBranches(string str)
         {
+            if (String.IsNullOrEmpty(str))
+            {
+                return new ArrayList();
+            }
+
             var strToLower = str.ToLower();
 
             var matchingBranches = _context.Branch

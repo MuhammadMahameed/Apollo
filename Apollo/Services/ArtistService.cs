@@ -75,6 +75,11 @@ namespace Apollo.Services
 
         public ArrayList FilterArtists(string str)
         {
+            if (String.IsNullOrEmpty(str))
+            {
+                return new ArrayList();
+            }
+
             var strToLower = str.ToLower();
 
             var matchingArtists = _context.Artist

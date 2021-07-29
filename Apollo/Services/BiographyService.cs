@@ -19,6 +19,11 @@ namespace Apollo.Services
 
         public ArrayList FilterBiographies(string str)
         {
+            if (String.IsNullOrEmpty(str))
+            {
+                return new ArrayList();
+            }
+
             var strToLower = str.ToLower();
 
             var matchingBiographies = _context.Biography
