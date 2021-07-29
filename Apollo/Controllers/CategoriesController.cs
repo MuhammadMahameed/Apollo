@@ -71,6 +71,7 @@ namespace Apollo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
+            category.Name = category.Name.ToUpper();
             if (ModelState.IsValid)
             {
                 _context.Add(category);
