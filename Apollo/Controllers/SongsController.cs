@@ -302,8 +302,14 @@ namespace Apollo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var song = await _context.Song.FindAsync(id);
+            var song = _context.Song.Include(x => x.Album).FirstOrDefault(x => x.Id == id);
+
+            // remove the song from the album and entirly, and update the album's listen time
+            song.Album.Songs.Remove(song);
+            song.Album.ListenTime -= song.Length;
             _context.Song.Remove(song);
+            _context.Album.Update(song.Album);
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
