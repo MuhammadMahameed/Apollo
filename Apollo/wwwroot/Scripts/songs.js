@@ -143,7 +143,6 @@ async function updateSongList() {
                 var row = "<tr><td>" + record.title +
                     "</td><td>" + record.category +
                     "</td><td>" + record.artist +
-                    "</td><td>" + record.plays +
                     "</td><td>" + record.rating +
                     "</td><td>" + formatedLength +
                     "</td><td>" + formatedDate +
