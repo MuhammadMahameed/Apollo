@@ -25,6 +25,9 @@ function setAlbumDropDownListValues(categoryId, artistId) {
 
 // on page start
 $(document).ready(function () {
+    var categoryId = $("#Category").val();
+    var artistId = $("#Artist").val();
+    setAlbumDropDownListValues(categoryId, artistId);
 });
 
 // on category change
