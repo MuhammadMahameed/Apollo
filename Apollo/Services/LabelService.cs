@@ -35,6 +35,11 @@ namespace Apollo.Services
 
         public ArrayList FilterLabels(string str)
         {
+            if (String.IsNullOrEmpty(str))
+            {
+                return new ArrayList();
+            }
+
             var strToLower = str.ToLower();
 
             var matchingLabels = _context.Label
