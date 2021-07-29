@@ -27,6 +27,11 @@ namespace Apollo.Controllers
             return Json(_labelService.GetAllLabels());
         }
 
+        public IActionResult Filter(string matchingStr)
+        {
+            return Json(_labelService.FilterLabels(matchingStr));
+        }
+
         // GET: Labels
         public async Task<IActionResult> Index()
         {

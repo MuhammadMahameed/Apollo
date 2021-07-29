@@ -33,6 +33,11 @@ namespace Apollo.Controllers
             return await _branchService.GetBingMap(coordinates);
         }
 
+        public IActionResult Filter(string matchingStr)
+        {
+            return Json(_branchService.FilterBranches(matchingStr));
+        }
+
         // GET: Branches
         public async Task<IActionResult> Index()
         {

@@ -8,14 +8,14 @@ function getAjax(url, data) {
     });
 }
 
-async function getMatchingCategories(matchingStr) {
-    matchingCategories = await getAjax('/Categories/Filter', { matchingStr: matchingStr });
-    return matchingCategories;
+async function getMatchingBranches(matchingStr) {
+    matchingBranches = await getAjax('/Branches/Filter', { matchingStr: matchingStr });
+    return matchingBranches;
 }
 
-async function getAllCategories() {
-    allCategories = await getAjax('/Categories/Index', {});
-    return allCategories
+async function getAllBranches() {
+    allBranches = await getAjax('/Branches/Index', {});
+    return allBranches
 }
 
 $("#searchBox").on('input', function (e) {
@@ -24,23 +24,25 @@ $("#searchBox").on('input', function (e) {
     $("#noData").html("");
 
     if (matchingStr) {
-        getMatchingCategories(matchingStr).then((data) => {
+        getMatchingBranches(matchingStr).then((data) => {
             if (data.$values.length == 0)
                 $("#noData").append('<img src="Assets/nothing_found.png">');
 
+            console.log(data.$values);
             data.$values.forEach(record => {
-                var row = "<tr><td>" + record.title +
-                    "</td><td>" +
-                    "<a href=\"/Categories/Edit/" + record.id + "\">Edit</a>" + " | " +
-                    "<a href=\"/Categories/Details/" + record.id + "\">Details</a>" + " | " +
-                    "<a href=\"/Categories/Delete/" + record.id + "\">Delete</a>" +
+                var row = "<tr>" + 
+                    "<td>" + record.addressName + "</td>" + 
+                    "<td>" + record.coordinate + "</td><td>" +
+                    "<a href=\"/Branches/Edit/" + record.id + "\">Edit</a>" + " | " +
+                    "<a href=\"/Branches/Details/" + record.id + "\">Details</a>" + " | " +
+                    "<a href=\"/Branches/Delete/" + record.id + "\">Delete</a>" +
                     "</td></tr>"
 
                 $("table tbody").append(row);
             });
         });
     } else {
-        getAllCategories().then((data) => {
+        getAllBranches().then((data) => {
             var rows = $(data).find("table tbody tr");
             $("#noData").html("");
             $("table tbody").html("");

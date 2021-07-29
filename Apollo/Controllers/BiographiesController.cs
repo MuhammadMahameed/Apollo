@@ -8,16 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
 using Microsoft.AspNetCore.Authorization;
+using Apollo.Services;
 
 namespace Apollo.Controllers
 {
     public class BiographiesController : Controller
     {
         private readonly DataContext _context;
+        private readonly BiographyService _biographyService;
 
-        public BiographiesController(DataContext context)
+        public BiographiesController(DataContext context, BiographyService biographyService)
         {
             _context = context;
+            _biographyService = biographyService;
+        }
+
+        public IActionResult Filter(string matchingStr)
+        {
+            return Json(_biographyService.FilterBiographies(matchingStr));
         }
 
         // GET: Biographies
