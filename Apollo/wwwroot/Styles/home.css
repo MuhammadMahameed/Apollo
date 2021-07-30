@@ -16,12 +16,9 @@
 }
 
 .frontVideo {
-    width: 100%;
+    padding: 0;
     margin-bottom: 1%;
-}
-
-video {
-    object-fit: fill;
+    text-align: center;
 }
 
 #bingMapBranches {
@@ -44,5 +41,13 @@ video {
 }
 
 .apolloText {
+    color: coral;
+}
+
+.locationsText {
+    text-align: center;
+}
+
+h3 {
     color: coral;
 }
