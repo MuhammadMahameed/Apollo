@@ -3,60 +3,77 @@
 @{
     ViewData["Title"] = "Details";
 }
+
 <head>
     <link href="~/Styles/details.css" rel="stylesheet" />
 </head>
-<h1>Details</h1>
 
-<div>
-    <h4>Biography</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Artist)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Artist.StageName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EarlyLife)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EarlyLife)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Career)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Career)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Artistry)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Artistry)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalLife)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PersonalLife)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumberOfSongs)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumberOfSongs)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumberOfAlbums)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumberOfAlbums)
-        </dd>
-    </dl>
+<div class="title justify-content-center">
+    <h1>Song Details</h1>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="row justify-content-center">
+    <div class="col">
+        <table class="table table-dark table-borderless table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Artist)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EarlyLife)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Career)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Artistry)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PersonalLife)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumberOfSongs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumberOfAlbums)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.Artist.StageName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.EarlyLife)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Career)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Artistry)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.PersonalLife)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.NumberOfSongs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.NumberOfAlbums)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="backToList justify-content-center">
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 </div>
