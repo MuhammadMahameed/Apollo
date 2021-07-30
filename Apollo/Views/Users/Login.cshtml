@@ -5,10 +5,15 @@
     Layout = "_LoginLayout";
 }
 
-<h1>Login</h1>
+<head>
+    <link href="~/Styles/login.css" rel="stylesheet" />
+</head>
 
-<hr />
-<div class="row">
+<div class="title justify-content-center">
+    <h1>Login</h1>
+</div>
+
+<div class="row justify-content-center">
     <div class="col-md-4">
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -22,7 +27,7 @@
                 <input id="Password" asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="loginBtn form-group justify-content-center">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
         </form>
@@ -32,8 +37,10 @@
         }
     </div>
 </div>
-<div>
-   New user? <a asp-action="Register">Click here</a> to Register
+<div class="newUser justify-content-center">
+    <span>
+        New user? <a asp-action="Register">Click here</a> to Register
+    </span>
 </div>
 
 
