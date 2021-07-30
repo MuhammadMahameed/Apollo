@@ -101,9 +101,8 @@ h1 {
 
 .table {
     color: wheat;
+    text-align: center;
 }
-
-
 
 
 .center {
@@ -116,6 +115,21 @@ h1 {
     margin-bottom: 1rem;
 }
 
-tbody {
-    width: 100%;
+tbody tr:hover {
+    color: white;
+}
+
+.justify-content-center {
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+.newRecord {
+    font-size: 20px;
+    text-align: center;
+}
+
+.newRecord a {
+    background-color: coral;
+    border-radius: 5px 5px;
 }

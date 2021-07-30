@@ -1,17 +1,19 @@
 ﻿html {
     font-size: 16px;
-    position: relative;
     min-height: 100%;
     padding: 0px;
     margin: 0px;
 }
 
 body {
-    color: coral;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     width: 100%;
     margin: 0px;
     background-image: url(../Assets/bg.jpg);
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 
@@ -19,7 +21,6 @@ a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
-   
 }
 
 /* Provide sufficient contrast against white background */
@@ -58,25 +59,18 @@ button.accept-policy {
 
 nav {
     text-shadow: 2px 2px #1b6ec2;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
 }
-
-table {
-    background-color: slategrey;
-}
-
-text {
-    color: blue;
-}
-
-h1 {
-    text-align: center;
-    border: 2px solid white;
-    border-radius: 20px 20px;
-    margin-left: 277px;
-    margin-right: 277px;
-}
-
 .main {
     width: 100%;
     margin: 0;
+}
+
+.outsideBody {
+    padding: 0;
+}
+
+body {
+    padding: 0;
 }

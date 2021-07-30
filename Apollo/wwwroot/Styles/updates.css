@@ -12,8 +12,10 @@
 .card {
     width: 200px;
     margin: 10px;
+    color: white;
     background-color: #090A11;
     transition: background-color 0.3s ease;
+    border: none;
 }
 
 .card:hover {
@@ -22,6 +24,10 @@
 
 .card-body {
     padding: 0;
+}
+
+.card-title {
+    color: coral;
 }
 
 .center {
@@ -34,4 +40,17 @@ a {
 
 a:hover, a:visited, a:link, a:active {
     text-decoration: none;
+}
+
+.title {
+    color: white;
+    font-size: 60px;
+}
+
+.titleRe {
+    color: coral;
+}
+
+.artists {
+    color: orangered;
 }

@@ -30,10 +30,8 @@ $(document).ready(function () {
             height = 450
             margin = 40
 
-            // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
             var radius = Math.min(width, height) / 2 - margin
 
-            // append the svg object to the div called 'my_dataviz'
             var svg = d3.select("#songsCategoryDevision")
                 .append("svg")
                 .attr("width", width)
@@ -50,14 +48,12 @@ $(document).ready(function () {
             var pie = d3.pie()
                 .value(function (d) { return d.value.numSongs; })
             var data_ready = pie(d3.entries(data))
-            // Now I know that group A goes from 0 degrees to x degrees and so on.
 
             // shape helper to build arcs:
             var arcGenerator = d3.arc()
                 .innerRadius(0)
                 .outerRadius(radius)
 
-            // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
             svg
                 .selectAll('mySlices')
                 .data(data_ready)
@@ -69,7 +65,6 @@ $(document).ready(function () {
                 .style("stroke-width", "2px")
                 .style("opacity", 0.7)
 
-            // Now add the annotation. Use the centroid method to get the best coordinates
             svg
                 .selectAll('mySlices')
                 .data(data_ready)
@@ -145,7 +140,6 @@ $(document).ready(function () {
                 .style("border-radius", "5px")
                 .style("padding", "5px")
 
-            // Three function that change the tooltip when user hover / move / leave a cell
             var mouseover = function (d) {
                 tooltip
                     .style("opacity", 1)

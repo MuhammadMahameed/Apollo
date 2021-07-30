@@ -1,0 +1,31 @@
+﻿h1 {
+    color: coral;
+}
+
+.title {
+    margin-bottom: 30px;
+}
+
+.title h1 {
+    text-align: center;
+}
+
+.loginBtn {
+    text-align: center;
+}
+
+.control-label {
+    color: white;
+}
+
+.newUser {
+    text-align: center;
+    color: white;
+    border-radius: 5px 5px;
+}
+
+.newUser span {
+    background-color: coral;
+    border-radius: 5px 5px;
+    font-size: 20px;
+}

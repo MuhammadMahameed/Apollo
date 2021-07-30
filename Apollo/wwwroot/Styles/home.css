@@ -28,7 +28,21 @@ video {
     width: 100%;
 }
 
+@font-face {
+    font-family: myFirstFont;
+    src: url(../Assets/Raleway-VariableFont_wght.ttf);
+}
+
 .welcome {
-    margin: 0;
+    font-family: myFirstFont;
     text-align: center;
+    color: white;
+}
+
+.welcome h1 {
+    font-size: 80px;
+}
+
+.apolloText {
+    color: coral;
 }

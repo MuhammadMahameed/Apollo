@@ -6,6 +6,8 @@
 
 .title {
     margin-bottom: 1rem;
+    color: coral;
+    font-size: 60px;
 }
 
 #songsCategoryDevision {
@@ -18,4 +20,12 @@
 
 .col {
     text-align: center
+}
+
+h4 {
+    color: white;
+}
+
+.tooltip {
+    color: white;
 }

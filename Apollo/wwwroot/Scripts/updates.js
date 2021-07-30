@@ -12,6 +12,8 @@ async function getMatchingSongs(limit) {
 
 $(document).ready(function () {
     var limit = 20;
+    var now = Date.now();
+
     getMatchingSongs(limit).then((data) => {
         console.log(data);
         var numCardsPerRow = 5
@@ -21,14 +23,23 @@ $(document).ready(function () {
                 $("#updates").append('<div class="row row' + parseInt(i / numCardsPerRow) + ' d-flex justify-content-center"></div>');
             }
 
-            var template = '<div class="card"><div class="card-body center">' +
-                '<a href="' + data[i].link + '">' +
+            var release = Math.trunc((new Date(Date.now() - Date.parse(data[i].date))) / 24 / 60 / 60 / 1000);
+
+            if (release == 0) {
+                release = "TODAY";
+            } else if (release == 1) {
+                release += " DAY AGO";
+            } else {
+                release += " DAYS AGO";
+            }
+
+            var template = '<a href="' + data[i].link + '">' +
+                '<div class="card"><div class="card-body center">' +
                 '<img class="card-img-top" src=' + data[i].imageUrl + ' alt="Card image cap">' +
-                '<h5 class="card-title">' + data[i].name + '</h5>' +
-                "</a>" +
-                '<p>' + data[i].artists + '</p>' +
-                '<p>' + data[i].date + '</p>' +
-                '</div></div>'
+                '<h4 class="card-title">' + data[i].name + '</h4>' +
+                '<p class="artists">' + data[i].artists + '</p>' +
+                '<p>RELEASED ' + release + '</p>' +
+                '</div></div></a>'
             $("#updates .row" + parseInt(i / numCardsPerRow)).append(template);
         }
     })
