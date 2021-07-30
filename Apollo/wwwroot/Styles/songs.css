@@ -24,6 +24,7 @@ button.accept-policy {
 body {
     color: coral;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 0;
 }
 
 h1 {

@@ -10,115 +10,116 @@
     <link href="~/Styles/songs.css" rel="stylesheet" />
 </head>
 
-<h1 class="center title">Songs</h1>
-<div class="col-sm text-center">
-    <div class="input-group input-group-lg center">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroup-sizing-lg">
-                <i class="bi-search" role="img" aria-label="GitHub"></i>
-            </span>
-        </div>
-        <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" id="searchBox">
-        <div class="container">
-            <div class="row">
-                <div class="form-check form-switch col">
-                    <input class="form-check-input" type="checkbox" id="categoryFilter">
-                    <select id="categorySelect">
-                        <option selected value="0">Choose a category</option>
-                    </select>
-                </div>
-                <div class="form-check form-switch col">
-                    <input class="form-check-input" type="checkbox" id="artistFilter">
-                    <select id="artistSelect">
-                        <option selected value="0">Choose an artist</option>
-                    </select>
-                </div>
-                <div class="form-check form-switch col">
-                    <input class="form-check-input" type="checkbox" id="albumFilter">
-                    <select id="albumSelect">
-                        <option selected value="0">Choose an album</option>
-                    </select>
+<body>
+    <h1 class="center title">Songs</h1>
+    <div class="col-sm text-center">
+        <div class="input-group input-group-lg center">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-lg">
+                    <i class="bi-search" role="img" aria-label="GitHub"></i>
+                </span>
+            </div>
+            <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" id="searchBox">
+            <div class="container">
+                <div class="row">
+                    <div class="form-check form-switch col">
+                        <input class="form-check-input" type="checkbox" id="categoryFilter">
+                        <select id="categorySelect">
+                            <option selected value="0">Choose a category</option>
+                        </select>
+                    </div>
+                    <div class="form-check form-switch col">
+                        <input class="form-check-input" type="checkbox" id="artistFilter">
+                        <select id="artistSelect">
+                            <option selected value="0">Choose an artist</option>
+                        </select>
+                    </div>
+                    <div class="form-check form-switch col">
+                        <input class="form-check-input" type="checkbox" id="albumFilter">
+                        <select id="albumSelect">
+                            <option selected value="0">Choose an album</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="justify-content-center">
-    <p class="newRecord">
-        <a asp-action="Create">ADD NEW SONG</a>
-    </p>
-</div>
-
-<div class="row justify-content-center">
-    <div class="col">
-        <table class="table table-dark table-borderless table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Title)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Category)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Artist)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Rating)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Length)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ReleaseDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Album)
-                    </th>
-                    <th>
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Category.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Artist.StageName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Rating)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Length)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ReleaseDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Album.Title)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="justify-content-center">
+        <p class="newRecord">
+            <a asp-action="Create">ADD NEW SONG</a>
+        </p>
     </div>
-</div>
-<div class="center" id="noData"></div>
 
+    <div class="row justify-content-center">
+        <div class="col">
+            <table class="table table-dark table-borderless table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Category)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Artist)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Rating)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Length)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ReleaseDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Album)
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Artist.StageName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rating)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Length)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReleaseDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Album.Title)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="center" id="noData"></div>
+</body>
 
 @section Scripts {
     <script src="~/Scripts/songs.js"></script>

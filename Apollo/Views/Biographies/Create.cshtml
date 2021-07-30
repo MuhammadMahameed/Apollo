@@ -6,17 +6,19 @@
 <head>
     <link href="~/Styles/create.css" rel="stylesheet" />
 </head>
-<h1>Create</h1>
 
-<h4>Biography</h4>
+<div class="title justify-content-center">
+    <h1>Add New Biography</h1>
+</div>
+
 <hr />
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ArtistId" class="control-label"></label>
-                <select asp-for="ArtistId" class ="form-control" asp-items="ViewBag.ArtistId"></select>
+                <select asp-for="ArtistId" class="form-control" asp-items="ViewBag.ArtistId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="EarlyLife" class="control-label"></label>
@@ -38,14 +40,14 @@
                 <input asp-for="PersonalLife" class="form-control" />
                 <span asp-validation-for="PersonalLife" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="saveBtn form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
+<div class="backToList">
     <a asp-action="Index">Back to List</a>
 </div>
 

@@ -1,4 +1,9 @@
-﻿.title {
+﻿* {
+    padding: 0;
+    margin: 0;
+}
+
+.title {
     text-align: center;
     font-size: 60px;
     color: coral;
