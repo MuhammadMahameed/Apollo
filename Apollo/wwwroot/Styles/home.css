@@ -36,6 +36,7 @@ video {
 .welcome {
     font-family: myFirstFont;
     text-align: center;
+    color: white;
 }
 
 .welcome h1 {

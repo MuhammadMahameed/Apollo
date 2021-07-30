@@ -7,7 +7,6 @@
 }
 
 body {
-    color: coral;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     width: 100%;
     margin: 0px;
@@ -62,8 +61,9 @@ button.accept-policy {
 
 nav {
     text-shadow: 2px 2px #1b6ec2;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
 }
-
 .main {
     width: 100%;
     margin: 0;
