@@ -123,3 +123,13 @@ tbody tr:hover {
     margin-left: 30%;
     margin-right: 30%;
 }
+
+.newRecord {
+    font-size: 20px;
+    text-align: center;
+}
+
+.newRecord a {
+    background-color: coral;
+    border-radius: 5px 5px;
+}

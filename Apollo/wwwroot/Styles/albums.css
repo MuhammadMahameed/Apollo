@@ -82,15 +82,6 @@ body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-
-
-text {
-    color: blue;
-}
-
-.jumbotron {
-}
-
 h1 {
     text-align: center;
     border: 2px solid white;
@@ -104,9 +95,6 @@ h1 {
     text-align: center;
 }
 
-
-
-
 .center {
     margin: auto;
     width: 50%;
@@ -119,4 +107,14 @@ h1 {
 
 tbody {
     width: 100%;
+}
+
+.newRecord {
+    font-size: 20px;
+    text-align: center;
+}
+
+.newRecord a {
+    background-color: coral;
+    border-radius: 5px 5px;
 }

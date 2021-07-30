@@ -117,3 +117,13 @@ tbody {
     margin-left: 1%;
     margin-right: 1%;
 }
+
+.newRecord {
+    font-size: 20px;
+    text-align: center;
+}
+
+.newRecord a {
+    background-color: coral;
+    border-radius: 5px 5px;
+}
