@@ -3,6 +3,11 @@
     padding: 0;
 }
 
+.mainContainer {
+    padding: 0;
+    text-align: center;
+}
+
 #content {
     text-align: center;
     color: black;
@@ -12,8 +17,77 @@
 
 .card {
     margin: 1rem;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.card:hover {
+    background-color: lightgray;
+}
+
+.card-title {
+    color: coral;
 }
 
 .card-body {
     padding: 0;
+}
+
+.songRow0 {
+    width: 100%;
+}
+
+.songRow1 {
+    width: 100%;
+}
+
+.songRow2 {
+    width: 100%;
+}
+
+.searchTitle {
+    color: white;
+}
+
+.titleAR {
+    color: coral;
+}
+
+.titleSO {
+    color: coral;
+}
+
+.titleAL {
+    color: coral;
+}
+
+.sectionTitle {
+    font-size: 60px;
+    color: coral;
+    text-shadow: 2px 2px white;
+}
+
+.artist {
+    color: orangered;
+}
+
+a {
+    color: black;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
 }

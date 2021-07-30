@@ -30,6 +30,7 @@ $("#searchBox").on('input', function (e) {
 
     getData(matchingStr).then((data) => {
         dataTypes = data;
+        console.log(dataTypes);
         $("#content").html("");
         console.log(dataTypes);
         if (matchingStr != "" && dataTypes[0].$values.length == 0 && dataTypes[1].$values.length == 0 && dataTypes[2].$values.length == 0)
@@ -45,39 +46,43 @@ $("#searchBox").on('input', function (e) {
 
             if (data.length > 0) {
                 if (k == 0) {
-                    $("#content").append("<h1>Songs</h1>")
+                    $("#content").append("<h1 class=\"sectionTitle\">Songs</h1>")
 
                     for (var i = 0; i < data.length; i++) {
                         if (i % numCardsPerRow == 0) {
                             $("#content").append('<div class="row songRow' + parseInt(i / numCardsPerRow) + ' d-flex justify-content-center"></div>');
                         }
 
-                        var template = '<div class="card" style="width: 10rem;"><div class="card-body">' +
-                            '<h5 class="card-title">' + data[i].title + '</h5>' +
-                            '<p>Length: ' + data[i].length.minutes + ':' + data[i].length.seconds + '</p>' +
-                            '<p>Artist: ' + data[i].artist + '</p>' +
-                            '</div ></div>'
+                        var template = '<a href="/Songs/Details/' + data[i].id + '">' +
+                            '<div class="card" style="width: 10rem;"><div class="card-body">' +
+                            '<img class="card-img-top" src="Assets/song.png" alt="Card image cap">' +
+                            '<h3 class="card-title">' + data[i].title + '</h3>' +
+                            '<p>By <span class="artist">' + data[i].artist + '</span></p>' +
+                            '<p>' + data[i].category + '</p>' +
+                            '<p>' + data[i].length.minutes + ':' + data[i].length.seconds + '</p>' +
+                            '</div></div></a>'
                         $("#content .songRow" + parseInt(i / numCardsPerRow)).append(template);
                     }
                 } else if (k == 1) {
-                    $("#content").append("<h1>Albums</h1>")
+                    $("#content").append("<h1 class=\"sectionTitle\">Albums</h1>")
 
                     for (var i = 0; i < data.length; i++) {
                         if (i % numCardsPerRow == 0) {
                             $("#content").append('<div class="row albumRow' + parseInt(i / numCardsPerRow) + ' d-flex justify-content-center"></div>');
                         }
 
-                        var template = '<div class="card" style="width: 10rem;"><div class="card-body">' +
+                        var template = '<a href="/Albums/Details/' + data[i].id + '">' +
+                            '<div class="card" style="width: 10rem;"><div class="card-body">' +
                             '<img class="card-img-top" src=' + data[i].cover + ' alt="Card image cap">' +
-                            '<h5 class="card-title">' + data[i].title + '</h5>' +
-                            '<p>Length: ' + data[i].listenTime.minutes + ':' + data[i].listenTime.seconds + '</p>' +
-                            '<p>Artist: ' + data[i].artist + '</p>' +
+                            '<h3 class="card-title">' + data[i].title + '</h3>' +
+                            '<p>By <span class="artist">' + data[i].artist + '</span></p>' +
+                            '<p>' + data[i].listenTime.minutes + ':' + data[i].listenTime.seconds + '</p>' +
                             '<p>Category: ' + data[i].category + '</p>' +
                             '</div ></div>'
                         $("#content .albumRow" + parseInt(i / numCardsPerRow)).append(template);
                     }
                 } else if (k == 2) {
-                    $("#content").append("<h1>Artists</h1>")
+                    $("#content").append("<h1 class=\"sectionTitle\">Artists</h1>")
 
                     for (var i = 0; i < data.length; i++) {
                         if (i % numCardsPerRow == 0) {
@@ -92,8 +97,9 @@ $("#searchBox").on('input', function (e) {
 
                         template += '<div class="card" style="width: 10rem;"><div class="card-body">' +
                             '<img class="card-img-top" src=' + data[i].image + ' alt="Card image cap">' +
-                            '<h5 class="card-title">' + data[i].stageName + '</h5>' +
-                            '<p>Rating: ' + data[i].rating + '</p>' +
+                            '<h3 class="card-title">' + data[i].stageName + '</h3>' +
+                            '<p class="artist">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
+                            '<p>' + data[i].rating + ' Rating</p>' +
                             '</div ></div>'
 
                         if (data[i].biograpyId != 0) {
