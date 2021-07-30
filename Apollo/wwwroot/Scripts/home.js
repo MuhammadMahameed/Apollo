@@ -40,8 +40,10 @@ $(document).ready(function () {
         }
 
         getBingMap(coordinates).then((mapByteStream) => {
-            console.log(mapByteStream);
-            $('#bingMapBranches').attr('src', `data:image/png;base64,${mapByteStream}`);
+            if (mapByteStream.length != 0)
+                $('#bingMapBranches').attr('src', `data:image/png;base64,${mapByteStream}`);
+            else
+                $('#bingMapBranches').attr('src', "Assets/nothing_found.png");
         });
     });
 });

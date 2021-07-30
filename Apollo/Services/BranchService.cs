@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Apollo.Data;
 using Apollo.Models;
 using Microsoft.Extensions.Configuration;
@@ -22,12 +24,17 @@ namespace Apollo.Services
 
         public async Task<byte[]> GetBingMap(string coordinates)
         {
-            var url = "https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/?" + coordinates + "format=png&key=" + _configuration["Bing:api_key"];
-            var requestMap = new HttpRequestMessage(HttpMethod.Get, url);
-            var httpClient = new HttpClient();
-            HttpResponseMessage responseMap = await httpClient.SendAsync(requestMap);
-            var stream = await responseMap.Content.ReadAsByteArrayAsync();
-            return stream;
+            if (coordinates != null)
+            {
+                var url = "https://dev.virtualearth.net/REST/v1/Imagery/Map/CanvasDark/?" + coordinates + "format=png&zoomLevel=15&mapSize=730,730&key=" + _configuration["Bing:api_key"];
+                var requestMap = new HttpRequestMessage(HttpMethod.Get, url);
+                var httpClient = new HttpClient();
+                HttpResponseMessage responseMap = await httpClient.SendAsync(requestMap);
+                var stream = await responseMap.Content.ReadAsByteArrayAsync();
+                return stream;
+            }
+
+            return Array.Empty<byte>();
         }
 
         public ArrayList FilterBranches(string str)
