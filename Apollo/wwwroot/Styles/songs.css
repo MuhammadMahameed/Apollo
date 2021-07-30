@@ -47,3 +47,8 @@ h1 {
 tbody {
     width: 100%;
 }
+
+.table {
+    color: wheat;
+    text-align: center;
+}
