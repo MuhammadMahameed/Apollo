@@ -60,23 +60,11 @@ nav {
     text-shadow: 2px 2px #1b6ec2;
 }
 
-table {
-    background-color: slategrey;
-}
-
-text {
-    color: blue;
-}
-
-h1 {
-    text-align: center;
-    border: 2px solid white;
-    border-radius: 20px 20px;
-    margin-left: 277px;
-    margin-right: 277px;
-}
-
 .main {
     width: 100%;
     margin: 0;
+}
+
+.outsideBody {
+    padding: 0;
 }
