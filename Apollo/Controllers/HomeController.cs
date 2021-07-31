@@ -25,20 +25,11 @@ namespace Apollo.Controllers
             return View();
         }
         
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-        
         public IActionResult Search()
         {
             return View();
         }
         public IActionResult Statistics()
-        {
-            return View();
-        }
-        public IActionResult About()
         {
             return View();
         }

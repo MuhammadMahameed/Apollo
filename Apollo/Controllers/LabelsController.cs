@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
 using Apollo.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apollo.Controllers
 {
@@ -33,12 +34,14 @@ namespace Apollo.Controllers
         }
 
         // GET: Labels
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Label.Include(x => x.Artists).ToListAsync());
         }
 
         // GET: Labels/Details/5
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -57,6 +60,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Labels/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["artists"] = new MultiSelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName));
@@ -68,6 +72,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Status,Country,Founded")] Label label, int[] Artists)
         {
             var date = label.Founded.Date;
@@ -93,6 +98,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Labels/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -131,6 +137,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status,Country,Founded")] Label label, int[] Artists)
         {
             if (id != label.Id)
@@ -171,6 +178,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Labels/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -189,6 +197,7 @@ namespace Apollo.Controllers
         }
 
         // POST: Labels/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

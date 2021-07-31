@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Apollo.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ namespace Apollo.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Admin,Client")]
         public IActionResult Index()
         {
             return View();
