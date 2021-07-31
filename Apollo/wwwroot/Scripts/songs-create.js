@@ -28,6 +28,7 @@ $(document).ready(function () {
     var categoryId = $("#Category").val();
     var artistId = $("#Artist").val();
     setAlbumDropDownListValues(categoryId, artistId);
+    changeSongLength()
 });
 
 // on category change
@@ -43,3 +44,22 @@ $("#Artist").on('input', function (e) {
     var artistId = $("#Artist").val();
     setAlbumDropDownListValues(categoryId, artistId);
 });
+
+$("#songLengthRange").on('change', function (e) {
+    changeSongLength()
+});
+
+function changeSongLength() {
+    var val = $("#songLengthRange").val();
+    var minutes = Math.trunc(val / 60)
+    var seconds = (val % 60);
+
+    if (minutes < 10)
+        minutes = "0" + minutes;
+    if (seconds < 10)
+        seconds = "0" + seconds;
+
+    var time = `00:${minutes}:${seconds}`
+    $("#songLengthVal").text(time + " minutes");
+    $("#Length").val(time);
+}

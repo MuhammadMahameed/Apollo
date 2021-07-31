@@ -195,6 +195,7 @@ namespace Apollo.Controllers
             ViewData["albums"] = enumerableAlbum;
             ViewData["artists"] = enumerableArtist;
             ViewData["categories"] = enumerableCategory;
+            ViewData["songLengthInSeconds"] = song.Length.TotalSeconds;
 
             if(song.Album != null)
                 ViewData["selectedAlbum"] = song.Album.Id;
