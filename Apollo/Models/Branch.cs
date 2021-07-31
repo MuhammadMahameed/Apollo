@@ -15,7 +15,7 @@ namespace Apollo.Models
         public string AddressName { get; set; }
 
         [Required]
-        [RegularExpression(@"^\d+\.\d+,\d+\.\d+$", ErrorMessage = "Please enter a correct coordinate")]
+        [RegularExpression(@"^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$", ErrorMessage = "Please enter a correct coordinate with a valid range")]
         public string Coordinate { get; set; }
     }
 }
