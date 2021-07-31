@@ -29,6 +29,9 @@ $(document).ready(function () {
     var artistId = $("#Artist").val();
     setAlbumDropDownListValues(categoryId, artistId);
     changeSongLength()
+
+    if (categories.$values.length == 0 || artists.$values.length == 0)
+        $('.modal').modal('show');
 });
 
 // on category change

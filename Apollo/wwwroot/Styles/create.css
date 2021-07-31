@@ -90,3 +90,11 @@ nav {
 #songLengthVal {
     color: white;
 }
+
+.modal-header #songs-create, .modal-body #songs-create {
+    color: red;
+}
+
+.modal-footer {
+    text-align: center;
+}
