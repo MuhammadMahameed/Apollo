@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Apollo.Data;
 using Apollo.Models;
 using Apollo.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apollo.Controllers
 {
@@ -57,6 +58,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Labels/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["artists"] = new MultiSelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName));
@@ -93,6 +95,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Labels/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -171,6 +174,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Labels/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

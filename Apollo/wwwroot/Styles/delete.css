@@ -97,7 +97,6 @@ nav {
     text-align: center;
 }
 
-.deleteTitle {
-    text-align: center;
-    color: red;
+.deleteTitle a{
+    color: blue;
 }

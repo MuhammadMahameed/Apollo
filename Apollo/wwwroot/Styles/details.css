@@ -26,6 +26,9 @@ dd, dt {
     border-radius: 5px 5px;
     font-size: 20px;
 }
+.backToList a:hover {
+    background-color: wheat;
+}
 
 .saveBtnLabel {
     margin-top: 10px;
