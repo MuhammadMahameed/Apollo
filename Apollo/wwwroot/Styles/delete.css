@@ -1,4 +1,4 @@
-﻿.title {
+﻿﻿.title {
     text-align: center;
     font-size: 60px;
     color: coral;
@@ -25,6 +25,13 @@ dd, dt {
     background-color: coral;
     border-radius: 5px 5px;
     font-size: 20px;
+}
+.backToList a:hover {
+    background-color: wheat;
+}
+.btn-danger:hover {
+    border-color:yellow;
+    background-color: darkred;
 }
 
 .saveBtnLabel {
@@ -97,6 +104,6 @@ nav {
     text-align: center;
 }
 
-.deleteTitle a{
-    color: blue;
+.deleteTitle{
+    color: red;
 }
