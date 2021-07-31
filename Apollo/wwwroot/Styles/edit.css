@@ -29,6 +29,9 @@ label {
     border-radius: 5px 5px;
     font-size: 20px;
 }
+.backToList a:hover {
+    background-color: wheat;
+}
 
 .saveBtnLabel {
     margin-top: 10px;
@@ -64,6 +67,10 @@ a {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
+.btn-primary:hover {
+        background-color: black;
+        border-color: green;
+    }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
