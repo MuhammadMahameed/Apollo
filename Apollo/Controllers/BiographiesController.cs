@@ -146,6 +146,9 @@ namespace Apollo.Controllers
                 return NotFound();
             }
 
+            if (BiographyExists(id))
+                ModelState.AddModelError("ArtistId", "This artist already has a biography");
+
             if (ModelState.IsValid)
             {
                 try
