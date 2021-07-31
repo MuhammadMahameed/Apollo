@@ -81,15 +81,15 @@ namespace Apollo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist, int[] Labels)
         {
-            var artist_with_this_stage_name = _context.Artist.FirstOrDefault(x => x.StageName.ToUpper().Equals(artist.StageName.ToUpper()));
+            if(artist.StageName != null) { 
+                var artist_with_this_stage_name = _context.Artist.FirstOrDefault(x => x.StageName.ToUpper().Equals(artist.StageName.ToUpper()));
 
-            if (artist_with_this_stage_name != null)
-            {
-                ModelState.AddModelError("StageName", "This stage name is already used");
+                if (artist_with_this_stage_name != null)
+                    ModelState.AddModelError("StageName", "This stage name is already used");
+
+                artist.Labels = _context.Label.Where(x => Labels.Contains(x.Id)).ToList();
+                artist.Rating = 0;
             }
-
-            artist.Labels = _context.Label.Where(x => Labels.Contains(x.Id)).ToList();
-            artist.Rating = 0;
 
             if (ModelState.IsValid)
             {
@@ -98,6 +98,7 @@ namespace Apollo.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            ViewData["labels"] = new MultiSelectList(_context.Label, nameof(Label.Id), nameof(Label.Name));
             return View(artist);
         }
 
