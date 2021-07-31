@@ -26,7 +26,7 @@ namespace Apollo.Services
         {
             if (coordinates != null)
             {
-                var url = "https://dev.virtualearth.net/REST/v1/Imagery/Map/CanvasDark/?" + coordinates + "format=png&zoomLevel=15&mapSize=730,730&key=" + _configuration["Bing:api_key"];
+                var url = "https://dev.virtualearth.net/REST/v1/Imagery/Map/CanvasDark/?" + coordinates + "format=png&mapSize=730,730&key=" + _configuration["Bing:api_key"];
                 var requestMap = new HttpRequestMessage(HttpMethod.Get, url);
                 var httpClient = new HttpClient();
                 HttpResponseMessage responseMap = await httpClient.SendAsync(requestMap);
