@@ -86,3 +86,7 @@ nav {
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
 }
+
+#songLengthVal {
+    color: white;
+}
