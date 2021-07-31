@@ -59,6 +59,7 @@ namespace Apollo.Controllers
         // GET: Labels/Create
         public IActionResult Create()
         {
+            ViewData["artists"] = new MultiSelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName));
             return View();
         }
 
@@ -67,14 +68,27 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Status,Country,Founded")] Label label)
+        public async Task<IActionResult> Create([Bind("Id,Name,Status,Country,Founded")] Label label, int[] Artists)
         {
+            var date = label.Founded.Date;
+
+            if (date.Year < 1900)
+                ModelState.AddModelError("Founded", "Labels can't be founded before 1900");
+
+            if((DateTime.Now - date).Ticks < 0)
+                ModelState.AddModelError("Founded", "This date has not yet come");
+
+            if (Artists.Length > 0)
+                label.Artists = _context.Artist.Where(x => Artists.Contains(x.Id)).ToList();
+
             if (ModelState.IsValid)
             {
                 _context.Add(label);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["artists"] = new MultiSelectList(_context.Artist, nameof(Artist.Id), nameof(Artist.StageName));
             return View(label);
         }
 
@@ -90,6 +104,20 @@ namespace Apollo.Controllers
             var labelFromDb = _context.Label.Include(x => x.Artists).FirstOrDefault(x => x.Id == id);
             label.Artists = labelFromDb.Artists;
             ViewData["selectedArtists"] = label.Artists.Select(x => x.Id).ToList();
+
+            var formatedDate = label.Founded.Year.ToString();
+
+            if (label.Founded.Month < 10)
+                formatedDate +=  "-0" + label.Founded.Month;
+            else
+                formatedDate += "-" + label.Founded.Month;
+
+            if (label.Founded.Day < 10)
+                formatedDate += "-0" + label.Founded.Day;
+            else
+                formatedDate += "-" + label.Founded.Day;
+
+            ViewData["selectedDate"] = formatedDate;
 
             if (label == null)
             {
@@ -112,7 +140,13 @@ namespace Apollo.Controllers
 
             if (ModelState.IsValid)
             {
+                var date = label.Founded;
+                var country = label.Country;
+                var status = label.Status;
                 label = _context.Label.Include(x => x.Artists).FirstOrDefault(x => x.Id == label.Id);
+                label.Founded = date;
+                label.Country = country;
+                label.Status = status;
                 label.Artists = _context.Artist.Where(x => Artists.Contains(x.Id)).ToList();
 
                 try
