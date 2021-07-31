@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Apollo.Models;
 using Apollo.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -23,6 +24,7 @@ namespace Apollo.Controllers
             _configuration = configuration;
         }
 
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Index()
         {
             return View();

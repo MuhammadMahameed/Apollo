@@ -34,12 +34,14 @@ namespace Apollo.Controllers
         }
 
         // GET: Labels
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Label.Include(x => x.Artists).ToListAsync());
         }
 
         // GET: Labels/Details/5
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -70,6 +72,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Status,Country,Founded")] Label label, int[] Artists)
         {
             var date = label.Founded.Date;
@@ -134,6 +137,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status,Country,Founded")] Label label, int[] Artists)
         {
             if (id != label.Id)
@@ -193,6 +197,7 @@ namespace Apollo.Controllers
         }
 
         // POST: Labels/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

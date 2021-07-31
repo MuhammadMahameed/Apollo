@@ -1,7 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Access Denied";
-}
+﻿<head>
+    <link href="~/Styles/access_denied.css" rel="stylesheet" />
+</head>
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="text-danger">Unauthorized access</div>
+<div class="title">Access Denied</div>
+<div class="explain justify-content-center">Unauthorized access</div>
+<div class="redi justify-content-center">Redirecting to home page...</div>
+
+
+@section Scripts {
+    <script src="~/Scripts/access_denied.js"></script>
+}

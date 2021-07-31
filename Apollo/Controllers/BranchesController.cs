@@ -39,12 +39,14 @@ namespace Apollo.Controllers
         }
 
         // GET: Branches
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Branch.ToListAsync());
         }
 
         // GET: Branches/Details/5
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -74,6 +76,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,AddressName,Coordinate")] Branch branch)
         {
             var addressName = _context.Branch.FirstOrDefault(x => x.AddressName == branch.AddressName);
@@ -120,6 +123,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,AddressName,Coordinate")] Branch branch)
         {
             if (id != branch.Id)
@@ -172,6 +176,7 @@ namespace Apollo.Controllers
         // POST: Branches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var branch = await _context.Branch.FindAsync(id);
