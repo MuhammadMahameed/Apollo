@@ -17,27 +17,28 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ArtistId" class="control-label"></label>
+                <label class="control-label">Artist</label>
                 <select asp-for="ArtistId" class="form-control" asp-items="ViewBag.ArtistId"></select>
+                <span asp-validation-for="ArtistId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EarlyLife" class="control-label"></label>
-                <input asp-for="EarlyLife" class="form-control" />
+                <textarea asp-for="EarlyLife" class="form-control" placeholder="Early Life"></textarea>
                 <span asp-validation-for="EarlyLife" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Career" class="control-label"></label>
-                <input asp-for="Career" class="form-control" />
+                <textarea asp-for="Career" class="form-control" placeholder="Career"></textarea>
                 <span asp-validation-for="Career" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Artistry" class="control-label"></label>
-                <input asp-for="Artistry" class="form-control" />
+                <textarea asp-for="Artistry" class="form-control" placeholder="Artistry"></textarea>
                 <span asp-validation-for="Artistry" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PersonalLife" class="control-label"></label>
-                <input asp-for="PersonalLife" class="form-control" />
+                <textarea asp-for="PersonalLife" class="form-control" placeholder="Personal Life"></textarea>
                 <span asp-validation-for="PersonalLife" class="text-danger"></span>
             </div>
             <div class="saveBtn form-group">
