@@ -21,7 +21,7 @@ namespace Apollo.Models
         public string Country { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime Founded { get; set; }
 
         public List<Artist> Artists { get; set; }
