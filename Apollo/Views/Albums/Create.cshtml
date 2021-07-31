@@ -12,6 +12,25 @@
 </div>
 
 <hr />
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="songs-create">Important!</h5>
+            </div>
+            <div class="modal-body">
+                <span id="songs-create">
+                    Make sure categories, artists and songs exist before adding albums!
+                </span>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-primary" onclick="document.location.href = '/Home'">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row justify-content-center">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -53,5 +72,10 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        var categories = @Html.Raw(Json.Serialize(ViewBag.categories));
+        var songs = @Html.Raw(Json.Serialize(ViewBag.songs));
+        var artists = @Html.Raw(Json.Serialize(ViewBag.artists));
+    </script>
     <script src="~/Scripts/albums-create.js"></script>
 }
