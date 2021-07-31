@@ -36,6 +36,7 @@ namespace Apollo
             services.AddTransient<TwitterService>();
             services.AddTransient<BranchService>();
             services.AddTransient<CategoryService>();
+            services.AddTransient<LabelService>();
             services.AddHttpClient<SpotifyService>(c =>
             {
                 c.BaseAddress = new Uri("https://accounts.spotify.com/api/");
