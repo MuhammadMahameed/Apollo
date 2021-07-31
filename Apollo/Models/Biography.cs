@@ -14,14 +14,22 @@ namespace Apollo.Models
 
         public Artist Artist { get; set; }
 
+        [Required]
         [Display(Name = "Early Life")]
+        [StringLength(100000, MinimumLength = 50, ErrorMessage = "Early life description cannot be shorter than 50 characters and longer than 100,000 characters.")]
         public string EarlyLife { get; set; }
 
+        [Required]
+        [StringLength(100000, MinimumLength = 50, ErrorMessage = "Career description cannot be shorter than 50 characters and longer than 100,000 characters.")]
         public string Career { get; set; }
 
+        [Required]
+        [StringLength(100000, MinimumLength = 50, ErrorMessage = "Artistry description cannot be shorter than 50 characters and longer than 100,000 characters.")]
         public string Artistry { get; set; }
 
+        [Required]
         [Display(Name = "Personal Life")]
+        [StringLength(100000, MinimumLength = 50, ErrorMessage = "Personal life description cannot be shorter than 50 characters and longer than 100,000 characters.")]
         public string PersonalLife { get; set; }
 
         [Display(Name = "Number of Songs")]
