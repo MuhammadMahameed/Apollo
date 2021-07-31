@@ -71,9 +71,17 @@ namespace Apollo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
-            category.Name = category.Name.ToUpper();
+            if (category.Name != null)
+            {
+                var exists = _context.Category.FirstOrDefault(x => category.Name.ToUpper() == x.Name.ToUpper());
+
+                if (exists != null)
+                    ModelState.AddModelError("Name", "Category already exists");
+            }
+
             if (ModelState.IsValid)
             {
+                category.Name = category.Name.ToUpper();
                 _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
