@@ -22,11 +22,13 @@ namespace Apollo.Models
         public string StageName { get; set; }
 
         [Required]
+        [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Not a first name")]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "First name cannot be shorter than 2 or longer than 25 characters.")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
+        [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Not a last name")]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "Last name cannot be shorter than 2 or longer than 25 characters.")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
