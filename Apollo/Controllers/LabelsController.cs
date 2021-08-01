@@ -50,7 +50,9 @@ namespace Apollo.Controllers
             }
 
             var label = await _context.Label
+                .Include(x => x.Artists)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (label == null)
             {
                 return NotFound();

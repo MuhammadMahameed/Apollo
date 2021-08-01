@@ -29,8 +29,14 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Founded)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Artists)
+                    </th>
                 </tr>
             </thead>
+            @{
+                var artists = Model.Artists.Select(x => x.StageName + " ");
+            }
             <tbody>
                 <tr>
                     <td>
@@ -44,6 +50,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(model => model.Founded)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => artists)
                     </td>
                 </tr>
             </tbody>
