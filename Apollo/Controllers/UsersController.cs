@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Apollo.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apollo.Controllers
 {
@@ -126,12 +127,14 @@ namespace Apollo.Controllers
         }
 
         // GET: Users1
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.User.ToListAsync());
         }
 
         // GET: Users1/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -150,6 +153,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Users1/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -160,8 +164,24 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Username,Password,Age,EmailAdress,RoleType")] User user)
         {
+            var userTaken = _context.User.FirstOrDefault(u => u.Username == user.Username);
+            var emailTaken = _context.User.FirstOrDefault(u => u.EmailAdress == user.EmailAdress);
+            if (emailTaken != null)
+            {
+                ModelState.AddModelError("EmailAdress", "EmailAdress already taken");
+            }
+            if (userTaken != null)
+            {
+                ModelState.AddModelError("Username", "Username already taken");
+            }
+            if (!(Regex.IsMatch(user.Password, @"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$")))
+            {
+                ModelState.AddModelError("Password", "Password has to contain Numeric, Capital and  between 8-16 chars");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(user);
@@ -172,6 +192,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Users1/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -192,6 +213,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Password,Age,EmailAdress,RoleType")] User user)
         {
             if (id != user.Id)
@@ -223,6 +245,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Users1/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -243,6 +266,7 @@ namespace Apollo.Controllers
         // POST: Users1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var user = await _context.User.FindAsync(id);
