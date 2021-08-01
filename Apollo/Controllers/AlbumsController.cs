@@ -197,6 +197,12 @@ namespace Apollo.Controllers
                 return NotFound();
             }
 
+            if (_context.Album.Include(x => x.Artist).Any(x => x.Artist.Id == Artist && x.Title == album.Title && x.Id != id))
+            {
+                var artistName = _context.Artist.FirstOrDefault(x => x.Id == Artist).StageName;
+                ModelState.AddModelError("Title", artistName + " already has an album named " + "'" + album.Title + "'");
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -208,8 +214,9 @@ namespace Apollo.Controllers
                         if (song.Album != null)
                         {
                             song.Album.ListenTime = new TimeSpan(0, 0, 0);
+                            Album oldAlbum = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Id == song.Album.Id);
 
-                            foreach (Song songRecord in song.Album.Songs.Where(x => x.Id != song.Id))
+                            foreach (Song songRecord in oldAlbum.Songs.Where(x => !Songs.Contains(x.Id)).ToList())
                             {
                                 song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
                             }
@@ -252,6 +259,31 @@ namespace Apollo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            var albumTemp = _context.Album.Include(x => x.Category)
+                                      .Include(x => x.Artist)
+                                      .Include(x => x.Songs)
+                                      .FirstOrDefault(x => x.Id == id);
+
+            SelectList slArtists, slCategories;
+            IEnumerable<SelectListItem> enumerableArtist, enumerableCategory;
+
+            List<Artist> artists = _context.Artist.ToList();
+            Artist artist = artists.FirstOrDefault(x => x.Id == albumTemp.Artist.Id);
+            artists.Remove(artist);
+            slArtists = new(artists, nameof(Models.Artist.Id), nameof(Models.Artist.StageName));
+            enumerableArtist = slArtists.Prepend(new SelectListItem(artist.StageName, artist.Id.ToString(), true));
+
+            List<Category> categories = _context.Category.ToList();
+            Category category = categories.FirstOrDefault(x => x.Id == albumTemp.Category.Id);
+            categories.Remove(category);
+            slCategories = new(categories, nameof(Models.Category.Id), nameof(Models.Category.Name));
+            enumerableCategory = slCategories.Prepend(new SelectListItem(category.Name, category.Id.ToString(), true));
+
+            ViewData["songs"] = new MultiSelectList(_context.Song, nameof(Song.Id), nameof(Song.Title));
+            ViewData["selectedSongs"] = albumTemp.Songs.Select(x => x.Id).ToList();
+            ViewData["artists"] = enumerableArtist;
+            ViewData["categories"] = enumerableCategory;
             return View(album);
         }
 
