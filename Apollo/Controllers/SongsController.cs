@@ -228,10 +228,16 @@ namespace Apollo.Controllers
                 try
                 {
                     var length = song.Length;
+                    var title = song.Title;
+                    Album oldAlbum = null;
+
                     song = _context.Song.Include(x => x.Album)
                                             .Include(x => x.Artist)
                                             .Include(x => x.Category)
                                             .FirstOrDefault(x => x.Id == song.Id);
+
+                    if (song.Album != null)
+                        oldAlbum = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Id == song.Album.Id);
 
                     // if the song had a previous album and the id of the album changed,
                     // update the previous album's listentime
@@ -240,7 +246,7 @@ namespace Apollo.Controllers
                         song.Album.ListenTime = new TimeSpan(0, 0, 0);
 
                         // listen time of old album
-                        foreach (Song songRecord in song.Album.Songs.Where(x => x.Id != song.Id))
+                        foreach (Song songRecord in oldAlbum.Songs.Where(x => x.Id != song.Id).ToList())
                         {
                             song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
                         }
@@ -257,6 +263,7 @@ namespace Apollo.Controllers
                         await _context.SaveChangesAsync();
                     }
 
+                    song.Title = title;
                     song.Length = length;
                     song.Album = _context.Album.FirstOrDefault(x => x.Id == Album);
                     song.Artist = _context.Artist.FirstOrDefault(x => x.Id == Artist);
@@ -265,20 +272,18 @@ namespace Apollo.Controllers
                     await _context.SaveChangesAsync();
 
                     // update the length of the new album
-                    Album album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Songs.Select(x => x.Title).Contains(song.Title));
-
-                    if (album != null)
+                    if (song.Album != null)
                     {
-                        album.ListenTime = new TimeSpan(0, 0, 0);
+                        song.Album.ListenTime = new TimeSpan(0, 0, 0);
 
                         // listen time of new album
-                        foreach (Song songRecord in album.Songs)
+                        foreach (Song songRecord in _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Id == song.Album.Id).Songs.ToList())
                         {
-                            album.ListenTime = album.ListenTime.Add(songRecord.Length);
+                            song.Album.ListenTime = song.Album.ListenTime.Add(songRecord.Length);
                         }
 
                         // update new album
-                        _context.Update(album);
+                        _context.Update(song.Album);
                         await _context.SaveChangesAsync();
                     }
                 }
