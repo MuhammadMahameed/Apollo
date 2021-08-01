@@ -4,23 +4,47 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<head>
+    <link href="~/Styles/edit.css" rel="stylesheet" />
+</head>
 
-<h4>User</h4>
+<div class="title justify-content-center">
+    <h1>Edit User @Model.Username</h1>
+</div>
+
 <hr />
-<div class="row">
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="users-edit modal-title">Important!</h5>
+            </div>
+            <div class="modal-body">
+                <span class="users-edit">
+                    When editing yourself - Username and Role-Type are un-changable
+                </span>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button id="editingSameUser" type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            <div class="usernameClass form-group">
                 <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
+                <input asp-for="Username" class="form-control"/>
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" class="form-control" value="@ViewBag.password"/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,19 +57,29 @@
                 <input asp-for="EmailAdress" class="form-control" />
                 <span asp-validation-for="EmailAdress" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="roleTypeClass form-group">
                 <label asp-for="RoleType" class="control-label"></label>
-                <select asp-for="RoleType" class="form-control"></select>
+                <select asp-for="RoleType" class="form-control">
+                    <option value="0">Client</option>
+                    <option value="1">Admin</option>
+                </select>
                 <span asp-validation-for="RoleType" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="saveBtn form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
+<div class="backToList">
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    <script type="text/javascript">
+        var currentUser = @Html.Raw(Json.Serialize(User.Identity.Name));
+        var editedUser = @Html.Raw(Json.Serialize(Model.Username));
+    </script>
+    <script src="~/Scripts/users-edit.js"></script>
+}

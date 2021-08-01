@@ -104,3 +104,8 @@ nav {
 #songLengthVal {
     color: white;
 }
+
+.users-edit {
+    color: red;
+    text-align: center;
+}

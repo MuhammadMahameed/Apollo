@@ -201,10 +201,13 @@ namespace Apollo.Controllers
             }
 
             var user = await _context.User.FindAsync(id);
+
             if (user == null)
             {
                 return NotFound();
             }
+
+            ViewData["password"] = user.Password;
             return View(user);
         }
 
