@@ -23,6 +23,12 @@
                         @Html.DisplayNameFor(model => model.Title)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.Category)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Artist)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Rating)
                     </th>
                     <th>
@@ -31,22 +37,34 @@
                     <th>
                         @Html.DisplayNameFor(model => model.ReleaseDate)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Album)
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>
+                    <th>
                         @Html.DisplayFor(model => model.Title)
-                    </td>
-                    <td>
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => model.Category.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => model.Artist.StageName)
+                    </th>
+                    <th>
                         @Html.DisplayFor(model => model.Rating)
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         @Html.DisplayFor(model => model.Length)
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         @Html.DisplayFor(model => model.ReleaseDate)
-                    </td>
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => model.Album.Title)
+                    </th>
                 </tr>
             </tbody>
         </table>
