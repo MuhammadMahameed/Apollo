@@ -227,6 +227,7 @@ namespace Apollo.Controllers
                         }
                     }
 
+                    var title = album.Title;
                     album = _context.Album.Include(x => x.Songs)
                                           .Include(x => x.Artist)
                                           .Include(x => x.Category)
@@ -243,6 +244,7 @@ namespace Apollo.Controllers
                         album.ListenTime = album.ListenTime.Add(songRecord.Length);
                     }
 
+                    album.Title = title;
                     _context.Update(album);
                     await _context.SaveChangesAsync();
                 }
