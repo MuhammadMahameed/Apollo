@@ -76,8 +76,8 @@ $("#searchBox").on('input', function (e) {
                             '<img class="card-img-top" src=' + data[i].cover + ' alt="Card image cap">' +
                             '<h3 class="card-title">' + data[i].title + '</h3>' +
                             '<p>By <span class="artist">' + data[i].artist + '</span></p>' +
+                            '<p>' + data[i].category + '</p>' +
                             '<p>' + data[i].listenTime.minutes + ':' + data[i].listenTime.seconds + '</p>' +
-                            '<p>Category: ' + data[i].category + '</p>' +
                             '</div ></div>'
                         $("#content .albumRow" + parseInt(i / numCardsPerRow)).append(template);
                     }
