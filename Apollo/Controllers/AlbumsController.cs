@@ -44,6 +44,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Albums
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Album.Include(x => x.Songs)
@@ -53,6 +54,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Albums/Details/5
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -76,7 +78,6 @@ namespace Apollo.Controllers
 
         // GET: Albums/Create
         [Authorize(Roles = "Admin")]
-       
         public IActionResult Create()
         {
             ViewData["songs"] = new MultiSelectList(_context.Song, nameof(Models.Song.Id), nameof(Models.Song.Title));
@@ -85,14 +86,12 @@ namespace Apollo.Controllers
             return View();
         }
 
-    
-    
-
         // POST: Albums/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Title,ListenTime,Rating,ReleaseDate,Cover")] Album album, int Category, int Artist, int[] Songs)
         {
             if (_context.Album.Include(x => x.Artist).Any(x => x.Artist.Id == Artist && x.Title == album.Title))
@@ -190,6 +189,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ListenTime,Rating,ReleaseDate,Cover")] Album album, int Artist, int Category, int[] Songs)
         {
             if (id != album.Id)
@@ -311,6 +311,7 @@ namespace Apollo.Controllers
         // POST: Albums/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var album = _context.Album.Include(x => x.Songs).FirstOrDefault(x => x.Id == id);
