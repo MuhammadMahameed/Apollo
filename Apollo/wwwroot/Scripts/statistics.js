@@ -70,7 +70,7 @@ $(document).ready(function () {
                 .data(data_ready)
                 .enter()
                 .append('text')
-                .text(function (d) { return d.data.value.category + " Genre (" + d.data.value.numSongs + ")" })
+                .text(function (d) { return d.data.value.category + " Genre (" + d.data.value.numSongs + " songs)" })
                 .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
                 .style("text-anchor", "middle")
                 .style("font-size", 17)
