@@ -48,7 +48,7 @@ namespace Apollo.Services
                             s.Status.ToLower().Contains(str) ||
                             s.Country.ToLower().Contains(str) ||
                             s.Founded.ToString().ToLower().Contains(str) ||
-                            s.Artists.Select(x => x.StageName).Contains(str))
+                            s.Artists.Any(x => x.StageName.ToLower().Contains(strToLower)))
                 .ToList();
 
             ArrayList matchingLabelsList = new ArrayList();
