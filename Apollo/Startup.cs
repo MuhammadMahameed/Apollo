@@ -37,6 +37,7 @@ namespace Apollo
             services.AddTransient<BranchService>();
             services.AddTransient<CategoryService>();
             services.AddTransient<LabelService>();
+            services.AddTransient<UserService>();
             services.AddHttpClient<SpotifyService>(c =>
             {
                 c.BaseAddress = new Uri("https://accounts.spotify.com/api/");
@@ -87,7 +88,7 @@ namespace Apollo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Users}/{action=Index}/{id?}");
             });
         }
     }
