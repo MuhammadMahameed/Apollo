@@ -1,0 +1,69 @@
+﻿@model Apollo.Models.User
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<head>
+    <link href="~/Styles/delete.css" rel="stylesheet" />
+</head>
+<div class="deleteTitle justify-content-center">
+    <h3>Are you sure you want to delete this?</h3>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col">
+        <table class="table table-dark table-borderless table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Username)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Password)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Age)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmailAdress)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoleType)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Password)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Age)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.EmailAdress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.RoleType)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+    
+<div class="backToList justify-content-center">
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <div>
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>
+
