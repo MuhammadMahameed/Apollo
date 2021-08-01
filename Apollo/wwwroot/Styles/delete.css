@@ -107,3 +107,8 @@ nav {
 .deleteTitle{
     color: red;
 }
+
+.users-delete {
+    color: red;
+    text-align: center;
+}

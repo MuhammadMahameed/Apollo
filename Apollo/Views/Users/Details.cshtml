@@ -1,0 +1,67 @@
+﻿@model Apollo.Models.User
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<head>
+    <link href="~/Styles/details.css" rel="stylesheet" />
+</head>
+
+<div class="title justify-content-center">
+    <h1>User Details</h1>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col">
+        <table class="table table-dark table-borderless table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Username)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Password)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Age)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmailAdress)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoleType)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @Html.DisplayFor(model => model.Username)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => model.Password)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => model.Age)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => model.EmailAdress)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => model.RoleType)
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="backToList justify-content-center">
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
