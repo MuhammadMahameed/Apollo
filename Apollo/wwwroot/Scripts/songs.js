@@ -172,3 +172,118 @@ async function updateSongList() {
         });
     }
 }
+
+var changeStarOnHover = true;
+var type = "song";
+
+function fill_empty_star(star) {
+    $(star).removeClass("bi-star");
+    $(star).addClass("bi-star-fill");
+}
+
+function hollow_full_star(star) {
+    $(star).removeClass("bi-star-fill");
+    $(star).addClass("bi-star");
+}
+
+function lock_vote(star) {
+    var song_id = parseInt($(star).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+    var star_id = parseInt($(star).attr('id').match(/\d$/)[0]);
+
+    for (var i = 1; i <= 5; i++) {
+        hollow_full_star($(`#s_${song_id}-star${i}`));
+    }
+
+    for (var i = 1; i <= star_id; i++) {
+        fill_empty_star($(`#s_${song_id}-star${i}`));
+    }
+
+    changeStarOnHover = false;
+}
+
+$('.table').on('mouseover', '.bi-star', function () {
+    if (changeStarOnHover) {
+        var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+        var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+        for (var i = 1; i <= star_id; i++) {
+            fill_empty_star($(`#s_${song_id}-star${i}`));
+        }
+    }
+});
+
+$('.table').on('mouseout', '.bi-star', function () {
+    if (changeStarOnHover) {
+        var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+        var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+        for (var i = 1; i <= star_id; i++) {
+            hollow_full_star($(`#s_${song_id}-star${i}`));
+        }
+    }
+});
+
+$('.table').on('mouseover', '.bi-star-fill', function () {
+    if (changeStarOnHover) {
+        var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+        var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+        for (var i = 1; i <= star_id; i++) {
+            fill_empty_star($(`#s_${song_id}-star${i}`));
+        }
+    }
+});
+
+$('.table').on('mouseout', '.bi-star-fill', function () {
+    if (changeStarOnHover) {
+        var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+        var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+        for (var i = 1; i <= star_id; i++) {
+            hollow_full_star($(`#s_${song_id}-star${i}`));
+        }
+    }
+});
+
+
+async function checkVoteExists(type, recordId, username) {
+    var exists = await getAjax('/Votes/CheckVoteExists', { type: type, recordId: recordId, username: username });
+    return exists;
+}
+
+async function vote(type, recordId, username, score) {
+    await getAjax('/Votes/Create', { type: type, recordId: recordId, username: username, score: score });
+}
+
+async function changeVote(type, recordId, username, score) {
+    await getAjax('/Votes/Edit', { type: type, recordId: recordId, username: username, score: score });
+}
+
+
+$('.table').on('click', '.bi-star', function () {
+    lock_vote(this);
+
+    var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+    var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+    
+    checkVoteExists(type, song_id, currentUser).then((data) => {
+        if (!data)
+            vote(type, song_id, currentUser, star_id);
+        else
+            changeVote(type, song_id, currentUser, star_id);
+    });
+});
+
+$('.table').on('click', '.bi-star-fill', function () {
+    lock_vote(this);
+
+    var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+    var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+    checkVoteExists(type, song_id, currentUser).then((data) => {
+        if (!data)
+            vote(type, song_id, currentUser, star_id);
+        else
+            changeVote(type, song_id, currentUser, star_id);
+    });
+});

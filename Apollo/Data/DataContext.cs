@@ -33,5 +33,7 @@ namespace Apollo.Data
         public DbSet<Apollo.Models.Branch> Branch { get; set; }
 
         public DbSet<Apollo.Models.Label> Label { get; set; }
+
+        public DbSet<Apollo.Models.Vote> Vote { get; set; }
     }
 }
