@@ -21,6 +21,12 @@
                         @Html.DisplayNameFor(model => model.Title)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.Category)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Artist)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.ListenTime)
                     </th>
                     <th>
@@ -32,12 +38,24 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Cover)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Songs)
+                    </th>
                 </tr>
             </thead>
             <tbody>
+                @{
+                    var songs = Model.Songs.Select(x => x.Title + " ");
+                }
                 <tr>
                     <td>
                         @Html.DisplayFor(model => model.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Category.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Artist.StageName)
                     </td>
                     <td>
                         @Html.DisplayFor(model => model.ListenTime)
@@ -50,6 +68,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(model => model.Cover)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => songs)
                     </td>
                 </tr>
             </tbody>

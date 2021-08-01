@@ -61,7 +61,11 @@ namespace Apollo.Controllers
             }
 
             var album = await _context.Album
+                .Include(x => x.Songs)
+                .Include(x => x.Artist)
+                .Include(x => x.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (album == null)
             {
                 return NotFound();
