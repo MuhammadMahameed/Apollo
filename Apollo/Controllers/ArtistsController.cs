@@ -39,6 +39,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Artists
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Artist
@@ -49,6 +50,7 @@ namespace Apollo.Controllers
         }
 
         // GET: Artists/Details/5
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -83,6 +85,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist, int[] Labels)
         {
             if(artist.StageName != null) { 
@@ -132,6 +135,7 @@ namespace Apollo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StageName,Age,Rating,Image")] Artist artist, int[] Labels)
         {
             if (id != artist.Id)
@@ -191,6 +195,7 @@ namespace Apollo.Controllers
         // POST: Artists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var artist = _context.Artist.Include(x => x.Albums)
