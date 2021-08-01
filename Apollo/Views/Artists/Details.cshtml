@@ -35,8 +35,22 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Image)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Songs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Albums)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Labels)
+                    </th>
                 </tr>
             </thead>
+            @{ 
+                var songs = Model.Songs.Select(x => x.Title + " ");
+                var albums = Model.Albums.Select(x => x.Title + " ");
+                var labels = Model.Labels.Select(x => x.Name + " ");
+            }
             <tbody>
                 <tr>
                     <td>
@@ -56,6 +70,15 @@
                     </td>
                     <td>
                         @Html.DisplayFor(model => model.Image)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => songs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => albums)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => labels)
                     </td>
                 </tr>
             </tbody>
