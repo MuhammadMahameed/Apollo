@@ -86,6 +86,7 @@ namespace Apollo.Services
                 .Include(s => s.Albums)
                 .Include(s => s.Songs)
                 .Include(s => s.Biography)
+                .Include(s => s.Labels)
                 .Where(s => s.FirstName.ToLower().Contains(strToLower) ||
                             s.LastName.ToLower().Contains(strToLower) ||
                             s.StageName.ToLower().Contains(strToLower) ||
@@ -93,7 +94,8 @@ namespace Apollo.Services
                             s.Rating.ToString().ToLower().Contains(strToLower) ||
                             s.Image.ToLower().Contains(strToLower) ||
                             s.Songs.Any(x => x.Title.ToLower().Contains(strToLower)) ||
-                            s.Albums.Any(x => x.Title.ToLower().Contains(strToLower)))
+                            s.Albums.Any(x => x.Title.ToLower().Contains(strToLower)) ||
+                            s.Labels.Any(x => x.Name.ToLower().Contains(strToLower)))
                 .ToList();
 
             ArrayList matchingArtistsList = new ArrayList();
@@ -111,6 +113,7 @@ namespace Apollo.Services
                     image = artist.Image,
                     songs = artist.Songs.Select(x => x.Title),
                     albums = artist.Albums.Select(x => x.Title),
+                    labels = artist.Labels.Select(x => x.Name)
                 });
             }
 
