@@ -148,6 +148,12 @@ async function updateSongList() {
                     "</td><td>" + formatedDate +
                     "</td><td>" + record.album +
                     "</td><td>" +
+                    `<i class="bi bi-star" id="s_${record.id}-star1"></i>` +
+                    `<i class="bi bi-star" id="s_${record.id}-star2"></i>` +
+                    `<i class="bi bi-star" id="s_${record.id}-star3"></i>` +
+                    `<i class="bi bi-star" id="s_${record.id}-star4"></i>` +
+                    `<i class="bi bi-star" id="s_${record.id}-star5"></i>` +
+                    '</td><td>' +
                     "<a href=\"/Songs/Edit/" + record.id + "\">Edit</a>" + " | " +
                     "<a href=\"/Songs/Details/" + record.id + "\">Details</a>" + " | " +
                     "<a href=\"/Songs/Delete/" + record.id + "\">Delete</a>" +
@@ -160,6 +166,8 @@ async function updateSongList() {
             $("#noData").html("");
             if ((matchingStr != "" && !hasData) || (matchingStr == "" && !hasData && (albumSelect > 0 || categorySelect > 0 || artistSelect > 0)))
                 $("#noData").append('<img src="Assets/nothing_found.png">');
+            else
+                fillUserStars(type, currentUser);
         });
     } else {
         getAllSongs().then((data) => {
@@ -167,8 +175,143 @@ async function updateSongList() {
             $("#noData").html("");
             $("table tbody").html("");
             $("table tbody").html(rows);
-            if(rows.length == 0)
-                $("#noData").append('<img src="Assets/nothing_found.png">');
+            fillUserStars(type, currentUser).then(() => {
+                if (rows.length == 0)
+                    $("#noData").append('<img src="Assets/nothing_found.png">');
+            });
         });
     }
 }
+
+var type = "song";
+var changeStarOnHover = {};
+
+function fill_empty_star(star) {
+    $(star).removeClass("bi-star");
+    $(star).addClass("bi-star-fill");
+}
+
+function hollow_full_star(star) {
+    $(star).removeClass("bi-star-fill");
+    $(star).addClass("bi-star");
+}
+
+function lock_vote(star) {
+    var song_id = parseInt($(star).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+    var star_id = parseInt($(star).attr('id').match(/\d$/)[0]);
+
+    for (var i = 1; i <= 5; i++) {
+        hollow_full_star($(`#s_${song_id}-star${i}`));
+    }
+
+    for (var i = 1; i <= star_id; i++) {
+        fill_empty_star($(`#s_${song_id}-star${i}`));
+    }
+
+    changeStarOnHover[song_id] = false;
+}
+
+$('.table').on('mouseover', '.bi-star', function () {
+    var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+    var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+    if (changeStarOnHover[song_id])
+        for (var i = 1; i <= star_id; i++)
+            fill_empty_star($(`#s_${song_id}-star${i}`));
+});
+
+$('.table').on('mouseout', '.bi-star', function () {
+    var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+    var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+    if (changeStarOnHover[song_id])
+        for (var i = 1; i <= star_id; i++)
+            hollow_full_star($(`#s_${song_id}-star${i}`));
+});
+
+$('.table').on('mouseover', '.bi-star-fill', function () {
+    var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+    var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+    if (changeStarOnHover[song_id])
+        for (var i = 1; i <= star_id; i++)
+            fill_empty_star($(`#s_${song_id}-star${i}`));
+});
+
+$('.table').on('mouseout', '.bi-star-fill', function () {
+    var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+    var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+    if (changeStarOnHover[song_id])
+        for (var i = 1; i <= star_id; i++)
+            hollow_full_star($(`#s_${song_id}-star${i}`));
+});
+
+async function checkVoteExists(type, recordId, username) {
+    var exists = await getAjax('/Votes/CheckVoteExists', { type: type, recordId: recordId, username: username });
+    return exists;
+}
+
+async function vote(type, recordId, username, score) {
+    await getAjax('/Votes/Create', { type: type, recordId: recordId, username: username, score: score });
+}
+
+async function changeVote(type, recordId, username, score) {
+    await getAjax('/Votes/Edit', { type: type, recordId: recordId, username: username, score: score });
+}
+
+async function getUserVotes(type, username) {
+    var userVotes = await getAjax('/Votes/GetUserVotes', { type: type, username: username });
+    return userVotes.$values;
+}
+
+async function getSongsIds() {
+    var songsIds = await getAjax('/Songs/GetSongsIds', {});
+    return songsIds.songsIds.$values;
+}
+
+async function fillUserStars(type, username) {
+    var currentUserVotes = await getUserVotes(type, username);
+    var songsIds = await getSongsIds();
+
+    for (var i = 0; i < songsIds.length; i++)
+        changeStarOnHover[songsIds[i]] = true;
+
+    for (var i = 0; i < currentUserVotes.length; i++) {
+        for (var j = 1; j <= 5; j++)
+            hollow_full_star($(`#s_${currentUserVotes[i].recordId}-star${currentUserVotes[i].score}`));
+        for (var j = 1; j <= currentUserVotes[i].score; j++)
+            fill_empty_star($(`#s_${currentUserVotes[i].recordId}-star${j}`));
+
+        changeStarOnHover[currentUserVotes[i].recordId] = false;
+    }
+}
+
+async function manageVotes(type, recordId, username, score) {
+    var voteExists = await checkVoteExists(type, recordId, username);
+
+    if (!voteExists)
+        await vote(type, recordId, currentUser, score);
+    else
+        await changeVote(type, recordId, currentUser, score)
+
+    await updateSongList();
+}
+
+$('.table').on('click', '.bi-star', function () {
+    lock_vote(this);
+
+    var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+    var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+    manageVotes(type, song_id, currentUser, star_id);
+});
+
+$('.table').on('click', '.bi-star-fill', function () {
+    lock_vote(this);
+
+    var song_id = parseInt($(this).attr('id').match(/s_\d+/)[0].match(/\d+/)[0]);
+    var star_id = parseInt($(this).attr('id').match(/\d$/)[0]);
+
+    manageVotes(type, song_id, currentUser, star_id);
+});

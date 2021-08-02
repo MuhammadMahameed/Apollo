@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link href=".\Styles\albums.css" rel="stylesheet" />
-    
+
 </head>
 
 <h1 class="center title">Albums</h1>
@@ -51,83 +51,94 @@
     </p>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col">
-        <table class="table table-dark table-borderless table-hover">
-            <thead>
+<div class="justify-content-center">
+    <table class="table table-dark table-borderless table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Artist)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ListenTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReleaseDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cover)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Songs)
+                </th>
+                <th>
+                    Your Rating
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var songs = @item.Songs.Select(x => x.Title).ToList();
+                var songsString = songs.Select(x => x.Concat(" "));
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Title)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Category)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Artist)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ListenTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Rating)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ReleaseDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Cover)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Songs)
-                    </th>
-                    <th>
-                        Actions
-                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Artist.StageName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ListenTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cover)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => songsString)
+                    </td>
+                    <td>
+                        <i class="bi bi-star" id="a_@item.Id-star1"></i>
+                        <i class="bi bi-star" id="a_@item.Id-star2"></i>
+                        <i class="bi bi-star" id="a_@item.Id-star3"></i>
+                        <i class="bi bi-star" id="a_@item.Id-star4"></i>
+                        <i class="bi bi-star" id="a_@item.Id-star5"></i>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    var songs = @item.Songs.Select(x => x.Title).ToList();
-                    var songsString = songs.Select(x => x.Concat(" "));
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Category.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Artist.StageName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ListenTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Rating)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ReleaseDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cover)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => songsString)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
 </div>
 <div class="center" id="noData"></div>
 
 @section Scripts {
+    <script type="text/javascript">
+        var currentUser = @Html.Raw(Json.Serialize(User.Identity.Name));
+    </script>
     <script src="~/Scripts/albums.js"></script>
 }
