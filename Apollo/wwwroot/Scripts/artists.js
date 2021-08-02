@@ -40,7 +40,6 @@ $("#searchBox").on('input', function (e) {
                     "</td><td>" + record.lastName +
                     "</td><td>" + record.stageName +
                     "</td><td>" + record.age +
-                    "</td><td>" + record.rating +
                     "</td><td>" + record.image +
                     "</td><td>" + songs +
                     "</td><td>" + albums +

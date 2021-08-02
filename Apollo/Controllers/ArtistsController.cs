@@ -97,7 +97,6 @@ namespace Apollo.Controllers
                     ModelState.AddModelError("StageName", "This stage name is already used");
 
                 artist.Labels = _context.Label.Where(x => Labels.Contains(x.Id)).ToList();
-                artist.Rating = 0;
             }
 
             if (ModelState.IsValid)
