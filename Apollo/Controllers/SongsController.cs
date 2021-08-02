@@ -59,9 +59,9 @@ namespace Apollo.Controllers
             return Json(_songService.GetArtistsPerCategoryHeatmapData());
         }
 
-        public IActionResult GetNumSongs()
+        public IActionResult GetSongsIds()
         {
-            return Json(new { numSongs = _context.Song.ToList().Count });
+            return Json(new { songsIds = _context.Song.ToList().Select(x => x.Id) });
         }
 
 
