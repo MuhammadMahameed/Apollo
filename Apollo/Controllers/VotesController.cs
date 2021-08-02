@@ -46,12 +46,13 @@ namespace Apollo.Controllers
                     record = _context.Album.FirstOrDefault(x => x.Id == recordId);
 
                 // calculate the avg rating score
-                var sum = 0f;
+                var sum = 0D;
 
                 foreach (Vote recordVote in recordVotes)
                     sum += recordVote.Score;
 
                 sum /= recordVotes.Count;
+                sum = double.Parse(string.Format("{0:0.00}", sum));
                 record.Rating = sum;
 
                 _context.Update(record);
@@ -84,12 +85,13 @@ namespace Apollo.Controllers
                     record = _context.Album.FirstOrDefault(x => x.Id == recordId);
 
                 // calculate the avg rating score
-                var sum = 0f;
+                var sum = 0D;
 
                 foreach (Vote recordVote in recordVotes)
                     sum += recordVote.Score;
 
                 sum /= recordVotes.Count;
+                sum = double.Parse(string.Format("{0:0.00}", sum));
                 record.Rating = sum;
 
                 _context.Update(record);
