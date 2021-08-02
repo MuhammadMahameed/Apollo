@@ -51,3 +51,27 @@
 h3 {
     color: coral;
 }
+
+.footer {
+    text-align: center;
+}
+
+.footer span {
+    background-color: white;
+}
+
+.footer span a:link {
+    color: coral;
+}
+
+.footer span a:visited {
+    color: coral;
+}
+
+.footer span a:hover {
+    color: orangered;
+}
+
+.footer span a:active {
+    color: orangered;
+}
