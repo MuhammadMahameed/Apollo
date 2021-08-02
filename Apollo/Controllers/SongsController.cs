@@ -17,11 +17,13 @@ namespace Apollo.Controllers
     {
         private readonly DataContext _context;
         private readonly SongService _songService;
+        private readonly TwitterService _twitterService;
 
-        public SongsController(DataContext context, SongService songService)
+        public SongsController(DataContext context, SongService songService, TwitterService twitterService)
         {
             _context = context;
             _songService = songService;
+            _twitterService = twitterService;
         }
 
         // GET: Songs
@@ -141,6 +143,9 @@ namespace Apollo.Controllers
                     _context.Update(changedAlbum);
                     await _context.SaveChangesAsync();
                 }
+
+                _twitterService.PostTweet(song.Artist.StageName + " just released a new song: " + song.Title + "!");
+
                 return RedirectToAction(nameof(Index));
             }
 

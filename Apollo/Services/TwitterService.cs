@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Nancy.Json;
 using Newtonsoft.Json;
+using TweetSharp;
 
 namespace Apollo.Services
 {
@@ -18,22 +21,6 @@ namespace Apollo.Services
         {
             _configuration = configuration;
         }
-
-        /*
-        public async Task<IEnumerable> GetTweets()
-        {
-            var access_token = await GetAccessToken();
-            var requestUserTimeline = new HttpRequestMessage(HttpMethod.Get, string.Format("https://api.twitter.com/2/users/17230018/tweets?count=5"));
-            requestUserTimeline.Headers.Add("Authorization", "Bearer " + access_token);
-            var httpClient = new HttpClient();
-            HttpResponseMessage responseUserTimeLine = await httpClient.SendAsync(requestUserTimeline);
-            var serializer = new JavaScriptSerializer();
-            dynamic json = serializer.Deserialize<object>(await responseUserTimeLine.Content.ReadAsStringAsync());
-            var enumerableTwitts = (json.data as IEnumerable<dynamic>);
-            return enumerableTwitts;
-        }
-        */
-
         public async Task<string> GetTimelineEmbed(string url)
         {
             var requestOEmbed = new HttpRequestMessage(HttpMethod.Get, string.Format("https://publish.twitter.com/oembed?url={0}&theme=dark&dnt=true&limit=3&maxwidth=300&maxheight=400", url));
@@ -58,6 +45,17 @@ namespace Apollo.Services
             var serializer = new JavaScriptSerializer();
             dynamic item = serializer.Deserialize<object>(json);
             return item["access_token"];
+        }
+
+        public void PostTweet(string tweet)
+        {
+            var service = new TweetSharp.TwitterService(_configuration["Twitter:api_key"], _configuration["Twitter:api_key_secret"]);
+            service.AuthenticateWith(_configuration["Twitter:access_token"], _configuration["Twitter:access_token_secret"]);
+
+            service.SendTweet(new SendTweetOptions
+            {
+                Status = tweet
+            });
         }
     }
 }

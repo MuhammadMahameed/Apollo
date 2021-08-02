@@ -16,11 +16,13 @@ namespace Apollo.Controllers
     {
         private readonly DataContext _context;
         private readonly AlbumService _albumService;
+        private readonly TwitterService _twitterService;
 
-        public AlbumsController(DataContext context, AlbumService albumService)
+        public AlbumsController(DataContext context, AlbumService albumService, TwitterService twitterService)
         {
             _context = context;
             _albumService = albumService;
+            _twitterService = twitterService;
         }
 
         public IActionResult GetAllAlbums()
@@ -140,6 +142,8 @@ namespace Apollo.Controllers
 
                 _context.Add(album);
                 await _context.SaveChangesAsync();
+
+                _twitterService.PostTweet(album.Artist.StageName + " just released a new album: " + album.Title + "!");
                 return RedirectToAction(nameof(Index));
             }
 
