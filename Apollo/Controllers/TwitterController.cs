@@ -18,16 +18,14 @@ namespace Apollo.Controllers
             _twitterService = twitterService;
         }
 
-        /*
-        public async Task<IEnumerable> GetTweets()
-        {
-            return await _twitterService.GetTweets();
-        }
-        */
-
         public async Task<JsonResult> GetTimelineEmbed(string url)
         {
             return Json(await _twitterService.GetTimelineEmbed(url));
+        }
+
+        public void PostTweet(string tweet)
+        {
+            _twitterService.PostTweet(tweet);
         }
     }
 }
