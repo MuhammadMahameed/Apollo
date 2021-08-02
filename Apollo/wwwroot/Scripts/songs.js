@@ -148,6 +148,12 @@ async function updateSongList() {
                     "</td><td>" + formatedDate +
                     "</td><td>" + record.album +
                     "</td><td>" +
+                    `<i class="bi bi-star" id="s_${record.id}-star1"></i>` +
+                    `<i class="bi bi-star" id="s_${record.id}-star2"></i>` +
+                    `<i class="bi bi-star" id="s_${record.id}-star3"></i>` +
+                    `<i class="bi bi-star" id="s_${record.id}-star4"></i>` +
+                    `<i class="bi bi-star" id="s_${record.id}-star5"></i>` +
+                    '</td><td>' +
                     "<a href=\"/Songs/Edit/" + record.id + "\">Edit</a>" + " | " +
                     "<a href=\"/Songs/Details/" + record.id + "\">Details</a>" + " | " +
                     "<a href=\"/Songs/Delete/" + record.id + "\">Delete</a>" +
@@ -160,6 +166,8 @@ async function updateSongList() {
             $("#noData").html("");
             if ((matchingStr != "" && !hasData) || (matchingStr == "" && !hasData && (albumSelect > 0 || categorySelect > 0 || artistSelect > 0)))
                 $("#noData").append('<img src="Assets/nothing_found.png">');
+            else
+                fillUserStars(type, currentUser);
         });
     } else {
         getAllSongs().then((data) => {
@@ -277,8 +285,6 @@ async function fillUserStars(type, username) {
 
         changeStarOnHover[currentUserVotes[i].recordId - 1] = false;
     }
-
-    console.log("temp");
 }
 
 async function manageVotes(type, recordId, username, score) {
