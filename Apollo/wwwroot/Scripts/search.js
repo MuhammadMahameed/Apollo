@@ -97,8 +97,7 @@ $("#searchBox").on('input', function (e) {
                             '<img class="card-img-top" src=' + data[i].image + ' alt="Card image cap">' +
                             '<h3 class="card-title">' + data[i].stageName + '</h3>' +
                             '<p class="artist">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
-                            '<p>' + data[i].rating + ' Rating</p>' +
-                            '</div ></div>'
+                            '</div></div>'
 
                         if (data[i].biograpyId != 0) {
                             template += '</a>'
