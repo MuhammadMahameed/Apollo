@@ -144,5 +144,29 @@ namespace Apollo.Services
 
             return matchingAlbumsList;
         }
+
+        public async Task UpdateAlbumsRating()
+        {
+            var albums = _context.Album.ToList();
+
+            foreach (Album album in albums)
+            {
+                var albumVotes = _context.Vote.Where(x => x.Type == "album" && x.RecordId == album.Id).ToList();
+
+                // calculate the avg rating score
+                var sum = 0D;
+
+                foreach (Vote recordVote in albumVotes)
+                    sum += recordVote.Score;
+
+                sum /= albumVotes.Count;
+                sum = double.Parse(string.Format("{0:0.00}", sum));
+                album.Rating = sum;
+
+                _context.Update(album);
+            }
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

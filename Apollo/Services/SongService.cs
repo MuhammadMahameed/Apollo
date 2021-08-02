@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Apollo.Data;
 using Apollo.Models;
 using Microsoft.EntityFrameworkCore;
@@ -175,6 +176,30 @@ namespace Apollo.Services
             });
 
             return data;
+        }
+
+        public async Task UpdateSongsRating()
+        {
+            var songs = _context.Song.ToList();
+
+            foreach (Song song in songs)
+            {
+                var songVotes = _context.Vote.Where(x => x.Type == "song" && x.RecordId == song.Id).ToList();
+
+                // calculate the avg rating score
+                var sum = 0D;
+
+                foreach (Vote recordVote in songVotes)
+                    sum += recordVote.Score;
+
+                sum /= songVotes.Count;
+                sum = double.Parse(string.Format("{0:0.00}", sum));
+                song.Rating = sum;
+
+                _context.Update(song);
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 } 
