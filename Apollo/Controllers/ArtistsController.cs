@@ -16,12 +16,14 @@ namespace Apollo.Controllers
     {
         private readonly DataContext _context;
         private readonly ArtistService _artistService;
+        private readonly TwitterService _twitterService;
 
-        public ArtistsController(DataContext context, ArtistService artistService)
+        public ArtistsController(DataContext context, ArtistService artistService, TwitterService twitterService)
         {
             _context = context;
             _artistService = artistService;
-        }
+            _twitterService = twitterService;
+    }
 
         public IActionResult GetAllArtists()
         {
@@ -102,6 +104,8 @@ namespace Apollo.Controllers
             {
                 _context.Add(artist);
                 await _context.SaveChangesAsync();
+
+                _twitterService.PostTweet("Say hello to our new artist: " + artist.StageName + "!");
                 return RedirectToAction(nameof(Index));
             }
 
