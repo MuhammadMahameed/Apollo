@@ -65,7 +65,6 @@ namespace Apollo.Services
                     image = artist.Image,
                     firstName = artist.FirstName,
                     lastName = artist.LastName,
-                    rating = artist.Rating,
                     biograpyId = artistBioId
                 });
             }
@@ -91,7 +90,6 @@ namespace Apollo.Services
                             s.LastName.ToLower().Contains(strToLower) ||
                             s.StageName.ToLower().Contains(strToLower) ||
                             s.Age.ToString().ToLower().Contains(strToLower) ||
-                            s.Rating.ToString().ToLower().Contains(strToLower) ||
                             s.Image.ToLower().Contains(strToLower) ||
                             s.Songs.Any(x => x.Title.ToLower().Contains(strToLower)) ||
                             s.Albums.Any(x => x.Title.ToLower().Contains(strToLower)) ||
@@ -109,7 +107,6 @@ namespace Apollo.Services
                     lastName = artist.LastName,
                     stageName = artist.StageName,
                     age = artist.Age,
-                    rating = artist.Rating,
                     image = artist.Image,
                     songs = artist.Songs.Select(x => x.Title),
                     albums = artist.Albums.Select(x => x.Title),

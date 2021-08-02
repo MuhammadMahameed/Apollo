@@ -41,8 +41,6 @@ namespace Apollo.Models
 
         public List<Song> Songs { get; set; }
 
-        public double Rating { get; set; }
-
         [Required]
         [RegularExpression("^.+\\.(png|jpg)$", ErrorMessage = "Not an image url")]
         [Display(Name = "Image Url")]
