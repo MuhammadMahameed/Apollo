@@ -18,12 +18,14 @@ namespace Apollo.Models
 
         public List<Song> Songs { get; set; }
 
+        [Display(Name = "Listen Time")]
         public TimeSpan ListenTime { get; set; }
 
         public double Rating { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
 
         [Required]
