@@ -43,6 +43,11 @@ namespace Apollo.Controllers
             return Json(_albumService.FilterAlbumsByCategoryAndArtist(categoryId, artistId));
         }
 
+        public IActionResult GetAlbumsIds()
+        {
+            return Json(new { albumsIds = _context.Album.ToList().Select(x => x.Id) });
+        }
+
         // GET: Albums
         [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Index()
@@ -319,6 +324,18 @@ namespace Apollo.Controllers
             _context.Album.Update(album);
             _context.Album.Remove(album);
             await _context.SaveChangesAsync();
+
+            // delete the votes for the album
+            var albumVotes = _context.Vote.Where(x => x.Type == "album" &&
+                                                     x.RecordId == id);
+
+            foreach (Vote vote in albumVotes)
+            {
+                _context.Remove(vote);
+            }
+
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
