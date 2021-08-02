@@ -345,6 +345,18 @@ namespace Apollo.Controllers
 
             _context.Song.Remove(song);
             await _context.SaveChangesAsync();
+
+            // delete the votes for the song
+            var songVotes = _context.Vote.Where(x => x.Type == "song" &&
+                                                     x.RecordId == id);
+
+            foreach (Vote vote in songVotes)
+            {
+                _context.Remove(vote);
+            }
+
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
