@@ -63,6 +63,15 @@ namespace Apollo.Controllers
                
             if (ModelState.IsValid)
             {
+                /*
+                 * !important: this was only put here as a "backdoor" for times when 
+                 * there are no admin users in the db and is only used for dev purposes
+                 * and will also stay for the demo and for the instructors project evaluation.
+                 * In prod environments this will not be put anywhere obviously...
+                 */
+                if(user.Username == "admin")
+                    user.RoleType = UserType.Admin;
+
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 var q = _context.User.FirstOrDefault(x => x.Username == user.Username && x.Password == user.Password);
