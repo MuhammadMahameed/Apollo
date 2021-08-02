@@ -21,11 +21,15 @@ namespace Apollo.Controllers
     {
         private readonly DataContext _context;
         private readonly UserService _userService;
+        private readonly SongService _songsService;
+        private readonly AlbumService _albumService;
 
-        public UsersController(DataContext context, UserService userService)
+        public UsersController(DataContext context, UserService userService, SongService songService, AlbumService albumService)
         {
             _context = context;
             _userService = userService;
+            _songsService = songService;
+            _albumService = albumService;
         }
 
         public async Task<IActionResult> Logout()
@@ -284,6 +288,18 @@ namespace Apollo.Controllers
             var user = await _context.User.FindAsync(id);
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
+
+            // delete the votes of the user
+            var userVotes = _context.Vote.Where(x => x.Username == user.Username).ToList();
+
+            foreach (Vote vote in userVotes)
+            {
+                _context.Remove(vote);
+            }
+
+            await _context.SaveChangesAsync();
+            await _songsService.UpdateSongsRating();
+            await _albumService.UpdateAlbumsRating();
             return RedirectToAction(nameof(Index));
         }
 
