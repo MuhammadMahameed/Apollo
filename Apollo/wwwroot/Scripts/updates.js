@@ -15,7 +15,6 @@ $(document).ready(function () {
     var now = Date.now();
 
     getMatchingSongs(limit).then((data) => {
-        console.log(data);
         var numCardsPerRow = 5
 
         for (var i = 0; i < data.length; i++) {
