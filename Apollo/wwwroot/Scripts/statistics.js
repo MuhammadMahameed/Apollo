@@ -19,7 +19,6 @@ $(document).ready(function () {
     var hasData = [true, true];
 
     getSongsDevision().then((data) => {
-        console.log(data.length)
         if (data.length == 0) {
             hasData[0] = false;
         }
@@ -76,7 +75,6 @@ $(document).ready(function () {
                 .style("font-size", 17)
         }
     }).then(getArtistsPerCategoryHeatmapData().then((data) => {
-        console.log(data.length)
         if (data.length == 0)
             hasData[1] = false;
 

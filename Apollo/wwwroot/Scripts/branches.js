@@ -28,7 +28,6 @@ $("#searchBox").on('input', function (e) {
             if (data.$values.length == 0)
                 $("#noData").append('<img src="Assets/nothing_found.png">');
 
-            console.log(data.$values);
             data.$values.forEach(record => {
                 var row = "<tr>" + 
                     "<td>" + record.addressName + "</td>" + 

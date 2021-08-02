@@ -27,13 +27,11 @@ $(document).ready(function () {
     setInterval(rotate, 100);
 
     getTimelineEmbed("https://twitter.com/Spotify").then((embedData) => {
-        console.log(embedData);
         $("#spotifyTimeline").append(embedData);
     });
 
     getBranches().then((data) => {
         data = data.$values;
-        console.log(data);
         var coordinates = ""
         for (var i = 0; i < data.length; i++) {
             coordinates += "pp=" + data[i].coordinate + ";45;" + data[i].addressName + "&"
