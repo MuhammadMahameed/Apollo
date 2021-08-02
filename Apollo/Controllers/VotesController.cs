@@ -32,6 +32,30 @@ namespace Apollo.Controllers
 
                 _context.Add(vote);
                 await _context.SaveChangesAsync();
+
+                // get all votes to this record
+                var recordVotes = _context.Vote.Where(x => x.Type == type &&
+                                                           x.RecordId == recordId)
+                                                .ToList();
+
+                dynamic record;
+
+                if (type == "song")
+                    record = _context.Song.FirstOrDefault(x => x.Id == recordId);
+                else
+                    record = _context.Album.FirstOrDefault(x => x.Id == recordId);
+
+                // calculate the avg rating score
+                var sum = 0f;
+
+                foreach (Vote recordVote in recordVotes)
+                    sum += recordVote.Score;
+
+                sum /= recordVotes.Count;
+                record.Rating = sum;
+
+                _context.Update(record);
+                await _context.SaveChangesAsync();
             }
         }
 
@@ -46,7 +70,36 @@ namespace Apollo.Controllers
 
                 _context.Update(vote);
                 await _context.SaveChangesAsync();
+
+                // get all votes to this record
+                var recordVotes = _context.Vote.Where(x => x.Type == type &&
+                                                           x.RecordId == recordId)
+                                                .ToList();
+
+                dynamic record;
+
+                if (type == "song")
+                    record = _context.Song.FirstOrDefault(x => x.Id == recordId);
+                else
+                    record = _context.Album.FirstOrDefault(x => x.Id == recordId);
+
+                // calculate the avg rating score
+                var sum = 0f;
+
+                foreach (Vote recordVote in recordVotes)
+                    sum += recordVote.Score;
+
+                sum /= recordVotes.Count;
+                record.Rating = sum;
+
+                _context.Update(record);
+                await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<List<Vote>> GetUserVotes(string type, string username)
+        {
+            return await _context.Vote.Where(x => x.Type == type && x.Username == username).ToListAsync();
         }
 
         public bool CheckVoteExists(string type, int recordId, string username)
