@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    updateCategoriesList();
 });
 
 function getAjax(url, data) {
@@ -18,7 +19,11 @@ async function getAllCategories() {
     return allCategories
 }
 
-$("#searchBox").on('input', function (e) {
+$("#searchBox").on('input', function () {
+    updateCategoriesList();
+});
+
+async function updateCategoriesList() {
     var matchingStr = $("#searchBox").val();
     $("table tbody").html("");
     $("#noData").html("");
@@ -49,4 +54,4 @@ $("#searchBox").on('input', function (e) {
                 $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     }
-});
+}

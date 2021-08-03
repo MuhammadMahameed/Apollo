@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    updateBranchesList();
 });
 
 function getAjax(url, data) {
@@ -18,7 +19,11 @@ async function getAllBranches() {
     return allBranches
 }
 
-$("#searchBox").on('input', function (e) {
+$("#searchBox").on('input', function () {
+    updateBranchesList();
+});
+
+async function updateBranchesList() {
     var matchingStr = $("#searchBox").val();
     $("table tbody").html("");
     $("#noData").html("");
@@ -50,4 +55,4 @@ $("#searchBox").on('input', function (e) {
                 $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     }
-});
+}

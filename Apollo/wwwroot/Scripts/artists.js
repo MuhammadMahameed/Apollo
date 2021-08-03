@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    updateArtistsList();
 });
 
 function getAjax(url, data) {
@@ -18,7 +19,11 @@ async function getAllArtists() {
     return allSongs
 }
 
-$("#searchBox").on('input', function (e) {
+$("#searchBox").on('input', function () {
+    updateArtistsList();
+});
+
+async function updateArtistsList() {
     var matchingStr = $("#searchBox").val();
     $("table tbody").html("");
     $("#noData").html("");
@@ -63,4 +68,4 @@ $("#searchBox").on('input', function (e) {
                 $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     }
-});
+}
