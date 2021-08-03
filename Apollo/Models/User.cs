@@ -24,6 +24,7 @@ namespace Apollo.Models
         public int Age { get; set; }
         [Required]
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$",ErrorMessage = "Please enter correct email address")]
+        [Display(Name = "Email Address")]
         public string EmailAdress  { get; set; }
         public UserType RoleType { get; set; } = UserType.Client;
 
