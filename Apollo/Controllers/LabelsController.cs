@@ -88,6 +88,9 @@ namespace Apollo.Controllers
             if (Artists.Length > 0)
                 label.Artists = _context.Artist.Where(x => Artists.Contains(x.Id)).ToList();
 
+            if(_context.Label.Any(x => x.Name.ToLower() == label.Name.ToLower()))
+                ModelState.AddModelError("Name", $"A label named {label.Name} already exists");
+
             if (ModelState.IsValid)
             {
                 _context.Add(label);
