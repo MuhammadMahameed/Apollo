@@ -118,3 +118,7 @@ tbody {
     background-color: coral;
     border-radius: 5px 5px;
 }
+
+.userRating {
+    width: 150px;
+}

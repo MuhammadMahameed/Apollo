@@ -150,14 +150,26 @@ namespace Apollo.Controllers
                 return NotFound();
             }
 
-            if (BiographyExists(id))
+            var bioTemp = _context.Biography.FirstOrDefault(x => x.Id == biography.Id);
+
+            // if a biography already exists and the artist that was changed to is another one there's an error
+            if (BiographyExists(biography.ArtistId) && bioTemp.ArtistId != biography.ArtistId)
                 ModelState.AddModelError("ArtistId", "This artist already has a biography");
 
             if (ModelState.IsValid)
             {
+                // made because of the tracking error that happends when traking two elements from db
+                bioTemp.ArtistId = biography.ArtistId;
+                bioTemp.EarlyLife = biography.EarlyLife;
+                bioTemp.Career = biography.Career;
+                bioTemp.Artistry = biography.Artistry;
+                bioTemp.PersonalLife = biography.PersonalLife;
+                bioTemp.NumberOfSongs = biography.NumberOfSongs;
+                bioTemp.NumberOfAlbums = biography.NumberOfAlbums;
+
                 try
                 {
-                    _context.Update(biography);
+                    _context.Update(bioTemp);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
