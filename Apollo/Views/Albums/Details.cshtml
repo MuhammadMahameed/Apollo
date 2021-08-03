@@ -12,69 +12,49 @@
     <h1>Album Details</h1>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col">
-        <table class="table table-dark table-borderless table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Title)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Category)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Artist)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ListenTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Rating)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ReleaseDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Cover)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Songs)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    var songs = Model.Songs.Select(x => x.Title + " ");
+<div class="centerData">
+    <div class="card" style="width: 20rem;">
+        <img class="card-img-top" src=@Model.Cover>
+        <div class="card-body">
+            <h1 class="card-title">@Html.DisplayFor(model => model.Title)</h1>
+            <h4><span class="detailsCategory">Category:</span> @Html.DisplayFor(model => model.Category.Name)</h4>
+            <h4><span class="detailsCategory">Artist:</span> @Html.DisplayFor(model => model.Artist.StageName)</h4>
+            @if (Model.ListenTime.Seconds > 0 && Model.ListenTime.Seconds < 10)
+            {
+                <h4><span class="detailsCategory">Listen Time:</span> @Html.DisplayFor(model => model.ListenTime.Minutes):<span>0</span>@Html.DisplayFor(model => model.ListenTime.Seconds) minutes</h4>
+            }
+            else if (Model.ListenTime.Seconds > 9)
+            {
+                <h4><span class="detailsCategory">Listen Time:</span> @Html.DisplayFor(model => model.ListenTime.Minutes):@Html.DisplayFor(model => model.ListenTime.Seconds) minutes</h4>
+            }
+            else
+            {
+                <h4><span class="detailsCategory">Listen Time:</span> @Html.DisplayFor(model => model.ListenTime.Minutes) minutes</h4>
+            }
+            <h4><span class="detailsCategory">Rating:</span> @Html.DisplayFor(model => model.Rating)</h4>
+            <h4><span class="detailsCategory">Release:</span> @Html.DisplayFor(model => model.ReleaseDate)</h4>
+            <div>
+                <h3><span class="detailsCategory">Songs:</span></h3>
+                @if (Model.Songs.Count > 0)
+                {
+                    @foreach (Song song in Model.Songs)
+                    {
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="songName">@song.Title</h4>
+                            </div>
+                            <div class="col">
+                                <h4>@song.Length</h4>
+                            </div>
+                        </div>
+                    }
                 }
-                <tr>
-                    <td>
-                        @Html.DisplayFor(model => model.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.Category.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.Artist.StageName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.ListenTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.Rating)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.ReleaseDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.Cover)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => songs)
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                else
+                {
+                    <h4>No songs</h4>
+                }
+            </div>
+        </div>
     </div>
 </div>
 
