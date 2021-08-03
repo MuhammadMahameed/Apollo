@@ -134,7 +134,7 @@ async function updateAlbumList() {
                 var formatedListenTime = listenTime[0] + ":" + listenTime[1] + ":" + listenTime[2];
 
                 var songs = "";
-                record.songs.$values.forEach(song => { songs = songs.concat(song + " ") });
+                record.songs.$values.forEach(song => { songs = songs.concat("<div>" + song + "</div>") });
 
                 var row = "<tr><td>" + record.title +
                     "</td><td>" + record.category +

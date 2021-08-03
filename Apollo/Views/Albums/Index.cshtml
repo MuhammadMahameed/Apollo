@@ -90,7 +90,7 @@
             @foreach (var item in Model)
             {
                 var songs = @item.Songs.Select(x => x.Title).ToList();
-                var songsString = songs.Select(x => x.Concat(" "));
+
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
@@ -114,7 +114,12 @@
                         @Html.DisplayFor(modelItem => item.Cover)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => songsString)
+                        @foreach(string name in songs)
+                        {
+                            <div>
+                                @name
+                            </div>
+                        }
                     </td>
                     <td>
                         <i class="bi bi-star" id="a_@item.Id-star1"></i>
