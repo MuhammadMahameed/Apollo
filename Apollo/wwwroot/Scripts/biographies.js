@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    updateBiographiesList();
 });
 
 function getAjax(url, data) {
@@ -18,7 +19,11 @@ async function getAllBiographies() {
     return allBiographies
 }
 
-$("#searchBox").on('input', function (e) {
+$("#searchBox").on('input', function () {
+    updateBiographiesList();
+});
+
+async function updateBiographiesList() {
     var matchingStr = $("#searchBox").val();
     $("table tbody").html("");
     $("#noData").html("");
@@ -29,7 +34,7 @@ $("#searchBox").on('input', function (e) {
                 $("#noData").append('<img src="Assets/nothing_found.png">');
 
             data.$values.forEach(record => {
-                var row = "<tr>" + 
+                var row = "<tr>" +
                     "<td>" + record.artistStageName + "</td>" +
                     "<td>" + record.earlyLife + "</td>" +
                     "<td>" + record.career + "</td>" +
@@ -55,4 +60,4 @@ $("#searchBox").on('input', function (e) {
                 $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     }
-});
+}

@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    updateLabelsList();
 });
 
 function getAjax(url, data) {
@@ -18,7 +19,12 @@ async function getAllLabels() {
     return allLabels
 }
 
-$("#searchBox").on('input', function (e) {
+$("#searchBox").on('input', function () {
+    updateLabelsList();
+});
+
+
+async function updateLabelsList() {
     var matchingStr = $("#searchBox").val();
     $("table tbody").html("");
     $("#noData").html("");
@@ -71,4 +77,4 @@ $("#searchBox").on('input', function (e) {
                 $("#noData").append('<img src="Assets/nothing_found.png">');
         });
     }
-});
+}
