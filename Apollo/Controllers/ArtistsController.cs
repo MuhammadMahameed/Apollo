@@ -186,6 +186,9 @@ namespace Apollo.Controllers
             }
 
             var artist = await _context.Artist
+                .Include(x => x.Songs)
+                .Include(x => x.Albums)
+                .Include(x => x.Labels)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (artist == null)
             {

@@ -112,3 +112,25 @@ nav {
     color: red;
     text-align: center;
 }
+
+.centerData {
+    text-align: center;
+}
+
+.card {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    color: coral;
+}
+
+.detailsCategory {
+    color: orangered;
+}
+
+.songName {
+    color: darkred;
+}
