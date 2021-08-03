@@ -91,7 +91,7 @@ $(document).ready(function () {
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");
+                    "translate(" + margin.left + "," + margin.top + ")")
 
             // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
             var myGroups = d3.map(data, function (d) {
@@ -108,6 +108,7 @@ $(document).ready(function () {
                 .padding(0.05);
             svg.append("g")
                 .style("font-size", 15)
+                .style("stroke", "white")
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(x).tickSize(0))
                 .select(".domain").remove()
@@ -119,6 +120,7 @@ $(document).ready(function () {
                 .padding(0.05);
             svg.append("g")
                 .style("font-size", 15)
+                .style("stroke", "white")
                 .call(d3.axisLeft(y).tickSize(0))
                 .select(".domain").remove()
 
