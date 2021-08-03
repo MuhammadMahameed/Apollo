@@ -153,7 +153,7 @@ namespace Apollo.Controllers
             var bioTemp = _context.Biography.FirstOrDefault(x => x.Id == biography.Id);
 
             // if a biography already exists and the artist that was changed to is another one there's an error
-            if (BiographyExists(biography.ArtistId) && bioTemp.ArtistId != biography.ArtistId)
+            if (BiographyOfArtistExists(biography.ArtistId) && bioTemp.ArtistId != biography.ArtistId)
                 ModelState.AddModelError("ArtistId", "This artist already has a biography");
 
             if (ModelState.IsValid)
@@ -164,8 +164,8 @@ namespace Apollo.Controllers
                 bioTemp.Career = biography.Career;
                 bioTemp.Artistry = biography.Artistry;
                 bioTemp.PersonalLife = biography.PersonalLife;
-                bioTemp.NumberOfSongs = biography.NumberOfSongs;
-                bioTemp.NumberOfAlbums = biography.NumberOfAlbums;
+                bioTemp.NumberOfSongs = _context.Song.Include(x => x.Artist).Where(x => x.Artist.Id == bioTemp.ArtistId).ToList().Count;
+                bioTemp.NumberOfAlbums = _context.Album.Include(x => x.Artist).Where(x => x.Artist.Id == bioTemp.ArtistId).ToList().Count;
 
                 try
                 {
@@ -224,6 +224,11 @@ namespace Apollo.Controllers
         private bool BiographyExists(int id)
         {
             return _context.Biography.Any(e => e.Id == id);
+        }
+
+        private bool BiographyOfArtistExists(int artistId)
+        {
+            return _context.Biography.Any(e => e.ArtistId == artistId);
         }
     }
 }
