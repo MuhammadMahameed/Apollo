@@ -51,13 +51,21 @@ $("#searchBox").on('input', function (e) {
                             $("#content").append('<div class="row songRow' + parseInt(i / numCardsPerRow) + ' d-flex justify-content-center"></div>');
                         }
 
+                        var listenTime = data[i].length.minutes;
+
+                        if (data[i].length.seconds > 0 && data[i].length.seconds < 10)
+                            listenTime = listenTime + ":0" + data[i].length.seconds;
+                        else if (data[i].length.seconds > 9)
+                            listenTime = listenTime + ":" + data[i].length.seconds;
+
                         var template = '<a href="/Songs/Details/' + data[i].id + '">' +
                             '<div class="card" style="width: 10rem;"><div class="card-body">' +
                             '<img class="card-img-top" src="Assets/song.png" alt="Card image cap">' +
                             '<h3 class="card-title">' + data[i].title + '</h3>' +
                             '<p>By <span class="artist">' + data[i].artist + '</span></p>' +
                             '<p>' + data[i].category + '</p>' +
-                            '<p>' + data[i].length.minutes + ':' + data[i].length.seconds + '</p>' +
+                            '<p>' + data[i].rating + ' rating</p>' +
+                            '<p>' + listenTime + ' minutes</p>' +
                             '</div></div></a>'
                         $("#content .songRow" + parseInt(i / numCardsPerRow)).append(template);
                     }
@@ -69,13 +77,21 @@ $("#searchBox").on('input', function (e) {
                             $("#content").append('<div class="row albumRow' + parseInt(i / numCardsPerRow) + ' d-flex justify-content-center"></div>');
                         }
 
+                        var listenTime = data[i].listenTime.minutes;
+
+                        if (data[i].listenTime.seconds > 0 && data[i].listenTime.seconds < 10)
+                            listenTime = listenTime + ":0" + data[i].listenTime.seconds;
+                        else if (data[i].listenTime.seconds > 9)
+                            listenTime = listenTime + ":" + data[i].listenTime.seconds;
+
                         var template = '<a href="/Albums/Details/' + data[i].id + '">' +
                             '<div class="card" style="width: 10rem;"><div class="card-body">' +
                             '<img class="card-img-top" src=' + data[i].cover + ' alt="Card image cap">' +
                             '<h3 class="card-title">' + data[i].title + '</h3>' +
                             '<p>By <span class="artist">' + data[i].artist + '</span></p>' +
                             '<p>' + data[i].category + '</p>' +
-                            '<p>' + data[i].listenTime.minutes + ':' + data[i].listenTime.seconds + '</p>' +
+                            '<p>' + data[i].rating + ' rating</p>' +
+                            '<p>' + listenTime + ' minutes</p>' +
                             '</div ></div>'
                         $("#content .albumRow" + parseInt(i / numCardsPerRow)).append(template);
                     }
