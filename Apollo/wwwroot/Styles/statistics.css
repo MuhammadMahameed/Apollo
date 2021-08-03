@@ -29,3 +29,7 @@ h4 {
 .tooltip {
     color: white;
 }
+
+#noData {
+    text-align: center;
+}
