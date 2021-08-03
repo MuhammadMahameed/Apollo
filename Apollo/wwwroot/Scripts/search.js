@@ -105,19 +105,12 @@ $("#searchBox").on('input', function (e) {
 
                         var template = "";
                          
-                        if (data[i].biograpyId != 0) {
-                            template = '<a href="/Biographies/Details/' + data[i].biograpyId + '">'
-                        }
-
-                        template += '<div class="card" style="width: 10rem;"><div class="card-body">' +
+                        template = '<a href="/Artists/Details/' + data[i].id + '">' +
+                            '<div class="card" style="width: 10rem;"><div class="card-body">' +
                             '<img class="card-img-top" src=' + data[i].image + ' alt="Card image cap">' +
                             '<h3 class="card-title">' + data[i].stageName + '</h3>' +
                             '<p class="artist">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
-                            '</div></div>'
-
-                        if (data[i].biograpyId != 0) {
-                            template += '</a>'
-                        }
+                            '</div></div></a>'
 
                         $("#content .artistRow" + parseInt(i / numCardsPerRow)).append(template);
                     }

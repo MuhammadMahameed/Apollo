@@ -64,6 +64,7 @@ namespace Apollo.Controllers
                 .Include(x => x.Songs)
                 .Include(x => x.Albums)
                 .Include(x => x.Labels)
+                .Include(x => x.Biography)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (artist == null)

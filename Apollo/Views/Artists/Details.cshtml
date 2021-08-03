@@ -86,6 +86,20 @@
                     <h4>No labels</h4>
                 }
             </div>
+            <div>
+                @if (Model.Biography != null)
+                {
+                    <div class="row">
+                        <div class="col">
+                            <a class="btn btn-dark" href="/Biographies/Details/@Model.Biography.Id" role="button">Biography</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <h4>No Biography</h4>
+                }
+            </div>
         </div>
     </div>
 </div>
